@@ -15,6 +15,7 @@
 		94239FED24AE4260009685F3 /* Level3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94239FEB24AE4260009685F3 /* Level3.cpp */; };
 		94239FF124AEAA5E009685F3 /* sprite_texture2.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94239FF024AEAA5E009685F3 /* sprite_texture2.png */; };
 		94239FF324B1353A009685F3 /* tileset.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94239FF224B1353A009685F3 /* tileset.png */; };
+		94239FF624B28119009685F3 /* BulletPattern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94239FF424B28119009685F3 /* BulletPattern.cpp */; };
 		943C1C7C24980982006B6022 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 943C1C7A24980982006B6022 /* Entity.cpp */; };
 		944B104C24ABB5C40090E8FC /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944B104A24ABB5C40090E8FC /* Map.cpp */; };
 		944B104F24AC0C090090E8FC /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944B104D24AC0C090090E8FC /* Util.cpp */; };
@@ -65,6 +66,8 @@
 		94239FEC24AE4260009685F3 /* Level3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Level3.h; sourceTree = "<group>"; };
 		94239FF024AEAA5E009685F3 /* sprite_texture2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprite_texture2.png; path = SDLProject/sprite_texture2.png; sourceTree = "<group>"; };
 		94239FF224B1353A009685F3 /* tileset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tileset.png; path = SDLProject/tileset.png; sourceTree = "<group>"; };
+		94239FF424B28119009685F3 /* BulletPattern.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BulletPattern.cpp; sourceTree = "<group>"; };
+		94239FF524B28119009685F3 /* BulletPattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BulletPattern.h; sourceTree = "<group>"; };
 		943C1C7A24980982006B6022 /* Entity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		943C1C7B24980982006B6022 /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		944B104A24ABB5C40090E8FC /* Map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
@@ -155,6 +158,8 @@
 				94239FEA24AE41A0009685F3 /* Levels */,
 				94239FD824AD38BD009685F3 /* Scene.cpp */,
 				94239FD924AD38BD009685F3 /* Scene.h */,
+				94239FF424B28119009685F3 /* BulletPattern.cpp */,
+				94239FF524B28119009685F3 /* BulletPattern.h */,
 				944B104B24ABB5C40090E8FC /* Map.h */,
 				944B104D24AC0C090090E8FC /* Util.cpp */,
 				944B104E24AC0C090090E8FC /* Util.h */,
@@ -238,6 +243,7 @@
 				94239FED24AE4260009685F3 /* Level3.cpp in Sources */,
 				944B104C24ABB5C40090E8FC /* Map.cpp in Sources */,
 				DBDF1B5E2323DE8D007CECB1 /* ShaderProgram.cpp in Sources */,
+				94239FF624B28119009685F3 /* BulletPattern.cpp in Sources */,
 				94239FE324ADC02D009685F3 /* Level2.cpp in Sources */,
 				944B104F24AC0C090090E8FC /* Util.cpp in Sources */,
 				94239FDD24AD392A009685F3 /* Level1.cpp in Sources */,
