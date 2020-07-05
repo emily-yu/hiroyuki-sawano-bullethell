@@ -110,6 +110,74 @@ void Initialize() {
     currentScene->state.lives = 3;
 //    SwitchToScene(level1); // switch to level 1
 }
+
+
+
+//void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, int index) {
+void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position) {
+    float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
+    float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
+    
+    // draw
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+    glEnableVertexAttribArray(program->positionAttribute);
+    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+    glEnableVertexAttribArray(program->texCoordAttribute);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDisableVertexAttribArray(program->positionAttribute);
+    glDisableVertexAttribArray(program->texCoordAttribute);
+    
+    // move orange paddle to other side of the screen
+    modelMatrix = glm::mat4(1.0f);
+    modelMatrix = glm::translate(modelMatrix, position);
+    
+    // set new dimensions for orange
+    program->SetModelMatrix(modelMatrix);
+}
+#define BULLET_COUNT 5
+void RenderBulletPattern() {
+//    glm::vec3 pivotPosition = glm::vec3(-2, 0, 0);
+    float xPivot = -2;
+    float yPivot = 0;
+    
+    glm::vec3 bulletPosition = glm::vec3(-2, 0, 0);
+    float degreeIncrement = 360.0 / BULLET_COUNT;
+    GLuint bulletTextureID = Util::LoadTexture("circle.png"); // test bullet image
+    
+    // draw 1x1 box to stage bullets
+    
+    // diffs for each bullet
+    float yPosition = 1.0 / BULLET_COUNT;
+    float xPosition = 1.0 / BULLET_COUNT;
+    
+//    xPosition = 1 * cos(360.0 / BULLET_COUNT) * i;
+//    yPosition = 1 * sin(360.0 / BULLET_COUNT) * i;
+
+    // draw each bullet
+    for (int i = 0; i <= BULLET_COUNT; i++) {
+//        if (i != 2) {
+            // 2 * pi / #points = slice
+            // slice * slice #, degree increment = angle
+            float theta = 2.0f * 3.14 * float(i) / float(BULLET_COUNT);//get the current angle
+            
+            // translate pivotPosition around 1 by 1 box
+            xPosition = 1 * cosf(theta); // centerX + radius * cos(angle)
+            yPosition = 1 * sinf(theta);
+            
+            bulletPosition.y = yPosition;
+            bulletPosition.x = xPosition;
+            
+            DrawSpriteFromTextureAtlas(&program, bulletTextureID, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
+            
+            // calculate velocity direction as degree from translated position to pivot point
+//        }
+    }
+}
+
+
+
+
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     if (gameStarted) {
@@ -117,6 +185,7 @@ void Render() {
     }
     else {
         gameStartText->Render(&program);
+        RenderBulletPattern();
     }
     // update viewMatrix with translation for sliding
     program.SetViewMatrix(viewMatrix);
@@ -190,7 +259,6 @@ void ProcessInput() {
         Render();
     }
 }
-
 //void Render() {
 //    glClear(GL_COLOR_BUFFER_BIT);
 //    if (gameStarted) {

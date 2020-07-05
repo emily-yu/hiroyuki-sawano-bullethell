@@ -10,11 +10,11 @@
 		94239FDA24AD38BD009685F3 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94239FD824AD38BD009685F3 /* Scene.cpp */; };
 		94239FDD24AD392A009685F3 /* Level1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94239FDB24AD392A009685F3 /* Level1.cpp */; };
 		94239FE324ADC02D009685F3 /* Level2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94239FE124ADC02D009685F3 /* Level2.cpp */; };
-		94239FE524AE34C6009685F3 /* tileset.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94239FE424AE34C6009685F3 /* tileset.png */; };
 		94239FE724AE351C009685F3 /* dooblydoo.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94239FE624AE351C009685F3 /* dooblydoo.mp3 */; };
 		94239FE924AE361A009685F3 /* bounce.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94239FE824AE361A009685F3 /* bounce.wav */; };
 		94239FED24AE4260009685F3 /* Level3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94239FEB24AE4260009685F3 /* Level3.cpp */; };
 		94239FF124AEAA5E009685F3 /* sprite_texture2.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94239FF024AEAA5E009685F3 /* sprite_texture2.png */; };
+		94239FF324B1353A009685F3 /* tileset.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94239FF224B1353A009685F3 /* tileset.png */; };
 		943C1C7C24980982006B6022 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 943C1C7A24980982006B6022 /* Entity.cpp */; };
 		944B104C24ABB5C40090E8FC /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944B104A24ABB5C40090E8FC /* Map.cpp */; };
 		944B104F24AC0C090090E8FC /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944B104D24AC0C090090E8FC /* Util.cpp */; };
@@ -38,10 +38,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				94239FF324B1353A009685F3 /* tileset.png in CopyFiles */,
 				94239FF124AEAA5E009685F3 /* sprite_texture2.png in CopyFiles */,
 				94239FE924AE361A009685F3 /* bounce.wav in CopyFiles */,
 				94239FE724AE351C009685F3 /* dooblydoo.mp3 in CopyFiles */,
-				94239FE524AE34C6009685F3 /* tileset.png in CopyFiles */,
 				94BA177D24A477F900681E5E /* circle.png in CopyFiles */,
 				94BA177B24A4774A00681E5E /* george_0.png in CopyFiles */,
 				94BA177924A4773800681E5E /* orange.png in CopyFiles */,
@@ -64,6 +64,7 @@
 		94239FEB24AE4260009685F3 /* Level3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Level3.cpp; sourceTree = "<group>"; };
 		94239FEC24AE4260009685F3 /* Level3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Level3.h; sourceTree = "<group>"; };
 		94239FF024AEAA5E009685F3 /* sprite_texture2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sprite_texture2.png; path = SDLProject/sprite_texture2.png; sourceTree = "<group>"; };
+		94239FF224B1353A009685F3 /* tileset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tileset.png; path = SDLProject/tileset.png; sourceTree = "<group>"; };
 		943C1C7A24980982006B6022 /* Entity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		943C1C7B24980982006B6022 /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		944B104A24ABB5C40090E8FC /* Map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
@@ -119,6 +120,7 @@
 		DBDF1B462323DE3F007CECB1 = {
 			isa = PBXGroup;
 			children = (
+				94239FF224B1353A009685F3 /* tileset.png */,
 				94239FF024AEAA5E009685F3 /* sprite_texture2.png */,
 				94239FE824AE361A009685F3 /* bounce.wav */,
 				94239FE624AE351C009685F3 /* dooblydoo.mp3 */,
