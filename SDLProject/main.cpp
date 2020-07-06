@@ -107,9 +107,14 @@ void Initialize() {
     pattern->bulletTexture = Util::LoadTexture("circle.png"); // test bullet image
     pattern->xPivot = -2;
     pattern->yPivot = 0;
-    pattern->waveCount = 5;
+    pattern->waveCount = 20;
     pattern->Render(&program);
     
+    pattern->movement = glm::vec3(1, 0, 0);
+    pattern->velocity = glm::vec3(1, 0, 0);
+    pattern->acceleration = glm::vec3(0, -9.81f, 0);
+    pattern->speed = 0.5f;
+        
     // Initialize Game Objects
 //    level1 = new Level1();
     sceneList[0] = new Level1();
@@ -125,7 +130,7 @@ void Render() {
         currentScene->Render(&program);
     }
     else {
-        gameStartText->Render(&program);
+//        gameStartText->Render(&program);
         pattern->Render(&program);
     }
     // update viewMatrix with translation for sliding
@@ -228,47 +233,52 @@ void ProcessInput() {
 float lastTicks = 0;
 float accumulator = 0.0f;
 void Update() {
-    if (gameStarted) {
+    
     float ticks = (float)SDL_GetTicks() / 1000.0f;
     float deltaTime = ticks - lastTicks;
     lastTicks = ticks;
-
-    deltaTime += accumulator;
-    if (deltaTime < FIXED_TIMESTEP) { // when total change between updates is less than timestep...
-        accumulator = deltaTime; // store the change in time until the next update
-        return;
-    }
-
-    while (deltaTime >= FIXED_TIMESTEP) {
-        currentScene->Update(FIXED_TIMESTEP);
-        deltaTime -= FIXED_TIMESTEP; // keep updating until frames are all processed
-    }
-
-    accumulator = deltaTime;
     
-    viewMatrix = glm::mat4(1.0f);
+    if (gameStarted) {
+        deltaTime += accumulator;
+        if (deltaTime < FIXED_TIMESTEP) { // when total change between updates is less than timestep...
+            accumulator = deltaTime; // store the change in time until the next update
+            return;
+        }
 
-    // stop scrolling @ a point
-    if (currentScene->state.player->position.x > 5) { // if x-coord is past 5, don't scroll further left (past wall)
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
-    }
-    else {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
-    }
-    
-    if (currentScene->state.player->position.x >= 12) { // completed all three levels
-        if (currentScene == sceneList[2]) {
+        while (deltaTime >= FIXED_TIMESTEP) {
+            currentScene->Update(FIXED_TIMESTEP);
+            deltaTime -= FIXED_TIMESTEP; // keep updating until frames are all processed
+        }
+
+        accumulator = deltaTime;
+        
+        viewMatrix = glm::mat4(1.0f);
+
+        // stop scrolling @ a point
+        if (currentScene->state.player->position.x > 5) { // if x-coord is past 5, don't scroll further left (past wall)
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
+        }
+        else {
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
+        }
+        
+        if (currentScene->state.player->position.x >= 12) { // completed all three levels
+            if (currentScene == sceneList[2]) {
+                isOver = true;
+                isWin = true;
+                Render();
+            }
+        }
+    //    if (currentScene->state.player->isActive == false) { // once the player is dunzoed, render game over text
+        if (currentScene->state.lives == 0) { // once the player is dunzoed, render game over text
             isOver = true;
-            isWin = true;
+            isWin = false;
             Render();
         }
     }
-//    if (currentScene->state.player->isActive == false) { // once the player is dunzoed, render game over text
-    if (currentScene->state.lives == 0) { // once the player is dunzoed, render game over text
-        isOver = true;
-        isWin = false;
+    else {
+        pattern->Update(deltaTime);
         Render();
-    }
     }
 }
 void Shutdown() {

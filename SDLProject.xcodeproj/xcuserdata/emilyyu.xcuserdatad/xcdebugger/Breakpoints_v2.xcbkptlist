@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "ADB71E56-A145-498B-AA16-D0E7C457C01C"
+            uuid = "A3ED9D30-A39B-4582-994C-CC353DBF3256"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SDLProject/BulletPattern.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "BulletPattern::Render(program)"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "BulletPattern::Update(deltaTime)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
