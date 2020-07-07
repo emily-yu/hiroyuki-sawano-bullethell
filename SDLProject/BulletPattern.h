@@ -35,6 +35,7 @@ public:
     float waveCount; // number per circle
     float waveTime; // time between waves
     float radius;
+    float radius2;
 //    glm::vec3 pivot;
     float xPivot;
     float yPivot;
@@ -52,3 +53,16 @@ public:
     BulletPattern();
 };
 
+class BulletWave {
+    float waveCount; // number per circle
+    float waveTime; // time between waves
+    float radius;
+    float radius2;
+//    glm::vec3 pivot;
+    float xPivot;
+    float yPivot;
+    
+    glm::vec3 position;
+    
+    BulletWave();
+};

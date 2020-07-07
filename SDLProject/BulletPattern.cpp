@@ -48,30 +48,36 @@ void BulletPattern::DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint te
     glUseProgram(program->programID);
 
 }
+bool secondWave = false;
 void BulletPattern::Render(ShaderProgram *program) {
     program->SetModelMatrix(modelMatrix);
     // draw each bullet
+    for (int i = 0; i <= waveCount; i++) {
+        // 2 * pi / #points = slice
+        // slice * slice #, degree increment = angle
+        float theta = 2.0f * 3.14 * float(i) / float(waveCount);//get the current angle
+        
+        // translate pivotPosition around 1 by 1 box
+        float xPosition = radius * cosf(theta); // centerX + radius * cos(angle)
+        float yPosition = radius * sinf(theta);
+        
+        DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
+    }
+    if (secondWave) {
         for (int i = 0; i <= waveCount; i++) {
-    //        if (i != 2) {
-                // 2 * pi / #points = slice
-                // slice * slice #, degree increment = angle
-                float theta = 2.0f * 3.14 * float(i) / float(waveCount);//get the current angle
-                
-                // translate pivotPosition around 1 by 1 box
-//                radius = sqrt(position.x * position.x + position.y * position.y);// a2+b2 = c2
-                float xPosition = radius * cosf(theta); // centerX + radius * cos(angle)
-                float yPosition = radius * sinf(theta);
-                
-//                if (!isActive) {
-                    DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
-//                    isActive = true;
-//                }
-                
-                // calculate velocity direction as degree from translated position to pivot point
-    //        }
+            // 2 * pi / #points = slice
+            // slice * slice #, degree increment = angle
+            float theta = 2.0f * 3.14 * float(i) / float(waveCount);//get the current angle
+            
+            // translate pivotPosition around 1 by 1 box
+            float xPosition = radius2 * cosf(theta); // centerX + radius * cos(angle)
+            float yPosition = radius2 * sinf(theta);
+            
+            DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
         }
-        glDisableVertexAttribArray(program->positionAttribute);
-        glDisableVertexAttribArray(program->texCoordAttribute);
+    }
+    glDisableVertexAttribArray(program->positionAttribute);
+    glDisableVertexAttribArray(program->texCoordAttribute);
 }
 void BulletPattern::Update(float deltaTime) {
     if (isActive == false) return; // if not active, not rendered -> no updates made to rendering
@@ -113,12 +119,16 @@ void BulletPattern::Update(float deltaTime) {
 //        }
 //    }
     radius += deltaTime * speed;
+    if (secondWave) {
+        radius2 += deltaTime * speed;
+    }
     
     waveTime += deltaTime;
     if (waveTime >= 2.0) { // after 0.25 seconds...
         waveTime = 0.0f; // reset timer counter
         // TODO add iteration of wave
         Mix_PlayChannel(-1, jumpEffect, 0); // bounce effect
+        secondWave = true;
     }
     
     // physics logic
