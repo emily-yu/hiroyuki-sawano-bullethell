@@ -34,11 +34,14 @@ public:
     
     float waveCount; // number per circle
     float waveTime; // time between waves
-    float radius;
-    float radius2;
+    float baseRadius;
 //    glm::vec3 pivot;
     float xPivot;
     float yPivot;
+    
+    float *radii; // pointer to array of radiuses for bulletSpawn
+    int radiiCount;
+    int maxRadii;
     
     glm::vec3 position;
     glm::vec3 movement;
@@ -46,23 +49,11 @@ public:
     glm::vec3 velocity;
     float speed;
     
+    float* changeSize(float *old, size_t old_size, size_t new_size);
+    void addWave(float radii, int size);
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position);
     void Render(ShaderProgram *program);
     void Update(float deltaTime);
     
     BulletPattern();
-};
-
-class BulletWave {
-    float waveCount; // number per circle
-    float waveTime; // time between waves
-    float radius;
-    float radius2;
-//    glm::vec3 pivot;
-    float xPivot;
-    float yPivot;
-    
-    glm::vec3 position;
-    
-    BulletWave();
 };
