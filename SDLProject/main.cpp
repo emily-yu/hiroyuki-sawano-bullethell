@@ -114,6 +114,7 @@ void Initialize() {
     pattern->velocity = glm::vec3(1, 0, 0);
     pattern->acceleration = glm::vec3(0, -9.81f, 0);
     pattern->speed = 0.5f;
+    pattern->patternType = SingularSpiral;
         
     // Initialize Game Objects
 //    level1 = new Level1();

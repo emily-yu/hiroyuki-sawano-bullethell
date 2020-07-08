@@ -22,6 +22,10 @@
 #include "ShaderProgram.h"
 #include <SDL_mixer.h>
 
+enum BulletPatternType {
+    CirclePulse,
+    SingularSpiral
+};
 class BulletPattern {
 public:
 //    static GLuint LoadTexture(const char* filePath);
@@ -31,6 +35,7 @@ public:
     GLuint bulletTexture;
     Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
     glm::mat4 modelMatrix;
+    BulletPatternType patternType;
     
     float waveCount; // number per circle
     float waveTime; // time between waves

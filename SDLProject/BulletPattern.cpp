@@ -87,18 +87,35 @@ void BulletPattern::Render(ShaderProgram *program) {
     program->SetModelMatrix(modelMatrix);
 
     for (int iwave = 0; iwave < int(radiiCount); iwave++) {
-        for (int i = 0; i <= waveCount; i++) {
+        if (patternType == CirclePulse) {
+            for (int i = 0; i <= waveCount; i++) {
+                    float radius = radii[iwave];
+                    
+            //         2 * pi / #points = slice
+                    // slice * slice #, degree increment = angle
+                    float theta = 2.0f * 3.14 * float(i) / float(waveCount);//get the current angle
+
+                    // translate pivotPosition around 1 by 1 box
+                    float xPosition = radius * cosf(theta); // centerX + radius * cos(angle)
+                    float yPosition = radius * sinf(theta);
+
+                    DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
+                }
+        }
+        else if (patternType == SingularSpiral) {
+//        for (int i = 0; i <= waveCount; i++) {
             float radius = radii[iwave];
             
     //         2 * pi / #points = slice
             // slice * slice #, degree increment = angle
-            float theta = 2.0f * 3.14 * float(i) / float(waveCount);//get the current angle
+            float theta = 2.0f * 3.14 * float(iwave) / float(waveCount);//get the current angle
 
             // translate pivotPosition around 1 by 1 box
             float xPosition = radius * cosf(theta); // centerX + radius * cos(angle)
             float yPosition = radius * sinf(theta);
 
             DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
+//        }
         }
     }
 
