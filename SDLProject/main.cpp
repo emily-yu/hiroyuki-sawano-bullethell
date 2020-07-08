@@ -27,7 +27,10 @@ Scene *sceneList[3]; // array containing all the scenes
 Entity *gameWinText;
 Entity *gameLoseText;
 Entity *gameStartText;
-BulletPattern *pattern;
+BulletPattern *patternList[2];
+float bulletCount = 2;
+//BulletPattern *pattern;
+//BulletPattern *pattern2;
 bool isWin = false;
 bool isOver = false;
 
@@ -87,7 +90,6 @@ void Initialize() {
     gameWinText->position = glm::vec3(12, -4, 0);
     
     gameLoseText = new Entity();
-//    GLuint fontTextureID = Util::LoadTexture("sprite_texture2.png");
     gameLoseText->textureID = fontTextureID;
     gameLoseText->entityType = TEXT;
     gameLoseText->animIndices = NULL;
@@ -95,7 +97,6 @@ void Initialize() {
     gameLoseText->position = glm::vec3(12, -4, 0);
 
     gameStartText = new Entity();
-    //    GLuint fontTextureID = Util::LoadTexture("sprite_texture2.png");
     gameStartText->textureID = fontTextureID;
     gameStartText->entityType = TEXT;
     gameStartText->animIndices = NULL;
@@ -103,19 +104,32 @@ void Initialize() {
     gameStartText->position = glm::vec3(-2, 0, 0);
     gameStartText->acceleration = glm::vec3(0, 0, 0);
     
-    pattern = new BulletPattern();
-    pattern->bulletTexture = Util::LoadTexture("circle.png"); // test bullet image
-    pattern->xPivot = -2;
-    pattern->yPivot = 0;
-    pattern->waveCount = 20;
-    pattern->Render(&program);
+    // set default bullet settings for all bullets
+    GLuint circleBulletTexture = Util::LoadTexture("circle.png");
+    for (int i = 0; i < bulletCount; i++) {
+        patternList[i] = new BulletPattern();
+        patternList[i]->bulletTexture = circleBulletTexture; // test bullet image
+        patternList[i]->speed = 0.5f;
+        patternList[i]->movement = glm::vec3(1, 0, 0);
+        patternList[i]->velocity = glm::vec3(1, 0, 0);
+        patternList[i]->acceleration = glm::vec3(0, -9.81f, 0);
+    }
+
+    // init specific properties
+    patternList[0]->xPivot = -2;
+    patternList[0]->yPivot = 0;
+    patternList[0]->waveCount = 20;
+    patternList[0]->patternType = SingularSpiral;
+    patternList[1]->xPivot = -3;
+    patternList[1]->yPivot = 3;
+    patternList[1]->waveCount = 20;
+    patternList[1]->patternType = CirclePulse;
     
-    pattern->movement = glm::vec3(1, 0, 0);
-    pattern->velocity = glm::vec3(1, 0, 0);
-    pattern->acceleration = glm::vec3(0, -9.81f, 0);
-    pattern->speed = 0.5f;
-    pattern->patternType = SingularSpiral;
-        
+    // render bullet bases
+    for (int i = 0; i < 2; i++) {
+        patternList[i]->Render(&program);
+    }
+    
     // Initialize Game Objects
 //    level1 = new Level1();
     sceneList[0] = new Level1();
@@ -132,7 +146,9 @@ void Render() {
     }
     else {
 //        gameStartText->Render(&program);
-        pattern->Render(&program);
+        for (int i = 0; i < bulletCount; i++) {
+            patternList[i]->Render(&program);
+        }
     }
     // update viewMatrix with translation for sliding
     program.SetViewMatrix(viewMatrix);
@@ -206,29 +222,6 @@ void ProcessInput() {
         Render();
     }
 }
-//void Render() {
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    if (gameStarted) {
-//        currentScene->Render(&program);
-//    }
-//    else {
-//        gameStartText->Render(&program);
-//    }
-//    // update viewMatrix with translation for sliding
-//    program.SetViewMatrix(viewMatrix);
-//
-////    gameWinText->Render(&program);
-////    if (currentScene->state.player->position.x >= 12) {
-//    if (isWin) {
-//        gameWinText->Render(&program);
-//    }
-//    else if (isOver) {
-//        gameLoseText->position = currentScene->state.player->position;
-//        gameLoseText->Render(&program);
-//    }
-//
-//    SDL_GL_SwapWindow(displayWindow);
-//}
 
 #define FIXED_TIMESTEP 0.0166666f
 float lastTicks = 0;
@@ -270,7 +263,6 @@ void Update() {
                 Render();
             }
         }
-    //    if (currentScene->state.player->isActive == false) { // once the player is dunzoed, render game over text
         if (currentScene->state.lives == 0) { // once the player is dunzoed, render game over text
             isOver = true;
             isWin = false;
@@ -278,7 +270,9 @@ void Update() {
         }
     }
     else {
-        pattern->Update(deltaTime);
+        for (int i = 0; i < bulletCount; i++) {
+            patternList[i]->Update(deltaTime);
+        }
         Render();
     }
 }
