@@ -14,7 +14,7 @@ Entity::Entity() {
     acceleration = glm::vec3(0);
     velocity = glm::vec3(0);
     speed = 0;
-
+    
     modelMatrix = glm::mat4(1.0f);
     jumpEffect = Mix_LoadWAV("bounce.wav");
 }
