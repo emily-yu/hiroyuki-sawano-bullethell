@@ -47,6 +47,28 @@ ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 Mix_Music *music; // pointer for main audio
 
+glm::mat4 backgroundMatrix;
+glm::vec3 backgroundPosition = glm::vec3(0,0,0);
+void DrawBackground(GLuint backgroundImage) {
+    float vertices[] = { -5.5, -6.5, 5.5, -6.5, 5.5, 6.5, -5.5, -6.5, 5.5, 6.5, -5.5, 6.5 };
+    float texCoords[] = { 0.0, 5.0, 5.0, 5.0, 5.0, 0.0, 0.0, 5.0, 5.0, 0.0, 0.0, 0.0 };
+    
+    // draw
+    glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+    glEnableVertexAttribArray(program.positionAttribute);
+    glVertexAttribPointer(program.texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+    glEnableVertexAttribArray(program.texCoordAttribute);
+    glBindTexture(GL_TEXTURE_2D, backgroundImage); glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDisableVertexAttribArray(program.positionAttribute);
+    glDisableVertexAttribArray(program.texCoordAttribute);
+    
+    // move pink paddle to leftmost side of screen
+//    backgroundPosition.x -= -0.25f;
+    backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
+    
+    // set new dimensions for pink
+    program.SetModelMatrix(backgroundMatrix);
+}
 void Initialize() {
     SDL_Init(SDL_INIT_VIDEO);
     displayWindow = SDL_CreateWindow("Textured!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
@@ -56,8 +78,6 @@ void Initialize() {
 #ifdef _WINDOWS
     glewInit();
 #endif
-    
-    glViewport(0, 0, 640, 480);
     
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     
@@ -69,7 +89,11 @@ void Initialize() {
     
     viewMatrix = glm::mat4(1.0f);
     modelMatrix = glm::mat4(1.0f);
+    backgroundPosition = glm::vec3(0, 0, 0);
     projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
+    backgroundMatrix = glm::mat4(1.0f);
+    GLuint backgroundID = Util::LoadTexture("purpletempbackground1.png");
+    DrawBackground(backgroundID);
     
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
@@ -139,6 +163,7 @@ void Initialize() {
     currentScene->state.lives = 3;
 //    SwitchToScene(level1); // switch to level 1
 }
+bool backgroundDrawn = false;
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     if (gameStarted) {
@@ -146,6 +171,11 @@ void Render() {
     }
     else {
 //        gameStartText->Render(&program);
+//        if (!backgroundDrawn) {
+//            backgroundDrawn = true;
+//        }
+        GLuint backgroundID = Util::LoadTexture("purpletempbackground1.png");
+        DrawBackground(backgroundID);
         for (int i = 0; i < bulletCount; i++) {
             patternList[i]->Render(&program);
         }
@@ -226,6 +256,7 @@ void ProcessInput() {
 #define FIXED_TIMESTEP 0.0166666f
 float lastTicks = 0;
 float accumulator = 0.0f;
+float backgroundScrollSpeed = 0.0f;
 void Update() {
     
     float ticks = (float)SDL_GetTicks() / 1000.0f;
@@ -273,7 +304,22 @@ void Update() {
         for (int i = 0; i < bulletCount; i++) {
             patternList[i]->Update(deltaTime);
         }
-        Render();
+//        backgroundScrollSpeed += deltaTime;
+//        if (backgroundScrollSpeed > 0.1) {
+//            backgroundScrollSpeed = 0.0;
+            backgroundPosition.y -= 0.25;
+//            backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
+//            program.SetModelMatrix(backgroundMatrix);
+//        }
+        backgroundMatrix = glm::mat4(1.0f); // base matrix value
+        backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition); // translate by new position
+        program.SetModelMatrix(backgroundMatrix);
+        
+        if (backgroundPosition.y < -4.0f) {
+            backgroundPosition.y = 4;
+        }
+        
+//        Render();
     }
 }
 void Shutdown() {
