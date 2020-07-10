@@ -8,14 +8,14 @@ The inspiration for this project is through various bullet-hell style games or [
   - [ ] score goes up when surviving
 - [ ] BulletPattern class
   - [ ] basic (to implement as baseline): 
-    - [ ] horizontal
+    - [x] horizontal
     - [ ] straight line
-    - [ ] circle 
+    - [x] circle 
   - extra bulletpattern considerations:
-    - [ ] priority 1: spiral
+    - [x] priority 1: spiral
     - [ ] priority 2: multiple pivot points for spirals/circle
 - [ ] background music
-  - [ ] pulse sound when a new wave is fired
+  - [x] pulse sound when a new wave is fired
   - [ ] change in background music when surviving level
 - [ ] Level class
   - enemies spawn as a source for bullets, and move around to make it hard to destroy
