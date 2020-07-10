@@ -16,6 +16,7 @@
 #include "Map.h"
 #include "Util.h"
 #include "Scene.h"
+#include "BulletPattern.h"
 #include "Levels/Level1.h"
 #include "Levels/Level2.h"
 #include "Levels/Level3.h"
@@ -26,6 +27,10 @@ Scene *sceneList[3]; // array containing all the scenes
 Entity *gameWinText;
 Entity *gameLoseText;
 Entity *gameStartText;
+BulletPattern *patternList[2];
+float bulletCount = 2;
+//BulletPattern *pattern;
+//BulletPattern *pattern2;
 bool isWin = false;
 bool isOver = false;
 
@@ -42,6 +47,28 @@ ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 Mix_Music *music; // pointer for main audio
 
+glm::mat4 backgroundMatrix;
+glm::vec3 backgroundPosition = glm::vec3(0,0,0);
+void DrawBackground(GLuint backgroundImage) {
+    float vertices[] = { -5.5, -6.5, 5.5, -6.5, 5.5, 6.5, -5.5, -6.5, 5.5, 6.5, -5.5, 6.5 };
+    float texCoords[] = { 0.0, 5.0, 5.0, 5.0, 5.0, 0.0, 0.0, 5.0, 5.0, 0.0, 0.0, 0.0 };
+    
+    // draw
+    glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+    glEnableVertexAttribArray(program.positionAttribute);
+    glVertexAttribPointer(program.texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+    glEnableVertexAttribArray(program.texCoordAttribute);
+    glBindTexture(GL_TEXTURE_2D, backgroundImage); glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDisableVertexAttribArray(program.positionAttribute);
+    glDisableVertexAttribArray(program.texCoordAttribute);
+    
+    // move pink paddle to leftmost side of screen
+//    backgroundPosition.x -= -0.25f;
+    backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
+    
+    // set new dimensions for pink
+    program.SetModelMatrix(backgroundMatrix);
+}
 void Initialize() {
     SDL_Init(SDL_INIT_VIDEO);
     displayWindow = SDL_CreateWindow("Textured!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
@@ -51,8 +78,6 @@ void Initialize() {
 #ifdef _WINDOWS
     glewInit();
 #endif
-    
-    glViewport(0, 0, 640, 480);
     
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     
@@ -64,7 +89,11 @@ void Initialize() {
     
     viewMatrix = glm::mat4(1.0f);
     modelMatrix = glm::mat4(1.0f);
+    backgroundPosition = glm::vec3(0, 0, 0);
     projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
+    backgroundMatrix = glm::mat4(1.0f);
+    GLuint backgroundID = Util::LoadTexture("purpletempbackground1.png");
+    DrawBackground(backgroundID);
     
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
@@ -85,7 +114,6 @@ void Initialize() {
     gameWinText->position = glm::vec3(12, -4, 0);
     
     gameLoseText = new Entity();
-//    GLuint fontTextureID = Util::LoadTexture("sprite_texture2.png");
     gameLoseText->textureID = fontTextureID;
     gameLoseText->entityType = TEXT;
     gameLoseText->animIndices = NULL;
@@ -93,13 +121,38 @@ void Initialize() {
     gameLoseText->position = glm::vec3(12, -4, 0);
 
     gameStartText = new Entity();
-    //    GLuint fontTextureID = Util::LoadTexture("sprite_texture2.png");
     gameStartText->textureID = fontTextureID;
     gameStartText->entityType = TEXT;
     gameStartText->animIndices = NULL;
     gameStartText->writeText = "Jumper: Press Enter to Start";
     gameStartText->position = glm::vec3(-2, 0, 0);
     gameStartText->acceleration = glm::vec3(0, 0, 0);
+    
+    // set default bullet settings for all bullets
+    GLuint circleBulletTexture = Util::LoadTexture("circle.png");
+    for (int i = 0; i < bulletCount; i++) {
+        patternList[i] = new BulletPattern();
+        patternList[i]->bulletTexture = circleBulletTexture; // test bullet image
+        patternList[i]->speed = 0.5f;
+        patternList[i]->movement = glm::vec3(1, 0, 0);
+        patternList[i]->velocity = glm::vec3(1, 0, 0);
+        patternList[i]->acceleration = glm::vec3(0, -9.81f, 0);
+    }
+
+    // init specific properties
+    patternList[0]->xPivot = -2;
+    patternList[0]->yPivot = 0;
+    patternList[0]->waveCount = 20;
+    patternList[0]->patternType = SingularSpiral;
+    patternList[1]->xPivot = -3;
+    patternList[1]->yPivot = 3;
+    patternList[1]->waveCount = 20;
+    patternList[1]->patternType = CirclePulse;
+    
+    // render bullet bases
+    for (int i = 0; i < 2; i++) {
+        patternList[i]->Render(&program);
+    }
     
     // Initialize Game Objects
 //    level1 = new Level1();
@@ -110,13 +163,22 @@ void Initialize() {
     currentScene->state.lives = 3;
 //    SwitchToScene(level1); // switch to level 1
 }
+bool backgroundDrawn = false;
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     if (gameStarted) {
         currentScene->Render(&program);
     }
     else {
-        gameStartText->Render(&program);
+//        gameStartText->Render(&program);
+//        if (!backgroundDrawn) {
+//            backgroundDrawn = true;
+//        }
+        GLuint backgroundID = Util::LoadTexture("purpletempbackground1.png");
+        DrawBackground(backgroundID);
+        for (int i = 0; i < bulletCount; i++) {
+            patternList[i]->Render(&program);
+        }
     }
     // update viewMatrix with translation for sliding
     program.SetViewMatrix(viewMatrix);
@@ -191,75 +253,73 @@ void ProcessInput() {
     }
 }
 
-//void Render() {
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    if (gameStarted) {
-//        currentScene->Render(&program);
-//    }
-//    else {
-//        gameStartText->Render(&program);
-//    }
-//    // update viewMatrix with translation for sliding
-//    program.SetViewMatrix(viewMatrix);
-//
-////    gameWinText->Render(&program);
-////    if (currentScene->state.player->position.x >= 12) {
-//    if (isWin) {
-//        gameWinText->Render(&program);
-//    }
-//    else if (isOver) {
-//        gameLoseText->position = currentScene->state.player->position;
-//        gameLoseText->Render(&program);
-//    }
-//
-//    SDL_GL_SwapWindow(displayWindow);
-//}
-
 #define FIXED_TIMESTEP 0.0166666f
 float lastTicks = 0;
 float accumulator = 0.0f;
+float backgroundScrollSpeed = 0.0f;
 void Update() {
-    if (gameStarted) {
+    
     float ticks = (float)SDL_GetTicks() / 1000.0f;
     float deltaTime = ticks - lastTicks;
     lastTicks = ticks;
-
-    deltaTime += accumulator;
-    if (deltaTime < FIXED_TIMESTEP) { // when total change between updates is less than timestep...
-        accumulator = deltaTime; // store the change in time until the next update
-        return;
-    }
-
-    while (deltaTime >= FIXED_TIMESTEP) {
-        currentScene->Update(FIXED_TIMESTEP);
-        deltaTime -= FIXED_TIMESTEP; // keep updating until frames are all processed
-    }
-
-    accumulator = deltaTime;
     
-    viewMatrix = glm::mat4(1.0f);
+    if (gameStarted) {
+        deltaTime += accumulator;
+        if (deltaTime < FIXED_TIMESTEP) { // when total change between updates is less than timestep...
+            accumulator = deltaTime; // store the change in time until the next update
+            return;
+        }
 
-    // stop scrolling @ a point
-    if (currentScene->state.player->position.x > 5) { // if x-coord is past 5, don't scroll further left (past wall)
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
-    }
-    else {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
-    }
-    
-    if (currentScene->state.player->position.x >= 12) { // completed all three levels
-        if (currentScene == sceneList[2]) {
+        while (deltaTime >= FIXED_TIMESTEP) {
+            currentScene->Update(FIXED_TIMESTEP);
+            deltaTime -= FIXED_TIMESTEP; // keep updating until frames are all processed
+        }
+
+        accumulator = deltaTime;
+        
+        viewMatrix = glm::mat4(1.0f);
+
+        // stop scrolling @ a point
+        if (currentScene->state.player->position.x > 5) { // if x-coord is past 5, don't scroll further left (past wall)
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
+        }
+        else {
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
+        }
+        
+        if (currentScene->state.player->position.x >= 12) { // completed all three levels
+            if (currentScene == sceneList[2]) {
+                isOver = true;
+                isWin = true;
+                Render();
+            }
+        }
+        if (currentScene->state.lives == 0) { // once the player is dunzoed, render game over text
             isOver = true;
-            isWin = true;
+            isWin = false;
             Render();
         }
     }
-//    if (currentScene->state.player->isActive == false) { // once the player is dunzoed, render game over text
-    if (currentScene->state.lives == 0) { // once the player is dunzoed, render game over text
-        isOver = true;
-        isWin = false;
-        Render();
-    }
+    else {
+        for (int i = 0; i < bulletCount; i++) {
+            patternList[i]->Update(deltaTime);
+        }
+//        backgroundScrollSpeed += deltaTime;
+//        if (backgroundScrollSpeed > 0.1) {
+//            backgroundScrollSpeed = 0.0;
+            backgroundPosition.y -= 0.25;
+//            backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
+//            program.SetModelMatrix(backgroundMatrix);
+//        }
+        backgroundMatrix = glm::mat4(1.0f); // base matrix value
+        backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition); // translate by new position
+        program.SetModelMatrix(backgroundMatrix);
+        
+        if (backgroundPosition.y < -4.0f) {
+            backgroundPosition.y = 4;
+        }
+        
+//        Render();
     }
 }
 void Shutdown() {
