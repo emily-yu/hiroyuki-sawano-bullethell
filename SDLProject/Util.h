@@ -23,4 +23,5 @@ class Util {
 public:
     static GLuint LoadTexture(const char* filePath);
     static void DrawText(ShaderProgram *program, GLuint fontTextureID, std::string text, float size, float spacing, glm::vec3 position);
+    static void DrawBackground(ShaderProgram *program, GLuint backgroundImage, glm::mat4 backgroundMatrix, glm::vec3 backgroundPosition);
 };
