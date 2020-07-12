@@ -35,6 +35,7 @@ void Level1::Initialize(Scene *sceneList) {
     state.player->position = glm::vec3(5, -2, 0); // start near left of screen
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, 0.0f, 0);
+    state.player->velocity = glm::vec3(0, 0.0f, 0);
     state.player->speed = 2.5f;
     state.player->textureID = Util::LoadTexture("george_0.png");
 

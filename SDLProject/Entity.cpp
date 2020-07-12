@@ -147,6 +147,10 @@ void Entity::Update(float deltaTime, Entity* player, Entity *objects, int object
 
     modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
+    
+    // reset velocity after movement is applied - temp since don't want drifting player
+    velocity.x = 0;
+    velocity.y = 0;
 }
 
 void Entity::Render(ShaderProgram *program) {
