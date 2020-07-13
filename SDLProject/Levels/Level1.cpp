@@ -7,12 +7,18 @@
 //
 
 #include "Level1.h"
+#include <map>
+#include "BulletPattern.h"
+
 #define LEVEL1_WIDTH 14
 #define LEVEL1_HEIGHT 8
 #define LEVEL1_ENEMY_COUNT 1
 
 //glm::mat4 backgroundMat;
 //glm::vec3 backgroundPos;
+BulletPattern *patternList_LEVEL1[2];
+float bulletCount_LEVEL1 = 2;
+
 unsigned int level1_data[] = {
     3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -25,6 +31,42 @@ unsigned int level1_data[] = {
 };
 
 void Level1::Initialize(Scene *sceneList) {
+    // set default bullet settings for all bullets
+    GLuint circleBulletTexture = Util::LoadTexture("circle.png");
+    for (int i = 0; i < bulletCount_LEVEL1; i++) {
+        patternList_LEVEL1[i] = new BulletPattern();
+        patternList_LEVEL1[i]->bulletTexture = circleBulletTexture; // test bullet image
+        patternList_LEVEL1[i]->speed = 0.5f;
+        patternList_LEVEL1[i]->movement = glm::vec3(1, 0, 0);
+        patternList_LEVEL1[i]->velocity = glm::vec3(1, 0, 0);
+        patternList_LEVEL1[i]->acceleration = glm::vec3(0, -9.81f, 0);
+    }
+
+    // init specific properties
+    patternList_LEVEL1[0]->xPivot = -2;
+    patternList_LEVEL1[0]->yPivot = 0;
+    patternList_LEVEL1[0]->waveCount = 20;
+    patternList_LEVEL1[0]->patternType = SingularSpiral;
+    patternList_LEVEL1[1]->xPivot = -3;
+    patternList_LEVEL1[1]->yPivot = 3;
+    patternList_LEVEL1[1]->waveCount = 20;
+    patternList_LEVEL1[1]->patternType = CirclePulse;
+    
+    std::map<float, BulletPattern> bulletTable = {
+        // { deltaTime, BulletPattern to be displayed }
+//        { 'A', '1' },
+//        { 'B', '2' },
+//        { 'C', '3' }
+        { 2343, *patternList_LEVEL1[0] },
+        { 3535, *patternList_LEVEL1[1] }
+    };
+//    for (auto const& x : symbolTable) {
+//        std::cout << x.first  // string (key)
+//                  << ':'
+//                  << x.second // string's value
+//                  << std::endl ;
+//    };
+    
     state.nextScene = -1; // main.cpp will not switch to nextscene yet, <= 0
 
     GLuint mapTextureID = Util::LoadTexture("tileset.png");
@@ -101,6 +143,14 @@ void Level1::Update(float deltaTime) {
     if (state.backgroundPos.y < -4.0f) {
         state.backgroundPos.y = 4;
     }
+    
+//    ITERATE THROUGH BULLETPATTERN_MAPPING:
+//        IF DELTATIME == MAP.FIRST (BULLET SPAWN TIME):
+//            BULLETPATTERN.SPAWN()
+//
+    for (int i = 0; i < bulletCount_LEVEL1; i++) {
+        patternList_LEVEL1[i]->Update(deltaTime);
+    }
 }
 void Level1::Render(ShaderProgram *program) {
 //    state.map->Render(program); // render tiles
@@ -112,6 +162,10 @@ void Level1::Render(ShaderProgram *program) {
 //    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
 //        state.enemies[i].Render(program);
 //    }
+    // render bullet bases
+    for (int i = 0; i < 2; i++) {
+        patternList_LEVEL1[i]->Render(program);
+    }
     
     state.player->Render(program);
 }
