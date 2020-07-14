@@ -17,6 +17,7 @@
 //glm::mat4 backgroundMat;
 //glm::vec3 backgroundPos;
 BulletPattern *patternList_LEVEL1[2];
+std::map<float, BulletPattern*> bulletTable;
 float bulletCount_LEVEL1 = 2;
 
 unsigned int level1_data[] = {
@@ -52,13 +53,13 @@ void Level1::Initialize(Scene *sceneList) {
     patternList_LEVEL1[1]->waveCount = 20;
     patternList_LEVEL1[1]->patternType = CirclePulse;
     
-    std::map<float, BulletPattern> bulletTable = {
+    bulletTable = {
         // { deltaTime, BulletPattern to be displayed }
 //        { 'A', '1' },
 //        { 'B', '2' },
 //        { 'C', '3' }
-        { 2343, *patternList_LEVEL1[0] },
-        { 3535, *patternList_LEVEL1[1] }
+        { 0.2, patternList_LEVEL1[0] },
+        { 10.4, patternList_LEVEL1[1] }
     };
 //    for (auto const& x : symbolTable) {
 //        std::cout << x.first  // string (key)
@@ -66,7 +67,7 @@ void Level1::Initialize(Scene *sceneList) {
 //                  << x.second // string's value
 //                  << std::endl ;
 //    };
-    
+    state.accumulatedTime = 0.0f;
     state.nextScene = -1; // main.cpp will not switch to nextscene yet, <= 0
 
     GLuint mapTextureID = Util::LoadTexture("tileset.png");
@@ -146,8 +147,18 @@ void Level1::Update(float deltaTime) {
     
 //    ITERATE THROUGH BULLETPATTERN_MAPPING:
 //        IF DELTATIME == MAP.FIRST (BULLET SPAWN TIME):
-//            BULLETPATTERN.SPAWN()
+//            SET BULLETPATTERN (MAP.SECOND) = ACTIVE SO CAN DRAW
 //
+    state.accumulatedTime += deltaTime;
+    for (auto x : bulletTable) {
+        std::cout << x.first  // string (key)
+                  << ':'
+        << x.second->isActive // string's value
+                  << std::endl ;
+        if (state.accumulatedTime > x.first && x.second->isActive == false) {
+            x.second->isActive = true;
+        }
+    };
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
         patternList_LEVEL1[i]->Update(deltaTime);
     }

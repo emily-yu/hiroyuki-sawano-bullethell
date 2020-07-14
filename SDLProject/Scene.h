@@ -29,6 +29,7 @@ struct GameState {
     int nextScene;
     glm::mat4 backgroundMat;
     glm::vec3 backgroundPos;
+    float accumulatedTime;
 };
 class Scene {
 public:
