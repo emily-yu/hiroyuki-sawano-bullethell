@@ -98,9 +98,9 @@ void Entity::Update(float deltaTime, Entity* player, Entity *objects, int object
     collidedRight = false;
 
     // check if should execute behavior for ai
-    if (entityType == ENEMY) {
-        AI(player); // set movement for ai
-    }
+//    if (entityType == ENEMY) {
+//        AI(player); // set movement for ai
+//    }
 
     if (animIndices != NULL) {
         // animation block
@@ -136,14 +136,14 @@ void Entity::Update(float deltaTime, Entity* player, Entity *objects, int object
     // set up y velocity
     position.y += velocity.y * deltaTime;
 //    CheckCollisionsY(platforms, platformCount); // adjust for collisions
-    CheckCollisionsY(map);
-    CheckCollisionsY(objects, objectCount); // Fix if needed
+//    CheckCollisionsY(map);
+//    CheckCollisionsY(objects, objectCount); // Fix if needed
 
     // set up x velocity
     position.x += velocity.x * deltaTime;
 //    CheckCollisionsX(platforms, platformCount); // adjust for collisions
-    CheckCollisionsX(map);
-    CheckCollisionsX(objects, objectCount); // Fix if needed
+//    CheckCollisionsX(map);
+//    CheckCollisionsX(objects, objectCount); // Fix if needed
 
     modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);

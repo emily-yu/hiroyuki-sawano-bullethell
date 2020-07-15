@@ -84,3 +84,23 @@ void Util::DrawText(ShaderProgram *program, GLuint fontTexture, std::string text
     glDisableVertexAttribArray(program->positionAttribute);
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
+void Util::DrawBackground(ShaderProgram *program, GLuint backgroundImage, glm::mat4 backgroundMatrix, glm::vec3 backgroundPosition) {
+    float vertices[] = { -5.5, -6.5, 5.5, -6.5, 5.5, 6.5, -5.5, -6.5, 5.5, 6.5, -5.5, 6.5 };
+    float texCoords[] = { 0.0, 5.0, 5.0, 5.0, 5.0, 0.0, 0.0, 5.0, 5.0, 0.0, 0.0, 0.0 };
+    
+    // draw
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+    glEnableVertexAttribArray(program->positionAttribute);
+    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+    glEnableVertexAttribArray(program->texCoordAttribute);
+    glBindTexture(GL_TEXTURE_2D, backgroundImage); glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDisableVertexAttribArray(program->positionAttribute);
+    glDisableVertexAttribArray(program->texCoordAttribute);
+    
+    // move pink paddle to leftmost side of screen
+//    backgroundPosition.x -= -0.25f;
+    backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
+    
+    // set new dimensions for pink
+    program->SetModelMatrix(backgroundMatrix);
+}

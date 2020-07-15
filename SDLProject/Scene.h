@@ -27,6 +27,8 @@ struct GameState {
     Entity *enemies;
     int lives;
     int nextScene;
+    glm::mat4 backgroundMat;
+    glm::vec3 backgroundPos;
 };
 class Scene {
 public:

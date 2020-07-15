@@ -279,25 +279,40 @@ void Update() {
         
         viewMatrix = glm::mat4(1.0f);
 
-        // stop scrolling @ a point
-        if (currentScene->state.player->position.x > 5) { // if x-coord is past 5, don't scroll further left (past wall)
-            viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
-        }
-        else {
-            viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
-        }
+//        // stop scrolling @ a point
+//        if (currentScene->state.player->position.x > 5) { // if x-coord is past 5, don't scroll further left (past wall)
+//            viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
+//        }
+//        else {
+//            viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
+//        }
+//
+//        if (currentScene->state.player->position.x >= 12) { // completed all three levels
+//            if (currentScene == sceneList[2]) {
+//                isOver = true;
+//                isWin = true;
+//                Render();
+//            }
+//        }
+//        if (currentScene->state.lives == 0) { // once the player is dunzoed, render game over text
+//            isOver = true;
+//            isWin = false;
+//            Render();
+//        }
         
-        if (currentScene->state.player->position.x >= 12) { // completed all three levels
-            if (currentScene == sceneList[2]) {
-                isOver = true;
-                isWin = true;
-                Render();
-            }
-        }
-        if (currentScene->state.lives == 0) { // once the player is dunzoed, render game over text
-            isOver = true;
-            isWin = false;
-            Render();
+//        backgroundScrollSpeed += deltaTime;
+//        if (backgroundScrollSpeed > 0.1) {
+//            backgroundScrollSpeed = 0.0;
+            currentScene->state.backgroundPos.y -= 0.25;
+//            backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
+//            program.SetModelMatrix(backgroundMatrix);
+//        }
+        currentScene->state.backgroundMat = glm::mat4(1.0f); // base matrix value
+        currentScene->state.backgroundMat = glm::translate(currentScene->state.backgroundMat, currentScene->state.backgroundPos); // translate by new position
+        program.SetModelMatrix(currentScene->state.backgroundMat);
+        
+        if (currentScene->state.backgroundPos.y < -4.0f) {
+            currentScene->state.backgroundPos.y = 4;
         }
     }
     else {
