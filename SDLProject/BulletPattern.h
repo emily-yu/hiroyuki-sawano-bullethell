@@ -30,7 +30,7 @@ class BulletPattern {
 public:
 //    static GLuint LoadTexture(const char* filePath);
 //    static void DrawText(ShaderProgram *program, GLuint fontTextureID, std::string text, float size, float spacing, glm::vec3 position);
-    bool isActive = true;
+    bool isActive = false;
     
     GLuint bulletTexture;
     Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
