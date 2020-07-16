@@ -212,14 +212,6 @@ void ProcessInput() {
                 
             case SDL_KEYDOWN: // for one click events
                 switch (event.key.keysym.sym) {
-//                    case SDLK_LEFT:
-//                        // Move the player left
-//                        break;
-//
-//                    case SDLK_RIGHT:
-//                        // Move the player right
-//                        break;
-//
                     case SDLK_SPACE: // JUMPING
                         if (gameStarted) {
                             // prevent infinite jumping
@@ -228,9 +220,6 @@ void ProcessInput() {
                             }
                         }
                         break;
-//                    case SDL_SCANCODE_UP:
-//                        std::cout << "asdf" << std::endl;
-//                        break;
                 }
                 break; // SDL_KEYDOWN
         }
@@ -240,11 +229,27 @@ void ProcessInput() {
     if (gameStarted) {
         if (keys[SDL_SCANCODE_LEFT]) {
             currentScene->state.player->movement.x = -1.0f;
+            currentScene->state.player->velocity.x = -2.0f;
+            currentScene->state.player->velocity.y = 0.0f;
             currentScene->state.player->animIndices = currentScene->state.player->animLeft;
         }
         else if (keys[SDL_SCANCODE_RIGHT]) {
             currentScene->state.player->movement.x = 1.0f;
+            currentScene->state.player->velocity.x = 2.0f;
+            currentScene->state.player->velocity.y = 0.0f;
             currentScene->state.player->animIndices = currentScene->state.player->animRight;
+        }
+        else if (keys[SDL_SCANCODE_DOWN]) {
+            currentScene->state.player->movement.y = -1.0f;
+            currentScene->state.player->velocity.y = -2.0f;
+            currentScene->state.player->velocity.x = 0.0f;
+            currentScene->state.player->animIndices = currentScene->state.player->animDown;
+        }
+        else if (keys[SDL_SCANCODE_UP]) {
+            currentScene->state.player->movement.y = 1.0f;
+            currentScene->state.player->velocity.y = 2.0f;
+            currentScene->state.player->velocity.x = 0.0f;
+            currentScene->state.player->animIndices = currentScene->state.player->animUp;
         }
     }
     if (keys[SDL_SCANCODE_RETURN]) {
