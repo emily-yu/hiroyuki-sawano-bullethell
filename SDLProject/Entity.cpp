@@ -88,7 +88,8 @@ void Entity::CheckCollisionsX(Entity *objects, int objectCount) {
 
 //platforms are the possible collisions
 //void Entity::Update(float deltaTime, Entity* player, Map *map) {
-void Entity::Update(float deltaTime, Entity* player, Entity *objects, int objectCount, Map *map) {
+//void Entity::Update(float deltaTime, Entity* player, Entity *objects, int objectCount, Map *map) {
+void Entity::Update(float deltaTime, Entity* player, Entity *objects, int objectCount) {
     if (isActive == false) return; // if not active, not rendered -> no updates made to rendering
 
     // no collisions yet
@@ -122,7 +123,7 @@ void Entity::Update(float deltaTime, Entity* player, Entity *objects, int object
     if (jump) {
         jump = false; // process jump and reset
         velocity.y += jumpPower; // add velocity to y direction and move up
-        
+
         if (entityType == PLAYER) {
             Mix_PlayChannel(-1, jumpEffect, 0); // bounce effect
         }
@@ -147,7 +148,7 @@ void Entity::Update(float deltaTime, Entity* player, Entity *objects, int object
 
     modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
-    
+
     // reset velocity after movement is applied - temp since don't want drifting player
     velocity.x = 0;
     velocity.y = 0;
@@ -182,77 +183,77 @@ void Entity::Render(ShaderProgram *program) {
     glDisableVertexAttribArray(program->positionAttribute);
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
-void Entity::CheckCollisionsY(Map *map) {
-    // checks to make sure that entity doesn't fall off edges of tiles
-    // middle of top edge
-    glm::vec3 top = glm::vec3(position.x, position.y + (height / 2), position.z);
-    // left of top edge
-    glm::vec3 top_left = glm::vec3(position.x - (width / 2), position.y + (height / 2), position.z);
-    // right of top edge
-    glm::vec3 top_right = glm::vec3(position.x + (width / 2), position.y + (height / 2), position.z);
-
-    // three sensors to check to make sure entity doesn't fall off edge of bottom tiles (standing on tile)
-    glm::vec3 bottom = glm::vec3(position.x, position.y - (height / 2), position.z);
-    glm::vec3 bottom_left = glm::vec3(position.x - (width / 2), position.y - (height / 2), position.z);
-    glm::vec3 bottom_right = glm::vec3(position.x + (width / 2), position.y - (height / 2), position.z);
-
-    float penetration_x = 0;
-    float penetration_y = 0;
-    
-    // is there something solid @ that position, for each of the 6 sensors above
-    // if not something solid (water, grass), can walk through that position and doesn't stop (rock/walls)
-    if (map->IsSolid(top, &penetration_x, &penetration_y) && velocity.y > 0) {
-        position.y -= penetration_y;
-        velocity.y = 0;
-        collidedTop = true;
-    }
-    else if (map->IsSolid(top_left, &penetration_x, &penetration_y) && velocity.y > 0) {
-        position.y -= penetration_y;
-        velocity.y = 0;
-        collidedTop = true;
-    }
-    else if (map->IsSolid(top_right, &penetration_x, &penetration_y) && velocity.y > 0) {
-        position.y -= penetration_y;
-        velocity.y = 0;
-        collidedTop = true;
-    }
-    if (map->IsSolid(bottom, &penetration_x, &penetration_y) && velocity.y < 0) {
-         position.y += penetration_y;
-         velocity.y = 0;
-         collidedBottom = true;
-     }
-     else if (map->IsSolid(bottom_left, &penetration_x, &penetration_y) && velocity.y < 0) {
-         position.y += penetration_y;
-         velocity.y = 0;
-         collidedBottom = true;
-     }
-     else if (map->IsSolid(bottom_right, &penetration_x, &penetration_y) && velocity.y < 0) {
-         position.y += penetration_y;
-         velocity.y = 0;
-         collidedBottom = true;
-     }
-}
-void Entity::CheckCollisionsX(Map *map) {
-    // two sensors, each in middle of left and right side
-    glm::vec3 left = glm::vec3(position.x - (width / 2), position.y, position.z);
-    glm::vec3 right = glm::vec3(position.x + (width / 2), position.y, position.z);
-
-    float penetration_x = 0;
-    float penetration_y = 0;
-    
-    // check if there is something solid on the left/right side
-    if (map->IsSolid(left, &penetration_x, &penetration_y) && velocity.x < 0) {
-        position.x += penetration_x;
-        velocity.x = 0;
-        collidedLeft = true;
-    }
-
-    if (map->IsSolid(right, &penetration_x, &penetration_y) && velocity.x > 0) {
-        position.x -= penetration_x;
-        velocity.x = 0;
-        collidedRight = true;
-    }
-}
+//void Entity::CheckCollisionsY(Map *map) {
+//    // checks to make sure that entity doesn't fall off edges of tiles
+//    // middle of top edge
+//    glm::vec3 top = glm::vec3(position.x, position.y + (height / 2), position.z);
+//    // left of top edge
+//    glm::vec3 top_left = glm::vec3(position.x - (width / 2), position.y + (height / 2), position.z);
+//    // right of top edge
+//    glm::vec3 top_right = glm::vec3(position.x + (width / 2), position.y + (height / 2), position.z);
+//
+//    // three sensors to check to make sure entity doesn't fall off edge of bottom tiles (standing on tile)
+//    glm::vec3 bottom = glm::vec3(position.x, position.y - (height / 2), position.z);
+//    glm::vec3 bottom_left = glm::vec3(position.x - (width / 2), position.y - (height / 2), position.z);
+//    glm::vec3 bottom_right = glm::vec3(position.x + (width / 2), position.y - (height / 2), position.z);
+//
+//    float penetration_x = 0;
+//    float penetration_y = 0;
+//
+//    // is there something solid @ that position, for each of the 6 sensors above
+//    // if not something solid (water, grass), can walk through that position and doesn't stop (rock/walls)
+//    if (map->IsSolid(top, &penetration_x, &penetration_y) && velocity.y > 0) {
+//        position.y -= penetration_y;
+//        velocity.y = 0;
+//        collidedTop = true;
+//    }
+//    else if (map->IsSolid(top_left, &penetration_x, &penetration_y) && velocity.y > 0) {
+//        position.y -= penetration_y;
+//        velocity.y = 0;
+//        collidedTop = true;
+//    }
+//    else if (map->IsSolid(top_right, &penetration_x, &penetration_y) && velocity.y > 0) {
+//        position.y -= penetration_y;
+//        velocity.y = 0;
+//        collidedTop = true;
+//    }
+//    if (map->IsSolid(bottom, &penetration_x, &penetration_y) && velocity.y < 0) {
+//         position.y += penetration_y;
+//         velocity.y = 0;
+//         collidedBottom = true;
+//     }
+//     else if (map->IsSolid(bottom_left, &penetration_x, &penetration_y) && velocity.y < 0) {
+//         position.y += penetration_y;
+//         velocity.y = 0;
+//         collidedBottom = true;
+//     }
+//     else if (map->IsSolid(bottom_right, &penetration_x, &penetration_y) && velocity.y < 0) {
+//         position.y += penetration_y;
+//         velocity.y = 0;
+//         collidedBottom = true;
+//     }
+//}
+//void Entity::CheckCollisionsX(Map *map) {
+//    // two sensors, each in middle of left and right side
+//    glm::vec3 left = glm::vec3(position.x - (width / 2), position.y, position.z);
+//    glm::vec3 right = glm::vec3(position.x + (width / 2), position.y, position.z);
+//
+//    float penetration_x = 0;
+//    float penetration_y = 0;
+//
+//    // check if there is something solid on the left/right side
+//    if (map->IsSolid(left, &penetration_x, &penetration_y) && velocity.x < 0) {
+//        position.x += penetration_x;
+//        velocity.x = 0;
+//        collidedLeft = true;
+//    }
+//
+//    if (map->IsSolid(right, &penetration_x, &penetration_y) && velocity.x > 0) {
+//        position.x -= penetration_x;
+//        velocity.x = 0;
+//        collidedRight = true;
+//    }
+//}
 Entity* Entity::CheckCollisionEntity(Entity *other) {
     if (isActive == false || other->isActive == false) return NULL; // if either is not active, then there won't be a collision
     

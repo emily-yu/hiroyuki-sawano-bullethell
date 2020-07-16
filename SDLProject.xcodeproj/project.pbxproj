@@ -17,13 +17,14 @@
 		94239FF324B1353A009685F3 /* tileset.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94239FF224B1353A009685F3 /* tileset.png */; };
 		94239FF624B28119009685F3 /* BulletPattern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94239FF424B28119009685F3 /* BulletPattern.cpp */; };
 		943C1C7C24980982006B6022 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 943C1C7A24980982006B6022 /* Entity.cpp */; };
-		944B104C24ABB5C40090E8FC /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944B104A24ABB5C40090E8FC /* Map.cpp */; };
 		944B104F24AC0C090090E8FC /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944B104D24AC0C090090E8FC /* Util.cpp */; };
+		9455369124C7994F002DC033 /* BulletEnemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9455368F24C7994F002DC033 /* BulletEnemy.cpp */; };
 		94B5F8E224B668D900788D0B /* Stage1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94B5F8E024B668D900788D0B /* Stage1.cpp */; };
 		94B5F8E424B919DF00788D0B /* purpletempbackground1.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94B5F8E324B919DF00788D0B /* purpletempbackground1.png */; };
 		94BA177924A4773800681E5E /* orange.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BA177824A4773800681E5E /* orange.png */; };
 		94BA177B24A4774A00681E5E /* george_0.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BA177A24A4774A00681E5E /* george_0.png */; };
 		94BA177D24A477F900681E5E /* circle.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BA177C24A477F900681E5E /* circle.png */; };
+		94F68FE524CF728E009E9753 /* girl.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94F68FE424CF728E009E9753 /* girl.png */; };
 		DBDF1B532323DE3F007CECB1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBDF1B522323DE3F007CECB1 /* main.cpp */; };
 		DBDF1B5E2323DE8D007CECB1 /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBDF1B5D2323DE8D007CECB1 /* ShaderProgram.cpp */; };
 		DBDF1B612323DE9E007CECB1 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = DBDF1B5C2323DE8D007CECB1 /* shaders */; };
@@ -41,6 +42,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				94F68FE524CF728E009E9753 /* girl.png in CopyFiles */,
 				94B5F8E424B919DF00788D0B /* purpletempbackground1.png in CopyFiles */,
 				94239FF324B1353A009685F3 /* tileset.png in CopyFiles */,
 				94239FF124AEAA5E009685F3 /* sprite_texture2.png in CopyFiles */,
@@ -73,16 +75,17 @@
 		94239FF524B28119009685F3 /* BulletPattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BulletPattern.h; sourceTree = "<group>"; };
 		943C1C7A24980982006B6022 /* Entity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		943C1C7B24980982006B6022 /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
-		944B104A24ABB5C40090E8FC /* Map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
-		944B104B24ABB5C40090E8FC /* Map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
 		944B104D24AC0C090090E8FC /* Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
 		944B104E24AC0C090090E8FC /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		9455368F24C7994F002DC033 /* BulletEnemy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BulletEnemy.cpp; sourceTree = "<group>"; };
+		9455369024C7994F002DC033 /* BulletEnemy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BulletEnemy.h; sourceTree = "<group>"; };
 		94B5F8E024B668D900788D0B /* Stage1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stage1.cpp; sourceTree = "<group>"; };
 		94B5F8E124B668D900788D0B /* Stage1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stage1.h; sourceTree = "<group>"; };
 		94B5F8E324B919DF00788D0B /* purpletempbackground1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = purpletempbackground1.png; path = assets/purpletempbackground1.png; sourceTree = "<group>"; };
 		94BA177824A4773800681E5E /* orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = orange.png; path = SDLProject/orange.png; sourceTree = "<group>"; };
 		94BA177A24A4774A00681E5E /* george_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = george_0.png; path = SDLProject/george_0.png; sourceTree = "<group>"; };
 		94BA177C24A477F900681E5E /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circle.png; path = SDLProject/circle.png; sourceTree = "<group>"; };
+		94F68FE424CF728E009E9753 /* girl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = girl.png; path = assets/girl.png; sourceTree = "<group>"; };
 		DBDF1B4F2323DE3F007CECB1 /* SDLProject */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SDLProject; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDF1B522323DE3F007CECB1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DBDF1B592323DE8D007CECB1 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
@@ -129,6 +132,7 @@
 		DBDF1B462323DE3F007CECB1 = {
 			isa = PBXGroup;
 			children = (
+				94F68FE424CF728E009E9753 /* girl.png */,
 				94B5F8E324B919DF00788D0B /* purpletempbackground1.png */,
 				94239FF224B1353A009685F3 /* tileset.png */,
 				94239FF024AEAA5E009685F3 /* sprite_texture2.png */,
@@ -166,8 +170,8 @@
 				94239FEA24AE41A0009685F3 /* Levels */,
 				94239FD824AD38BD009685F3 /* Scene.cpp */,
 				94239FD924AD38BD009685F3 /* Scene.h */,
-				944B104A24ABB5C40090E8FC /* Map.cpp */,
-				944B104B24ABB5C40090E8FC /* Map.h */,
+				9455368F24C7994F002DC033 /* BulletEnemy.cpp */,
+				9455369024C7994F002DC033 /* BulletEnemy.h */,
 				944B104D24AC0C090090E8FC /* Util.cpp */,
 				944B104E24AC0C090090E8FC /* Util.h */,
 				94239FF424B28119009685F3 /* BulletPattern.cpp */,
@@ -248,9 +252,9 @@
 			files = (
 				94239FDA24AD38BD009685F3 /* Scene.cpp in Sources */,
 				DBDF1B532323DE3F007CECB1 /* main.cpp in Sources */,
+				9455369124C7994F002DC033 /* BulletEnemy.cpp in Sources */,
 				943C1C7C24980982006B6022 /* Entity.cpp in Sources */,
 				94239FED24AE4260009685F3 /* Level3.cpp in Sources */,
-				944B104C24ABB5C40090E8FC /* Map.cpp in Sources */,
 				DBDF1B5E2323DE8D007CECB1 /* ShaderProgram.cpp in Sources */,
 				94239FF624B28119009685F3 /* BulletPattern.cpp in Sources */,
 				94239FE324ADC02D009685F3 /* Level2.cpp in Sources */,

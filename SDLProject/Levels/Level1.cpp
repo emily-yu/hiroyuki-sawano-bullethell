@@ -114,8 +114,9 @@ void Level1::Initialize(Scene *sceneList) {
     state.backgroundPos = glm::vec3(0,0,0);
 }
 void Level1::Update(float deltaTime) {
-    state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
-    
+//    state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
+    state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT);
+
 //    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
 //        state.enemies[i].Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
 //    }
