@@ -9,6 +9,7 @@
 #include "Level1.h"
 #include <map>
 #include "BulletPattern.h"
+#include "BulletEnemy.h"
 
 #define LEVEL1_WIDTH 14
 #define LEVEL1_HEIGHT 8
@@ -19,6 +20,7 @@
 BulletPattern *patternList_LEVEL1[2];
 std::map<float, BulletPattern*> bulletTable;
 float bulletCount_LEVEL1 = 2;
+BulletEnemy *enemy_LEVEL1;
 
 unsigned int level1_data[] = {
     3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -36,7 +38,7 @@ void Level1::Initialize(Scene *sceneList) {
     GLuint circleBulletTexture = Util::LoadTexture("circle.png");
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
         patternList_LEVEL1[i] = new BulletPattern();
-        patternList_LEVEL1[i]->bulletTexture = circleBulletTexture; // test bullet image
+        patternList_LEVEL1[i]->bulletTexture = Util::LoadTexture("circle.png"); // test bullet image
         patternList_LEVEL1[i]->speed = 0.5f;
         patternList_LEVEL1[i]->movement = glm::vec3(1, 0, 0);
         patternList_LEVEL1[i]->velocity = glm::vec3(1, 0, 0);
@@ -53,20 +55,26 @@ void Level1::Initialize(Scene *sceneList) {
     patternList_LEVEL1[1]->waveCount = 20;
     patternList_LEVEL1[1]->patternType = CirclePulse;
     
-    bulletTable = {
-        // { deltaTime, BulletPattern to be displayed }
-//        { 'A', '1' },
-//        { 'B', '2' },
-//        { 'C', '3' }
-        { 0.2, patternList_LEVEL1[0] },
-        { 10.4, patternList_LEVEL1[1] }
-    };
+    // set default bullet settings for all bullets
+    GLuint enemyTexture = Util::LoadTexture("girl.png");
+    enemy_LEVEL1 = new BulletEnemy();
+    enemy_LEVEL1->remainingHealth = 0;
+    enemy_LEVEL1->pivot = glm::vec3(-2, 0, 0);
+    enemy_LEVEL1->enemyTexture = enemyTexture;
+//    enemy->jumpEffect = null;
+    enemy_LEVEL1->position = glm::vec3(-2, 0, 0);
+    enemy_LEVEL1->bulletTable = {
+            // { deltaTime, BulletPattern to be displayed }
+            { 0.2, patternList_LEVEL1[0] },
+            { 10.4, patternList_LEVEL1[1] }
+        };
 //    for (auto const& x : symbolTable) {
 //        std::cout << x.first  // string (key)
 //                  << ':'
 //                  << x.second // string's value
 //                  << std::endl ;
 //    };
+    
     state.accumulatedTime = 0.0f;
     state.nextScene = -1; // main.cpp will not switch to nextscene yet, <= 0
 
@@ -163,6 +171,7 @@ void Level1::Update(float deltaTime) {
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
         patternList_LEVEL1[i]->Update(deltaTime);
     }
+    enemy_LEVEL1->Update(deltaTime);
 }
 void Level1::Render(ShaderProgram *program) {
 //    state.map->Render(program); // render tiles
@@ -178,6 +187,7 @@ void Level1::Render(ShaderProgram *program) {
     for (int i = 0; i < 2; i++) {
         patternList_LEVEL1[i]->Render(program);
     }
-    
+    enemy_LEVEL1->Render(program);
+
     state.player->Render(program);
 }
