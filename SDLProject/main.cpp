@@ -28,6 +28,7 @@ Scene *sceneList[3]; // array containing all the scenes
 Entity *gameWinText;
 Entity *gameLoseText;
 Entity *gameStartText;
+Entity *gameStartText2;
 
 // bulletEnemy
 BulletPattern *patternList_LEVEL12[2];
@@ -122,46 +123,22 @@ void Initialize() {
     gameLoseText->writeText = "Mission Failed";
     gameLoseText->position = glm::vec3(12, -4, 0);
 
+    // title text
     gameStartText = new Entity();
     gameStartText->textureID = fontTextureID;
     gameStartText->entityType = TEXT;
     gameStartText->animIndices = NULL;
-    gameStartText->writeText = "Jumper: Press Enter to Start";
+    gameStartText->writeText = "BulletHell Practice";
     gameStartText->position = glm::vec3(-2, 0, 0);
     gameStartText->acceleration = glm::vec3(0, 0, 0);
     
-    for (int i = 0; i < bulletCount; i++) {
-        patternList_LEVEL12[i] = new BulletPattern();
-        patternList_LEVEL12[i]->bulletTexture = Util::LoadTexture("circle.png"); // test bullet image
-        patternList_LEVEL12[i]->speed = 0.5f;
-        patternList_LEVEL12[i]->movement = glm::vec3(1, 0, 0);
-        patternList_LEVEL12[i]->velocity = glm::vec3(1, 0, 0);
-        patternList_LEVEL12[i]->acceleration = glm::vec3(0, -9.81f, 0);
-    }
-
-    // init specific properties
-    patternList_LEVEL12[0]->xPivot = -2;
-    patternList_LEVEL12[0]->yPivot = 0;
-    patternList_LEVEL12[0]->waveCount = 20;
-    patternList_LEVEL12[0]->patternType = SingularSpiral;
-    patternList_LEVEL12[1]->xPivot = -3;
-    patternList_LEVEL12[1]->yPivot = 3;
-    patternList_LEVEL12[1]->waveCount = 20;
-    patternList_LEVEL12[1]->patternType = CirclePulse;
-    
-    // set default bullet settings for all bullets
-    GLuint circleBulletTexture = Util::LoadTexture("girl.png");
-    enemy = new BulletEnemy();
-    enemy->remainingHealth = 0;
-    enemy->pivot = glm::vec3(-2, 0, 0);
-    enemy->enemyTexture = circleBulletTexture;
-//    enemy->jumpEffect = null;
-    enemy->position = glm::vec3(-2, 0, 0);
-    enemy->bulletTable = {
-            // { deltaTime, BulletPattern to be displayed }
-            { 0.2, patternList_LEVEL12[0] },
-            { 10.4, patternList_LEVEL12[1] }
-        };
+    gameStartText2 = new Entity();
+    gameStartText2->textureID = fontTextureID;
+    gameStartText2->entityType = TEXT;
+    gameStartText2->animIndices = NULL;
+    gameStartText2->writeText = "- Press Enter to Start -";
+    gameStartText2->position = glm::vec3(-2.6, -0.5, 0);
+    gameStartText2->acceleration = glm::vec3(0, 0, 0);
     
     // Initialize Game Objects
     sceneList[0] = new Level1();
@@ -180,6 +157,8 @@ void Render() {
     else {
         GLuint backgroundID = Util::LoadTexture("purpletempbackground1.png");
         DrawBackground(backgroundID);
+        gameStartText->Render(&program);
+        gameStartText2->Render(&program);
     }
     // update viewMatrix with translation for sliding
     program.SetViewMatrix(viewMatrix);
@@ -192,11 +171,11 @@ void Render() {
         gameLoseText->Render(&program);
     }
     
-    // render bullet bases
-    for (int i = 0; i < bulletCount; i++) {
-        patternList_LEVEL12[i]->Render(&program);
-    }
-    enemy->Render(&program);
+//    // render bullet bases
+//    for (int i = 0; i < bulletCount; i++) {
+//        patternList_LEVEL12[i]->Render(&program);
+//    }
+//    enemy->Render(&program);
     
     SDL_GL_SwapWindow(displayWindow);
 }
@@ -307,7 +286,7 @@ void Update() {
         if (backgroundPosition.y < -4.0f) {
             backgroundPosition.y = 4;
         }
-        enemy->Update(deltaTime);
+//        enemy->Update(deltaTime);
     }
 }
 void Shutdown() {
