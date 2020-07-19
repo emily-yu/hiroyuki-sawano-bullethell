@@ -20,6 +20,7 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
+#include "Entity.h"
 #include <SDL_mixer.h>
 
 enum BulletPatternType {
@@ -59,6 +60,7 @@ public:
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position);
     void Render(ShaderProgram *program);
     void Update(float deltaTime);
+    void CheckCollision(Entity *player);
     
     BulletPattern();
 };

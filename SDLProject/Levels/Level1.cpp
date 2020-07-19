@@ -125,8 +125,10 @@ void Level1::Update(float deltaTime) {
 //    state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
     state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT);
 
-//    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
-//        state.enemies[i].Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
+//    for (int i = 0; i <= LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
+        for (auto x : enemy_LEVEL1->bulletTable) {
+            x.second->CheckCollision(state.player);
+        };
 //    }
     
     if (state.player->position.x >= 12) { // if player moves far enough past x = 12...
