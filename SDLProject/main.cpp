@@ -13,10 +13,11 @@
 #include <SDL_mixer.h>
 
 #include "Entity.h"
-#include "Map.h"
+//#include "Map.h"
 #include "Util.h"
 #include "Scene.h"
 #include "BulletPattern.h"
+#include "BulletEnemy.h"
 #include "Levels/Level1.h"
 #include "Levels/Level2.h"
 #include "Levels/Level3.h"
@@ -27,10 +28,13 @@ Scene *sceneList[3]; // array containing all the scenes
 Entity *gameWinText;
 Entity *gameLoseText;
 Entity *gameStartText;
-BulletPattern *patternList[2];
+Entity *gameStartText2;
+
+// bulletEnemy
+BulletPattern *patternList_LEVEL12[2];
 float bulletCount = 2;
-//BulletPattern *pattern;
-//BulletPattern *pattern2;
+BulletEnemy *enemy;
+
 bool isWin = false;
 bool isOver = false;
 
@@ -63,7 +67,6 @@ void DrawBackground(GLuint backgroundImage) {
     glDisableVertexAttribArray(program.texCoordAttribute);
     
     // move pink paddle to leftmost side of screen
-//    backgroundPosition.x -= -0.25f;
     backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
     
     // set new dimensions for pink
@@ -120,42 +123,24 @@ void Initialize() {
     gameLoseText->writeText = "Mission Failed";
     gameLoseText->position = glm::vec3(12, -4, 0);
 
+    // title text
     gameStartText = new Entity();
     gameStartText->textureID = fontTextureID;
     gameStartText->entityType = TEXT;
     gameStartText->animIndices = NULL;
-    gameStartText->writeText = "Jumper: Press Enter to Start";
+    gameStartText->writeText = "BulletHell Practice";
     gameStartText->position = glm::vec3(-2, 0, 0);
     gameStartText->acceleration = glm::vec3(0, 0, 0);
     
-    // set default bullet settings for all bullets
-    GLuint circleBulletTexture = Util::LoadTexture("circle.png");
-    for (int i = 0; i < bulletCount; i++) {
-        patternList[i] = new BulletPattern();
-        patternList[i]->bulletTexture = circleBulletTexture; // test bullet image
-        patternList[i]->speed = 0.5f;
-        patternList[i]->movement = glm::vec3(1, 0, 0);
-        patternList[i]->velocity = glm::vec3(1, 0, 0);
-        patternList[i]->acceleration = glm::vec3(0, -9.81f, 0);
-    }
-
-    // init specific properties
-    patternList[0]->xPivot = -2;
-    patternList[0]->yPivot = 0;
-    patternList[0]->waveCount = 20;
-    patternList[0]->patternType = SingularSpiral;
-    patternList[1]->xPivot = -3;
-    patternList[1]->yPivot = 3;
-    patternList[1]->waveCount = 20;
-    patternList[1]->patternType = CirclePulse;
-    
-    // render bullet bases
-    for (int i = 0; i < 2; i++) {
-        patternList[i]->Render(&program);
-    }
+    gameStartText2 = new Entity();
+    gameStartText2->textureID = fontTextureID;
+    gameStartText2->entityType = TEXT;
+    gameStartText2->animIndices = NULL;
+    gameStartText2->writeText = "- Press Enter to Start -";
+    gameStartText2->position = glm::vec3(-2.6, -0.5, 0);
+    gameStartText2->acceleration = glm::vec3(0, 0, 0);
     
     // Initialize Game Objects
-//    level1 = new Level1();
     sceneList[0] = new Level1();
     sceneList[1] = new Level2();
     sceneList[2] = new Level3();
@@ -170,21 +155,14 @@ void Render() {
         currentScene->Render(&program);
     }
     else {
-//        gameStartText->Render(&program);
-//        if (!backgroundDrawn) {
-//            backgroundDrawn = true;
-//        }
         GLuint backgroundID = Util::LoadTexture("purpletempbackground1.png");
         DrawBackground(backgroundID);
-        for (int i = 0; i < bulletCount; i++) {
-            patternList[i]->Render(&program);
-        }
+        gameStartText->Render(&program);
+        gameStartText2->Render(&program);
     }
     // update viewMatrix with translation for sliding
     program.SetViewMatrix(viewMatrix);
     
-//    gameWinText->Render(&program);
-//    if (currentScene->state.player->position.x >= 12) {
     if (isWin) {
         gameWinText->Render(&program);
     }
@@ -192,6 +170,12 @@ void Render() {
         gameLoseText->position = currentScene->state.player->position;
         gameLoseText->Render(&program);
     }
+    
+//    // render bullet bases
+//    for (int i = 0; i < bulletCount; i++) {
+//        patternList_LEVEL12[i]->Render(&program);
+//    }
+//    enemy->Render(&program);
     
     SDL_GL_SwapWindow(displayWindow);
 }
@@ -284,34 +268,7 @@ void Update() {
         
         viewMatrix = glm::mat4(1.0f);
 
-//        // stop scrolling @ a point
-//        if (currentScene->state.player->position.x > 5) { // if x-coord is past 5, don't scroll further left (past wall)
-//            viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
-//        }
-//        else {
-//            viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
-//        }
-//
-//        if (currentScene->state.player->position.x >= 12) { // completed all three levels
-//            if (currentScene == sceneList[2]) {
-//                isOver = true;
-//                isWin = true;
-//                Render();
-//            }
-//        }
-//        if (currentScene->state.lives == 0) { // once the player is dunzoed, render game over text
-//            isOver = true;
-//            isWin = false;
-//            Render();
-//        }
-        
-//        backgroundScrollSpeed += deltaTime;
-//        if (backgroundScrollSpeed > 0.1) {
-//            backgroundScrollSpeed = 0.0;
-            currentScene->state.backgroundPos.y -= 0.25;
-//            backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
-//            program.SetModelMatrix(backgroundMatrix);
-//        }
+        currentScene->state.backgroundPos.y -= 0.25;
         currentScene->state.backgroundMat = glm::mat4(1.0f); // base matrix value
         currentScene->state.backgroundMat = glm::translate(currentScene->state.backgroundMat, currentScene->state.backgroundPos); // translate by new position
         program.SetModelMatrix(currentScene->state.backgroundMat);
@@ -321,16 +278,7 @@ void Update() {
         }
     }
     else {
-        for (int i = 0; i < bulletCount; i++) {
-            patternList[i]->Update(deltaTime);
-        }
-//        backgroundScrollSpeed += deltaTime;
-//        if (backgroundScrollSpeed > 0.1) {
-//            backgroundScrollSpeed = 0.0;
-            backgroundPosition.y -= 0.25;
-//            backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
-//            program.SetModelMatrix(backgroundMatrix);
-//        }
+        backgroundPosition.y -= 0.25;
         backgroundMatrix = glm::mat4(1.0f); // base matrix value
         backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition); // translate by new position
         program.SetModelMatrix(backgroundMatrix);
@@ -338,8 +286,7 @@ void Update() {
         if (backgroundPosition.y < -4.0f) {
             backgroundPosition.y = 4;
         }
-        
-//        Render();
+//        enemy->Update(deltaTime);
     }
 }
 void Shutdown() {

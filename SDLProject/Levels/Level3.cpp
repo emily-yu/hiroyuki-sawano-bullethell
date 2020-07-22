@@ -27,7 +27,7 @@ void Level3::Initialize(Scene *sceneList) {
     state.lives = sceneList->state.lives;
 
     GLuint mapTextureID = Util::LoadTexture("tileset.png");
-    state.map = new Map(LEVEL3_WIDTH, LEVEL3_HEIGHT, level3_data, mapTextureID, 1.0f, 4, 1);
+//    state.map = new Map(LEVEL3_WIDTH, LEVEL3_HEIGHT, level3_data, mapTextureID, 1.0f, 4, 1);
     // Move over all of the player and enemy code from initialization.
 
     // Initialize Player
@@ -76,9 +76,9 @@ void Level3::Initialize(Scene *sceneList) {
     state.enemies[0].isActive = false;
 }
 void Level3::Update(float deltaTime) {
-    state.player->Update(deltaTime, state.player, state.enemies, LEVEL3_ENEMY_COUNT, state.map);
+//    state.player->Update(deltaTime, state.player, state.enemies, LEVEL3_ENEMY_COUNT, state.map);
 }
 void Level3::Render(ShaderProgram *program) {
-    state.map->Render(program);
+//    state.map->Render(program);
     state.player->Render(program);
 }
