@@ -165,3 +165,72 @@ void BulletPattern::Update(float deltaTime) {
     modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
 }
+void BulletPattern::CheckCollision(Entity *other) {
+    for (int iwave = 0; iwave < int(radiiCount); iwave++) {
+        if (patternType == CirclePulse) {
+            for (int i = 0; i <= waveCount; i++) {
+                    float radius = radii[iwave];
+                    
+            //         2 * pi / #points = slice
+                    // slice * slice #, degree increment = angle
+                    float theta = 2.0f * 3.14 * float(i) / float(waveCount);//get the current angle
+
+                    // translate pivotPosition around 1 by 1 box
+                    float xPosition = radius * cosf(theta); // centerX + radius * cos(angle)
+                    float yPosition = radius * sinf(theta);
+                    glm::vec3 bulletPosition = glm::vec3(xPosition + xPivot, yPosition + yPivot, 0);
+                    
+                    // if either is not active, then there won't be a collision
+                    if (isActive == true && other->isActive == true) {
+                        int width = 0.5;
+                        int height = 0.5;
+                        float xdist = fabs(bulletPosition.x - other->position.x) - ((width + other->width) / 2.0f);
+                        float ydist = fabs(bulletPosition.y - other->position.y) - ((height + other->height) / 2.0f);
+                        
+                        if (xdist < 0 && ydist < 0) {
+            //                lastCollision = other->entityType;
+                            other->isActive = false;
+                        }
+                        else {
+                            // no collisiion
+                        }
+                    }
+                }
+        }
+        else if (patternType == SingularSpiral) {
+            int iterations = 0;
+            if (patternType == SingularSpiral) iterations = 1;
+            if (patternType == CirclePulse) iterations = waveCount;
+            
+            for (int i = 0; i <= waveCount; i++) {
+                float radius = radii[iwave];
+                
+        //         2 * pi / #points = slice
+                // slice * slice #, degree increment = angle
+                float theta = 2.0f * 3.14 * float(iwave) / float(waveCount);//get the current angle
+
+                // translate pivotPosition around 1 by 1 box
+                float xPosition = radius * cosf(theta); // centerX + radius * cos(angle)
+                float yPosition = radius * sinf(theta);
+                
+                glm::vec3 bulletPosition = glm::vec3(xPosition + xPivot, yPosition + yPivot, 0);
+                
+                // if either is not active, then there won't be a collision
+                if (isActive == true && other->isActive == true) {
+                    int width = 0.5;
+                    int height = 0.5;
+                    float xdist = fabs(bulletPosition.x - other->position.x) - ((width + other->width) / 2.0f);
+                    float ydist = fabs(bulletPosition.y - other->position.y) - ((height + other->height) / 2.0f);
+                    
+                    if (xdist < 0 && ydist < 0) {
+        //                lastCollision = other->entityType;
+                        other->isActive = false;
+                    }
+                    else {
+                        // no collisiion
+                    }
+                }
+            }
+        }
+    }
+}
