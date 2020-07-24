@@ -13,10 +13,11 @@
 #include <SDL_mixer.h>
 
 #include "Entity.h"
-#include "Map.h"
+//#include "Map.h"
 #include "Util.h"
 #include "Scene.h"
 #include "BulletPattern.h"
+#include "BulletEnemy.h"
 #include "Levels/Level1.h"
 #include "Levels/Level2.h"
 #include "Levels/Level3.h"
@@ -27,10 +28,20 @@ Scene *sceneList[3]; // array containing all the scenes
 Entity *gameWinText;
 Entity *gameLoseText;
 Entity *gameStartText;
+<<<<<<< HEAD
 BulletPattern *patternList[2];
 float bulletCount = 2;
 //BulletPattern *pattern;
 //BulletPattern *pattern2;
+=======
+Entity *gameStartText2;
+
+// bulletEnemy
+BulletPattern *patternList_LEVEL12[2];
+float bulletCount = 2;
+BulletEnemy *enemy;
+
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
 bool isWin = false;
 bool isOver = false;
 
@@ -63,7 +74,10 @@ void DrawBackground(GLuint backgroundImage) {
     glDisableVertexAttribArray(program.texCoordAttribute);
     
     // move pink paddle to leftmost side of screen
+<<<<<<< HEAD
 //    backgroundPosition.x -= -0.25f;
+=======
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
     backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
     
     // set new dimensions for pink
@@ -120,14 +134,16 @@ void Initialize() {
     gameLoseText->writeText = "Mission Failed";
     gameLoseText->position = glm::vec3(12, -4, 0);
 
+    // title text
     gameStartText = new Entity();
     gameStartText->textureID = fontTextureID;
     gameStartText->entityType = TEXT;
     gameStartText->animIndices = NULL;
-    gameStartText->writeText = "Jumper: Press Enter to Start";
+    gameStartText->writeText = "BulletHell Practice";
     gameStartText->position = glm::vec3(-2, 0, 0);
     gameStartText->acceleration = glm::vec3(0, 0, 0);
     
+<<<<<<< HEAD
     // set default bullet settings for all bullets
     GLuint circleBulletTexture = Util::LoadTexture("circle.png");
     for (int i = 0; i < bulletCount; i++) {
@@ -153,9 +169,17 @@ void Initialize() {
     for (int i = 0; i < 2; i++) {
         patternList[i]->Render(&program);
     }
+=======
+    gameStartText2 = new Entity();
+    gameStartText2->textureID = fontTextureID;
+    gameStartText2->entityType = TEXT;
+    gameStartText2->animIndices = NULL;
+    gameStartText2->writeText = "- Press Enter to Start -";
+    gameStartText2->position = glm::vec3(-2.6, -0.5, 0);
+    gameStartText2->acceleration = glm::vec3(0, 0, 0);
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
     
     // Initialize Game Objects
-//    level1 = new Level1();
     sceneList[0] = new Level1();
     sceneList[1] = new Level2();
     sceneList[2] = new Level3();
@@ -170,6 +194,7 @@ void Render() {
         currentScene->Render(&program);
     }
     else {
+<<<<<<< HEAD
 //        gameStartText->Render(&program);
 //        if (!backgroundDrawn) {
 //            backgroundDrawn = true;
@@ -179,12 +204,16 @@ void Render() {
         for (int i = 0; i < bulletCount; i++) {
             patternList[i]->Render(&program);
         }
+=======
+        GLuint backgroundID = Util::LoadTexture("purpletempbackground1.png");
+        DrawBackground(backgroundID);
+        gameStartText->Render(&program);
+        gameStartText2->Render(&program);
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
     }
     // update viewMatrix with translation for sliding
     program.SetViewMatrix(viewMatrix);
     
-//    gameWinText->Render(&program);
-//    if (currentScene->state.player->position.x >= 12) {
     if (isWin) {
         gameWinText->Render(&program);
     }
@@ -192,6 +221,12 @@ void Render() {
         gameLoseText->position = currentScene->state.player->position;
         gameLoseText->Render(&program);
     }
+    
+//    // render bullet bases
+//    for (int i = 0; i < bulletCount; i++) {
+//        patternList_LEVEL12[i]->Render(&program);
+//    }
+//    enemy->Render(&program);
     
     SDL_GL_SwapWindow(displayWindow);
 }
@@ -284,6 +319,7 @@ void Update() {
         
         viewMatrix = glm::mat4(1.0f);
 
+<<<<<<< HEAD
 //        // stop scrolling @ a point
 //        if (currentScene->state.player->position.x > 5) { // if x-coord is past 5, don't scroll further left (past wall)
 //            viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
@@ -316,11 +352,19 @@ void Update() {
         currentScene->state.backgroundMat = glm::translate(currentScene->state.backgroundMat, currentScene->state.backgroundPos); // translate by new position
         program.SetModelMatrix(currentScene->state.backgroundMat);
         
+=======
+        currentScene->state.backgroundPos.y -= 0.25;
+        currentScene->state.backgroundMat = glm::mat4(1.0f); // base matrix value
+        currentScene->state.backgroundMat = glm::translate(currentScene->state.backgroundMat, currentScene->state.backgroundPos); // translate by new position
+        program.SetModelMatrix(currentScene->state.backgroundMat);
+        
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
         if (currentScene->state.backgroundPos.y < -4.0f) {
             currentScene->state.backgroundPos.y = 4;
         }
     }
     else {
+<<<<<<< HEAD
         for (int i = 0; i < bulletCount; i++) {
             patternList[i]->Update(deltaTime);
         }
@@ -331,6 +375,9 @@ void Update() {
 //            backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition);
 //            program.SetModelMatrix(backgroundMatrix);
 //        }
+=======
+        backgroundPosition.y -= 0.25;
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
         backgroundMatrix = glm::mat4(1.0f); // base matrix value
         backgroundMatrix = glm::translate(backgroundMatrix, backgroundPosition); // translate by new position
         program.SetModelMatrix(backgroundMatrix);
@@ -338,8 +385,12 @@ void Update() {
         if (backgroundPosition.y < -4.0f) {
             backgroundPosition.y = 4;
         }
+<<<<<<< HEAD
         
 //        Render();
+=======
+//        enemy->Update(deltaTime);
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
     }
 }
 void Shutdown() {

@@ -7,19 +7,30 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< HEAD
             uuid = "F6E66736-D388-4649-A57F-8B9B30E3B391"
             shouldBeEnabled = "Yes"
+=======
+            uuid = "0B6BAC53-17EF-488C-B050-5904E64C98B9"
+            shouldBeEnabled = "No"
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SDLProject/Levels/Level1.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< HEAD
             startingLineNumber = "159"
             endingLineNumber = "159"
+=======
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
             landmarkName = "Level1::Update(deltaTime)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+<<<<<<< HEAD
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
@@ -36,5 +47,7 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+=======
+>>>>>>> c0f5354f555803248e42816495b99912c84853c1
    </Breakpoints>
 </Bucket>

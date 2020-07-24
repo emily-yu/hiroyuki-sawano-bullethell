@@ -27,7 +27,7 @@ void Level2::Initialize(Scene *sceneList) {
     state.lives = sceneList->state.lives;
     
     GLuint mapTextureID = Util::LoadTexture("tileset.png");
-    state.map = new Map(LEVEL2_WIDTH, LEVEL2_HEIGHT, level2_data, mapTextureID, 1.0f, 4, 1);
+//    state.map = new Map(LEVEL2_WIDTH, LEVEL2_HEIGHT, level2_data, mapTextureID, 1.0f, 4, 1);
     // Move over all of the player and enemy code from initialization.
 
     // Initialize Player
@@ -76,13 +76,13 @@ void Level2::Initialize(Scene *sceneList) {
     state.enemies[0].isActive = false;
 }
 void Level2::Update(float deltaTime) {
-    state.player->Update(deltaTime, state.player, state.enemies, LEVEL2_ENEMY_COUNT, state.map);
+//    state.player->Update(deltaTime, state.player, state.enemies, LEVEL2_ENEMY_COUNT, state.map);
     
     if (state.player->position.x >= 12) { // if player moves far enough past x = 12...
         state.nextScene = 2; // set nextScene to be >= 0, aka main.cpp catches that need to switch to nextScene
     }
 }
 void Level2::Render(ShaderProgram *program) {
-    state.map->Render(program);
+//    state.map->Render(program);
     state.player->Render(program);
 }

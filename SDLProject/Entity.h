@@ -21,10 +21,11 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
-#include "Map.h"
+//#include "Map.h"
 
 #include <SDL_mixer.h>
 #include <stdio.h>
+#include <vector>
 
 enum EntityType { PLAYER, PLATFORM, COIN, ENEMY, TEXT, NONE };
 
@@ -100,8 +101,9 @@ public:
     void CheckCollisionsX(Entity *objects, int objectCount);
     void CheckCollisionsY(Entity *objects, int objectCount);
 //    void Update(float deltaTime, Entity* player, Map *map);
-    void Update(float deltaTime, Entity* player, Entity *objects, int objectCount, Map *map);
-    
+//    void Update(float deltaTime, Entity* player, Entity *objects, int objectCount, Map *map);
+    void Update(float deltaTime, Entity* player, Entity *objects, int objectCount);
+
     void Render(ShaderProgram *program);
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, int index);
     void DrawText(ShaderProgram *program, GLuint fontTextureID, std::string text, float size, float spacing, glm::vec3 position);
@@ -113,8 +115,8 @@ public:
     void AIJumper();
     
     // map methods
-    void CheckCollisionsX(Map *map);
-    void CheckCollisionsY(Map *map);
+//    void CheckCollisionsX(Map *map);
+//    void CheckCollisionsY(Map *map);
     
     Entity* CheckCollisionEntity(Entity *other);
 };

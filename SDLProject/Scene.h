@@ -19,10 +19,10 @@
 #include "ShaderProgram.h"
 #include "Util.h"
 #include "Entity.h"
-#include "Map.h"
+//#include "Map.h"
 
 struct GameState {
-    Map *map;
+//    Map *map;
     Entity *player;
     Entity *enemies;
     int lives;
