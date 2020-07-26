@@ -14,8 +14,8 @@
             filePath = "SDLProject/Levels/Level1.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "Level1::Update(deltaTime)"
             landmarkType = "7">
          </BreakpointContent>

@@ -30,6 +30,14 @@ struct GameState {
     glm::mat4 backgroundMat;
     glm::vec3 backgroundPos;
     float accumulatedTime;
+    
+    // text accompanied with icons
+    Entity *livesText;
+    Entity *spellsText;
+    
+    // straight text
+    Entity *scoreText;
+    Entity *playerPowerText;
 };
 class Scene {
 public:
