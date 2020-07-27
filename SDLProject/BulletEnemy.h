@@ -34,7 +34,8 @@ public:
     Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
     
     glm::mat4 modelMatrix;
-    
+    glm::mat4 pivotMatrix;
+
     // bullet pattern pointer
     int bulletCount = 0;
     BulletPattern *patternList[2];
@@ -51,6 +52,7 @@ public:
     float* changeSize(float *old, size_t old_size, size_t new_size);
     void addPattern(BulletPattern *pattern);
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position);
+    void DrawPivotFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position);
     void Render(ShaderProgram *program);
     void Update(float deltaTime);
     

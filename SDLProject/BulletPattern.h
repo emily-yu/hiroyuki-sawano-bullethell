@@ -59,7 +59,7 @@ public:
     void addWave(float radii, int size);
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position);
     void Render(ShaderProgram *program);
-    void Update(float deltaTime);
+    void Update(float deltaTime, glm::vec3 positionChange);
     void CheckCollision(Entity *player);
     
     BulletPattern();

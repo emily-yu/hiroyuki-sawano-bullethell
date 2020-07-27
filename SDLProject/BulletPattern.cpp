@@ -115,9 +115,11 @@ void BulletPattern::Render(ShaderProgram *program) {
     glDisableVertexAttribArray(program->positionAttribute);
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
-void BulletPattern::Update(float deltaTime) {
+void BulletPattern::Update(float deltaTime, glm::vec3 positionChange) {
     if (isActive == false) return; // if not active, not rendered -> no updates made to rendering
-    
+    xPivot = positionChange.x;
+    yPivot = positionChange.y;
+
     // hardcode first two updates for waves
     float change = deltaTime * speed;
     for (int iwave = 0; iwave < int(radiiCount); iwave++) {

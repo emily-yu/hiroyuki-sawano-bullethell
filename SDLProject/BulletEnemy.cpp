@@ -10,6 +10,8 @@
 BulletEnemy::BulletEnemy() {
     jumpEffect = Mix_LoadWAV("bounce.wav");
     modelMatrix = glm::mat4(1.0f);
+    pivotMatrix = glm::mat4(1.0f);
+    position = pivot;
 }
 
 float* BulletEnemy::changeSize(float *old, size_t old_size, size_t new_size) {
@@ -25,7 +27,28 @@ float* BulletEnemy::changeSize(float *old, size_t old_size, size_t new_size) {
 }
 
 void addPattern(BulletPattern *pattern);
-
+void BulletEnemy::DrawPivotFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position) {
+    float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
+    float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
+    
+    // draw
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+    glEnableVertexAttribArray(program->positionAttribute);
+    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+    glEnableVertexAttribArray(program->texCoordAttribute);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDisableVertexAttribArray(program->positionAttribute);
+    glDisableVertexAttribArray(program->texCoordAttribute);
+    
+    // move orange paddle to other side of the screen
+    pivotMatrix = glm::mat4(1.0f);
+    pivotMatrix = glm::translate(pivotMatrix, position);
+    
+    // set new dimensions for orange
+    program->SetModelMatrix(pivotMatrix);
+    glUseProgram(program->programID);
+}
 void BulletEnemy::DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position) {
     float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
     float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
@@ -50,11 +73,11 @@ void BulletEnemy::DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint text
 }
 
 void BulletEnemy::Render(ShaderProgram *program) {
-    program->SetModelMatrix(modelMatrix);
-    
     // draw single sprite
-    DrawSpriteFromTextureAtlas(program, enemyTexture, pivot);
-
+    program->SetModelMatrix(pivotMatrix);
+    DrawSpriteFromTextureAtlas(program, enemyTexture, position);
+    
+    program->SetModelMatrix(modelMatrix);
     for (int i = 0; i < bulletCount; i++) {
         patternList[i]->Render(program);
     }
@@ -69,11 +92,14 @@ void BulletEnemy::Update(float deltaTime) {
         if (accumulatedTime > x.first && x.second->isActive == false) {
             x.second->isActive = true;
         }
-        x.second->Update(deltaTime);
+        x.second->Update(deltaTime, position);
     };
     for (int i = 0; i < bulletCount; i++) {
-        patternList[i]->Update(deltaTime);
+        // update with change in position optional
+        patternList[i]->Update(deltaTime, position);
     }
     modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
+    pivotMatrix = glm::mat4(1.0f);
+    pivotMatrix = glm::translate(pivotMatrix, position);
 }

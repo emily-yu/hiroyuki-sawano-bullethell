@@ -154,6 +154,10 @@ void Level1::Update(float deltaTime) {
         state.backgroundPos.y = 4;
     }
     
+    // test to move enemy 1, TODO change to more universal move
+    if (state.accumulatedTime > 3.0) {
+        enemy_LEVEL1->position.x = 0.5;
+    }
 //    ITERATE THROUGH BULLETPATTERN_MAPPING:
 //        IF DELTATIME == MAP.FIRST (BULLET SPAWN TIME):
 //            SET BULLETPATTERN (MAP.SECOND) = ACTIVE SO CAN DRAW
@@ -169,7 +173,7 @@ void Level1::Update(float deltaTime) {
         }
     };
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
-        patternList_LEVEL1[i]->Update(deltaTime);
+        patternList_LEVEL1[i]->Update(deltaTime, enemy_LEVEL1->position);
     }
     enemy_LEVEL1->Update(deltaTime);
 }
