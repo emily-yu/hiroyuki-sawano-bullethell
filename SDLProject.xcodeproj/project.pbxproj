@@ -77,6 +77,7 @@
 		943C1C7B24980982006B6022 /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		944B104D24AC0C090090E8FC /* Util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
 		944B104E24AC0C090090E8FC /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		944FE83524D348190077D23F /* Structure.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Structure.txt; sourceTree = "<group>"; };
 		9455368F24C7994F002DC033 /* BulletEnemy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BulletEnemy.cpp; sourceTree = "<group>"; };
 		9455369024C7994F002DC033 /* BulletEnemy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BulletEnemy.h; sourceTree = "<group>"; };
 		94B5F8E024B668D900788D0B /* Stage1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stage1.cpp; sourceTree = "<group>"; };
@@ -178,6 +179,7 @@
 				944B104E24AC0C090090E8FC /* Util.h */,
 				943C1C7A24980982006B6022 /* Entity.cpp */,
 				943C1C7B24980982006B6022 /* Entity.h */,
+				944FE83524D348190077D23F /* Structure.txt */,
 			);
 			path = SDLProject;
 			sourceTree = "<group>";

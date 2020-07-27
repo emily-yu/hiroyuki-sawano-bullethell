@@ -7,9 +7,7 @@
 //
 
 #include "BulletPattern.h"
-//#define STB_IMAGE_IMPLEMENTATION
-//#include <SDL_image.h>
-//#include "stb_image.h"
+
 BulletPattern::BulletPattern() {
     position = glm::vec3(xPivot, yPivot, 0);
     movement = glm::vec3(0);
@@ -26,7 +24,6 @@ BulletPattern::BulletPattern() {
     modelMatrix = glm::mat4(1.0f);
 }
 
-//#define BULLET_COUNT 5
 void BulletPattern::DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position) {
     float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
     float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
@@ -63,8 +60,8 @@ float* BulletPattern::changeSize(float *old, size_t old_size, size_t new_size) {
 }
 void BulletPattern::addWave(float radii_input, int size) {
     // Print this array.
-    for(size_t i = 0; i < size; ++i)
-       std::cout << radii[i] << std::endl;
+//    for (size_t i = 0; i < size; ++i)
+//       std::cout << radii[i] << std::endl;
     
     int new_size = size + 1;
     
@@ -72,15 +69,15 @@ void BulletPattern::addWave(float radii_input, int size) {
     radii = changeSize(radii, size, new_size);
 
     // Print the new array.
-    std::cout << "new [";
-    for(size_t i = 0; i < new_size; ++i) {
+//    std::cout << "new [";
+    for (size_t i = 0; i < new_size; ++i) {
         if (i == new_size - 1) {
             // add new input to radii list
             radii[i] = radii_input;
         }
-        std::cout << radii[i] << ", ";
+//        std::cout << radii[i] << ", ";
     }
-    std::cout << "]" << std::endl;
+//    std::cout << "]" << std::endl;
 }
 //bool secondWave = false;
 void BulletPattern::Render(ShaderProgram *program) {
@@ -89,24 +86,21 @@ void BulletPattern::Render(ShaderProgram *program) {
     for (int iwave = 0; iwave < int(radiiCount); iwave++) {
         if (patternType == CirclePulse) {
             for (int i = 0; i <= waveCount; i++) {
-                    float radius = radii[iwave];
-                    
-            //         2 * pi / #points = slice
-                    // slice * slice #, degree increment = angle
-                    float theta = 2.0f * 3.14 * float(i) / float(waveCount);//get the current angle
+                float radius = radii[iwave];
+                
+                // slice * slice #, degree increment = angle
+                float theta = 2.0f * 3.14 * float(i) / float(waveCount);//get the current angle
 
-                    // translate pivotPosition around 1 by 1 box
-                    float xPosition = radius * cosf(theta); // centerX + radius * cos(angle)
-                    float yPosition = radius * sinf(theta);
+                // translate pivotPosition around 1 by 1 box
+                float xPosition = radius * cosf(theta); // centerX + radius * cos(angle)
+                float yPosition = radius * sinf(theta);
 
-                    DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
-                }
+                DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
+            }
         }
         else if (patternType == SingularSpiral) {
-//        for (int i = 0; i <= waveCount; i++) {
             float radius = radii[iwave];
             
-    //         2 * pi / #points = slice
             // slice * slice #, degree increment = angle
             float theta = 2.0f * 3.14 * float(iwave) / float(waveCount);//get the current angle
 
@@ -115,7 +109,6 @@ void BulletPattern::Render(ShaderProgram *program) {
             float yPosition = radius * sinf(theta);
 
             DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
-//        }
         }
     }
 
@@ -135,9 +128,7 @@ void BulletPattern::Update(float deltaTime) {
     waveTime += deltaTime;
     if (waveTime >= 2.0) { // after 0.25 seconds...
         waveTime = 0.0f; // reset timer counter
-        // TODO add iteration of wave
         Mix_PlayChannel(-1, jumpEffect, 0); // bounce effect
-//        secondWave = true;
         
         // new wave addition
         radiiCount += 1;
@@ -150,17 +141,9 @@ void BulletPattern::Update(float deltaTime) {
 
     velocity += acceleration * deltaTime;
 
-    // set up y velocity
+    // set up velocity
     position.y += velocity.y * deltaTime;
-////    CheckCollisionsY(platforms, platformCount); // adjust for collisions
-//    CheckCollisionsY(map);
-//    CheckCollisionsY(objects, objectCount); // Fix if needed
-
-    // set up x velocity
     position.x += velocity.x * deltaTime;
-////    CheckCollisionsX(platforms, platformCount); // adjust for collisions
-//    CheckCollisionsX(map);
-//    CheckCollisionsX(objects, objectCount); // Fix if needed
 
     modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
@@ -188,11 +171,10 @@ void BulletPattern::CheckCollision(Entity *other) {
                         float ydist = fabs(bulletPosition.y - other->position.y) - ((height + other->height) / 2.0f);
                         
                         if (xdist < 0 && ydist < 0) {
-            //                lastCollision = other->entityType;
-                            other->isActive = false;
-                        }
-                        else {
-                            // no collisiion
+                            if (other->entityType == PLAYER) {
+                                other->lastCollision = BULLET;
+                            }
+                            // text, pulse animations, power bullets aren't effected by bullets
                         }
                     }
                 }
@@ -223,11 +205,10 @@ void BulletPattern::CheckCollision(Entity *other) {
                     float ydist = fabs(bulletPosition.y - other->position.y) - ((height + other->height) / 2.0f);
                     
                     if (xdist < 0 && ydist < 0) {
-        //                lastCollision = other->entityType;
-                        other->isActive = false;
-                    }
-                    else {
-                        // no collisiion
+                        if (other->entityType == PLAYER) {
+                            other->lastCollision = BULLET;
+                        }
+                        // text, pulse animations, power bullets aren't effected by bullets
                     }
                 }
             }

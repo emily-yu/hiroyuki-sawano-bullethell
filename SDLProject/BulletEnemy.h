@@ -25,6 +25,7 @@
 
 class BulletEnemy {
 public:
+    EntityType entityType = ENEMY;
     bool isActive = false;
     float remainingHealth;
     glm::vec3 pivot;

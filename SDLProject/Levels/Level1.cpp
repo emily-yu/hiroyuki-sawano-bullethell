@@ -132,17 +132,18 @@ void Level1::Update(float deltaTime) {
         state.nextScene = 1; // set nextScene to be >= 0, aka main.cpp catches that need to switch to nextScene
     }
     
-//    if (state.player->lastCollision == ENEMY) {
-//        std::cout << state.lives << std::endl;
-//        state.lives -= 1;
-//        state.player->lastCollision = NONE; // subtract from lives, then reset tracker
-//        state.nextScene = 0;
-//    }
+    if (state.player->lastCollision == BULLET) {
+        std::cout << state.lives << std::endl;
+        state.lives -= 1;
+        state.player->lastCollision = NONE; // subtract from lives, then reset tracker
+        state.nextScene = 0;
+    }
     if (state.lives <= 0) {
         // end the game
         state.player->isActive = false;
         // isOver == true
     }
+    
     
     state.backgroundPos.y -= 0.25;
     state.backgroundMat = glm::mat4(1.0f); // base matrix value

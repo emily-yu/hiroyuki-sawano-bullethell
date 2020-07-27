@@ -1,0 +1,5 @@
+BulletEnemy - used for hostile entities
+BulletPatterns - used IN hostle entities (BulletEnemy), collisions are detected for bullets INSIDE class
+
+Entity - used for neutral (text, player)
+Pulse - used for pulse animations

@@ -27,7 +27,15 @@
 #include <stdio.h>
 #include <vector>
 
-enum EntityType { PLAYER, PLATFORM, COIN, ENEMY, TEXT, NONE };
+enum EntityType {
+    PLAYER,
+    PLATFORM,
+    COIN,
+    ENEMY,
+    TEXT,
+    BULLET, // assigned internally in BulletPattern.cpp
+    NONE
+};
 
 /*
  ====== 3 enemy definitions ======
