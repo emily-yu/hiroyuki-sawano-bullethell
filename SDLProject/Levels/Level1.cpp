@@ -156,7 +156,19 @@ void Level1::Update(float deltaTime) {
     
     // test to move enemy 1, TODO change to more universal move
     if (state.accumulatedTime > 3.0) {
-        enemy_LEVEL1->position.x = 0.5;
+        // use for no epilepsy movement
+//        if (enemy_LEVEL1->position.x > 0.5 || enemy_LEVEL1->position.x < 0.4) {
+        
+        // for slight shaking in enemy
+        if (enemy_LEVEL1->position.x != 0.5) {
+            if (enemy_LEVEL1->position.x >= 0.5) {
+                enemy_LEVEL1->position.x -= 0.1;
+            }
+            else {
+                enemy_LEVEL1->position.x += 0.1;
+            }
+        }
+//        enemy_LEVEL1->position.x = 0.5;
     }
 //    ITERATE THROUGH BULLETPATTERN_MAPPING:
 //        IF DELTATIME == MAP.FIRST (BULLET SPAWN TIME):
