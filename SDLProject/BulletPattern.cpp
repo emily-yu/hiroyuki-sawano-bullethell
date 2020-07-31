@@ -59,25 +59,21 @@ float* BulletPattern::changeSize(float *old, size_t old_size, size_t new_size) {
    return(new_array);
 }
 void BulletPattern::addWave(float radii_input, int size) {
-    // Print this array.
-//    for (size_t i = 0; i < size; ++i)
-//       std::cout << radii[i] << std::endl;
-    
     int new_size = size + 1;
     
     // Change the array size, add elements.
     radii = changeSize(radii, size, new_size);
 
     // Print the new array.
-//    std::cout << "new [";
+    std::cout << "new [";
     for (size_t i = 0; i < new_size; ++i) {
         if (i == new_size - 1) {
             // add new input to radii list
             radii[i] = radii_input;
         }
-//        std::cout << radii[i] << ", ";
+        std::cout << radii[i] << ", ";
     }
-//    std::cout << "]" << std::endl;
+    std::cout << "]" << std::endl;
 }
 //bool secondWave = false;
 void BulletPattern::Render(ShaderProgram *program) {
@@ -110,6 +106,38 @@ void BulletPattern::Render(ShaderProgram *program) {
 
             DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPosition + xPivot, yPosition + yPivot, 0));
         }
+        else if (patternType == Vertical) { // weird vertical cone pattern
+            float radius = radii[iwave];
+            std::cout << radius << ", ";
+            
+            // waveCount - number of bullets in row
+            float horizontalLength = 1.0f;
+            // place this wave contents horizontally
+            /*
+            if odd, offset by 1:
+                (number - 1) placed at center
+                waveCount = waveCount - 1;
+            */
+            if (remainder(waveCount, 2) != 0) {
+                DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPivot, yPivot, 0));
+            }
+            
+            /*
+            for (0 to waveCount / 2):
+                // (horizontalLength / waveCount) * i is the difference to the right
+                to right:
+                    position = xPivot + (horizontalLength / waveCount) * i
+                to left
+                    position = xPivot - (horizontalLength / waveCount) * i
+            */
+            
+            for (int i = 0; i < (waveCount - 1) / 2; i++) {
+                float yPosition = radius * i;
+                float horizontalOffset = (horizontalLength / waveCount) * i;
+                DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPivot + horizontalOffset, yPosition + yPivot, 0));
+                DrawSpriteFromTextureAtlas(program, bulletTexture, glm::vec3(xPivot - horizontalOffset, yPosition + yPivot, 0));
+            }
+        }
     }
 
     glDisableVertexAttribArray(program->positionAttribute);
@@ -119,7 +147,7 @@ void BulletPattern::Update(float deltaTime, glm::vec3 positionChange) {
     if (isActive == false) return; // if not active, not rendered -> no updates made to rendering
     xPivot = positionChange.x;
     yPivot = positionChange.y;
-
+    
     // hardcode first two updates for waves
     float change = deltaTime * speed;
     for (int iwave = 0; iwave < int(radiiCount); iwave++) {
@@ -214,6 +242,9 @@ void BulletPattern::CheckCollision(Entity *other) {
                     }
                 }
             }
+        }
+        else if (patternType == Vertical) {
+            // placeholder
         }
     }
 }

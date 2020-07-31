@@ -40,11 +40,14 @@ void Level1::Initialize(Scene *sceneList) {
     patternList_LEVEL1[0]->yPivot = 0;
     patternList_LEVEL1[0]->waveCount = 20;
     patternList_LEVEL1[0]->patternType = SingularSpiral;
+    patternList_LEVEL1[0]->patternType = Vertical;
+
     patternList_LEVEL1[1]->xPivot = -3;
     patternList_LEVEL1[1]->yPivot = 3;
     patternList_LEVEL1[1]->waveCount = 20;
     patternList_LEVEL1[1]->patternType = CirclePulse;
-    
+//    patternList_LEVEL1[1]->patternType = Vertical;
+
     // construct enemies with bulletpatterns
     GLuint enemyTexture = Util::LoadTexture("girl.png");
     enemy_LEVEL1 = new BulletEnemy();

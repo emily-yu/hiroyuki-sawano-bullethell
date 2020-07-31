@@ -25,7 +25,8 @@
 
 enum BulletPatternType {
     CirclePulse,
-    SingularSpiral
+    SingularSpiral,
+    Vertical
 };
 class BulletPattern {
 public:
