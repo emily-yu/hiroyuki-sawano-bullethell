@@ -38,6 +38,7 @@ public:
     Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
     glm::mat4 modelMatrix;
     BulletPatternType patternType;
+    float remainingDuration = 0.0;
     
     float waveCount; // number per circle
     float waveTime; // time between waves

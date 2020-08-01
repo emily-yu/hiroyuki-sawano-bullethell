@@ -60,7 +60,7 @@ public:
     EntityType lastCollision;
     std::string writeText;
     int lives;
-    
+        
     // ai
     AIType aiType;
     AIState aiState;

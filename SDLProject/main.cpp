@@ -32,6 +32,8 @@ Entity *gameStartText2;
 
 // bulletEnemy
 BulletPattern *patternList_LEVEL12[2];
+BulletPattern *playerPatternList[2]; // for player shoot
+std::map<char, BulletPattern*> playerBulletTable;
 float bulletCount = 2;
 BulletEnemy *enemy;
 
@@ -147,12 +149,44 @@ void Initialize() {
     SwitchToScene(sceneList[0], sceneList[0]); // switch to first element in scenelist = level 1
     currentScene->state.lives = 3;
 //    SwitchToScene(level1); // switch to level 1
+    
+    // construct patterns for level
+    GLuint circleBulletTexture = Util::LoadTexture("circle.png");
+    for (int i = 0; i < 2; i++) {
+        playerPatternList[i] = new BulletPattern();
+        playerPatternList[i]->bulletTexture = circleBulletTexture; // test bullet image
+        playerPatternList[i]->speed = 0.5f;
+        playerPatternList[i]->movement = glm::vec3(1, 0, 0);
+        playerPatternList[i]->velocity = glm::vec3(1, 0, 0);
+        playerPatternList[i]->acceleration = glm::vec3(0, -9.81f, 0);
+    }
+    playerPatternList[0]->isActive = true;
+    playerPatternList[0]->xPivot = -2;
+    playerPatternList[0]->yPivot = 0;
+    playerPatternList[0]->waveCount = 20;
+    playerPatternList[0]->patternType = SingularSpiral;
+//    playerPatternList[0]->patternType = Vertical;
+
+    playerPatternList[1]->xPivot = -3;
+    playerPatternList[1]->yPivot = 3;
+    playerPatternList[1]->waveCount = 20;
+//    playerPatternList->patternType = CirclePulse;
+    playerPatternList[1]->patternType = Vertical;
+
+    playerBulletTable = {
+        // { timeLeft, BulletPattern to be displayed }
+        { 'd', playerPatternList[0] }, // default - always 1.0... TODO: set as isActive always
+        { 's', playerPatternList[1] } // add time when pressing space
+    };
 }
 bool backgroundDrawn = false;
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     if (gameStarted) {
         currentScene->Render(&program);
+        for (auto& x: playerBulletTable) {
+            x.second->Render(&program);
+        }
     }
     else {
         GLuint backgroundID = Util::LoadTexture("purpletempbackground1.png");
@@ -235,6 +269,11 @@ void ProcessInput() {
             currentScene->state.player->velocity.x = 0.0f;
             currentScene->state.player->animIndices = currentScene->state.player->animUp;
         }
+        else if (keys[SDL_SCANCODE_V]) { // for casting a spell
+            // TODO: check if powerlevel is enough
+            playerBulletTable['s']->remainingDuration += 1.0;
+            std::cout << playerBulletTable['s']->remainingDuration << std::endl;
+        }
     }
     if (keys[SDL_SCANCODE_RETURN]) {
         gameStarted = true;
@@ -276,6 +315,24 @@ void Update() {
         if (currentScene->state.backgroundPos.y < -4.0f) {
             currentScene->state.backgroundPos.y = 4;
         }
+        
+        currentScene->state.accumulatedTime += deltaTime;
+        
+        // for firing spell bullets specifically / not default bullets / additional bullets
+        for (auto& x : playerBulletTable) {
+            if (x.second->remainingDuration > 0.0 && x.second->isActive == false) {
+                if (x.first != 'd') { // is not the first element/default
+//                    x.second->remainingDuration += 1.0; // add 1.0 seconds to firing time
+                    x.second->isActive = true;
+                    std::cout << "remaning time: " << x.second->remainingDuration << std::endl;
+                }
+            }
+//            else if (x.second->remainingDuration <= 0.0 && x.first != 'd') {
+//                x.second->isActive = false;
+//            }
+            x.second->remainingDuration -= deltaTime; // subtract amount of time passed to update remainingTime
+            x.second->Update(deltaTime, currentScene->state.player->position);
+        };
     }
     else {
         backgroundPosition.y -= 0.25;

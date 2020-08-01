@@ -65,15 +65,15 @@ void BulletPattern::addWave(float radii_input, int size) {
     radii = changeSize(radii, size, new_size);
 
     // Print the new array.
-    std::cout << "new [";
+//    std::cout << "new [";
     for (size_t i = 0; i < new_size; ++i) {
         if (i == new_size - 1) {
             // add new input to radii list
             radii[i] = radii_input;
         }
-        std::cout << radii[i] << ", ";
+//        std::cout << radii[i] << ", ";
     }
-    std::cout << "]" << std::endl;
+//    std::cout << "]" << std::endl;
 }
 //bool secondWave = false;
 void BulletPattern::Render(ShaderProgram *program) {
@@ -108,7 +108,7 @@ void BulletPattern::Render(ShaderProgram *program) {
         }
         else if (patternType == Vertical) { // weird vertical cone pattern
             float radius = radii[iwave];
-            std::cout << radius << ", ";
+//            std::cout << radius << ", ";
             
             // waveCount - number of bullets in row
             float horizontalLength = 1.0f;
@@ -156,7 +156,7 @@ void BulletPattern::Update(float deltaTime, glm::vec3 positionChange) {
     
     // add new wave if time is right
     waveTime += deltaTime;
-    if (waveTime >= 2.0) { // after 0.25 seconds...
+    if (waveTime >= 1.0) { // after 0.25 seconds...
         waveTime = 0.0f; // reset timer counter
         Mix_PlayChannel(-1, jumpEffect, 0); // bounce effect
         
