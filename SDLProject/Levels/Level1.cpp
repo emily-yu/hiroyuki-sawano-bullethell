@@ -19,6 +19,7 @@ BulletPattern *patternList_LEVEL1[2];
 std::map<float, BulletPattern*> bulletTable;
 float bulletCount_LEVEL1 = 2;
 BulletEnemy *enemy_LEVEL1;
+BulletPattern *player_LEVEL1;
 
 void Level1::Initialize(Scene *sceneList) {
     
@@ -62,6 +63,18 @@ void Level1::Initialize(Scene *sceneList) {
     };
 
     // player ui
+    player_LEVEL1 = new BulletPattern();
+    player_LEVEL1->bulletTexture = circleBulletTexture;
+    player_LEVEL1->speed = 0.5f;
+    player_LEVEL1->movement = glm::vec3(1, 0, 0);
+    player_LEVEL1->velocity = glm::vec3(1, 0, 0);
+    player_LEVEL1->acceleration = glm::vec3(0, -9.81f, 0);
+    player_LEVEL1->xPivot = -2;
+    player_LEVEL1->yPivot = 0;
+    player_LEVEL1->waveCount = 20;
+    player_LEVEL1->patternType = Vertical;
+    player_LEVEL1->isActive = true;
+    
     state.player = new Entity();
     state.player->position = glm::vec3(5, -2, 0); // start near left of screen
     state.player->movement = glm::vec3(0);
@@ -187,6 +200,8 @@ void Level1::Update(float deltaTime) {
             x.second->isActive = true;
         }
     };
+    
+    player_LEVEL1->Update(deltaTime, state.player->position);
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
         patternList_LEVEL1[i]->Update(deltaTime, enemy_LEVEL1->position);
     }
@@ -211,4 +226,5 @@ void Level1::Render(ShaderProgram *program) {
     enemy_LEVEL1->Render(program);
 
     state.player->Render(program);
+    player_LEVEL1->Render(program);
 }
