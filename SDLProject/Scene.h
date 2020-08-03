@@ -24,6 +24,9 @@
 struct GameState {
 //    Map *map;
     Entity *player;
+    bool isShooting = false;
+    float remainingTime = 0.0f;
+    
     Entity *enemies;
     int lives;
     int nextScene;

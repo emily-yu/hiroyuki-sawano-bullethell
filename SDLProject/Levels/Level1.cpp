@@ -20,6 +20,7 @@ std::map<float, BulletPattern*> bulletTable;
 float bulletCount_LEVEL1 = 2;
 BulletEnemy *enemy_LEVEL1;
 BulletPattern *player_LEVEL1;
+BulletPattern *playerBullet_LEVEL1;
 
 void Level1::Initialize(Scene *sceneList) {
     
@@ -74,6 +75,17 @@ void Level1::Initialize(Scene *sceneList) {
     player_LEVEL1->waveCount = 20;
     player_LEVEL1->patternType = Vertical;
     player_LEVEL1->isActive = true;
+    playerBullet_LEVEL1 = new BulletPattern(); // additional shooting
+    playerBullet_LEVEL1->bulletTexture = circleBulletTexture;
+    playerBullet_LEVEL1->speed = 0.5f;
+    playerBullet_LEVEL1->movement = glm::vec3(1, 0, 0);
+    playerBullet_LEVEL1->velocity = glm::vec3(1, 0, 0);
+    playerBullet_LEVEL1->acceleration = glm::vec3(0, -9.81f, 0);
+    playerBullet_LEVEL1->xPivot = -2;
+    playerBullet_LEVEL1->yPivot = 0;
+    playerBullet_LEVEL1->waveCount = 20;
+    playerBullet_LEVEL1->patternType = Vertical;
+    playerBullet_LEVEL1->isActive = false; // for clarity
     
     state.player = new Entity();
     state.player->position = glm::vec3(5, -2, 0); // start near left of screen
@@ -202,6 +214,28 @@ void Level1::Update(float deltaTime) {
     };
     
     player_LEVEL1->Update(deltaTime, state.player->position);
+    
+    // shoot by pressing v
+    if (state.isShooting) { // start shooting
+        playerBullet_LEVEL1->isActive = true;
+        state.isShooting = false;
+        
+        // TODO: subtract from power level
+    }
+    else if (state.remainingTime > 0.0f) { // currently using shooting time
+        state.remainingTime -= deltaTime;
+    }
+    else if (playerBullet_LEVEL1->isActive){ // done shooting need to reset
+        playerBullet_LEVEL1->isActive = false;
+        
+        // clear all bulletpatterns radii inside it
+        delete[] playerBullet_LEVEL1->radii;
+        playerBullet_LEVEL1->radiiCount = 0;
+        
+        state.remainingTime = 0.0f;
+    }
+    playerBullet_LEVEL1->Update(deltaTime, state.player->position);
+    
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
         patternList_LEVEL1[i]->Update(deltaTime, enemy_LEVEL1->position);
     }
@@ -227,4 +261,5 @@ void Level1::Render(ShaderProgram *program) {
 
     state.player->Render(program);
     player_LEVEL1->Render(program);
+    playerBullet_LEVEL1->Render(program);
 }
