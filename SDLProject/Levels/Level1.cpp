@@ -63,6 +63,13 @@ void Level1::Initialize(Scene *sceneList) {
         { 10.4, patternList_LEVEL1[1] }
     };
 
+    // process enemy movements
+    enemy_LEVEL1->movementLocations[0] = glm::vec3(0.5, 0, 0);
+    enemy_LEVEL1->movementTiming[0] = 3.0;
+    enemy_LEVEL1->movementLocations[1] = glm::vec3(2.5, -1, 0);
+    enemy_LEVEL1->movementTiming[1] = 5.0;
+    enemy_LEVEL1->movementCount = 2;
+
     // player ui
     player_LEVEL1 = new BulletPattern();
     player_LEVEL1->bulletTexture = circleBulletTexture;
@@ -182,22 +189,6 @@ void Level1::Update(float deltaTime) {
         state.backgroundPos.y = 4;
     }
     
-    // test to move enemy 1, TODO change to more universal move
-//    if (state.accumulatedTime > 3.0) {
-//        // use for no epilepsy movement
-////        if (enemy_LEVEL1->position.x > 0.5 || enemy_LEVEL1->position.x < 0.4) {
-//
-//        // for slight shaking in enemy
-//        if (enemy_LEVEL1->position.x != 0.5) {
-//            if (enemy_LEVEL1->position.x >= 0.5) {
-//                enemy_LEVEL1->position.x -= 0.1;
-//            }
-//            else {
-//                enemy_LEVEL1->position.x += 0.1;
-//            }
-//        }
-////        enemy_LEVEL1->position.x = 0.5;
-//    }
 //    ITERATE THROUGH BULLETPATTERN_MAPPING:
 //        IF DELTATIME == MAP.FIRST (BULLET SPAWN TIME):
 //            SET BULLETPATTERN (MAP.SECOND) = ACTIVE SO CAN DRAW

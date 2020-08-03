@@ -48,6 +48,10 @@ public:
     glm::vec3 acceleration;
     glm::vec3 velocity;
     float speed;
+
+    glm::vec3 movementLocations[2];
+    float movementTiming[2];
+    int movementCount;
     
     float* changeSize(float *old, size_t old_size, size_t new_size);
     void addPattern(BulletPattern *pattern);

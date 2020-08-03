@@ -83,7 +83,8 @@ void BulletEnemy::Render(ShaderProgram *program) {
     }
 }
 void BulletEnemy::Move(glm::vec3 newPosition, float atTime) {
-    if (accumulatedTime > atTime && accumulatedTime < atTime + 0.5) { // 0.5s leeway
+    // movement times cannot have less than 0.25s between them
+    if (accumulatedTime > atTime && accumulatedTime < atTime + 0.25) {
         // for slight shaking in enemy
         if (position.x != newPosition.x) {
             if (position.x >= newPosition.x) {
@@ -91,6 +92,14 @@ void BulletEnemy::Move(glm::vec3 newPosition, float atTime) {
             }
             else {
                 position.x += 0.1;
+            }
+        }
+        if (position.y != newPosition.y) {
+            if (position.y >= newPosition.y) {
+                position.y -= 0.1;
+            }
+            else {
+                position.y += 0.1;
             }
         }
     }
@@ -106,9 +115,9 @@ void BulletEnemy::Update(float deltaTime) {
         x.second->Update(deltaTime, position);
     };
     
-    // TODO: make a moveTable so that can use for multiple enemies
-    Move(glm::vec3(0.5, 0, 0), 3.0);
-    Move(glm::vec3(2.5, 0, 0), 5.0);
+    for (int i = 0; i < movementCount; i++) {
+        Move(movementLocations[i], movementTiming[i]); // select the correct movement to execute
+    }
     
     for (int i = 0; i < bulletCount; i++) {
         // update with change in position optional
