@@ -55,6 +55,7 @@ public:
     void DrawPivotFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position);
     void Render(ShaderProgram *program);
     void Update(float deltaTime);
+    void Move(glm::vec3 newPosition, float atTime);
     
     BulletEnemy();
 };

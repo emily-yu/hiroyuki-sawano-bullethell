@@ -82,18 +82,34 @@ void BulletEnemy::Render(ShaderProgram *program) {
         patternList[i]->Render(program);
     }
 }
+void BulletEnemy::Move(glm::vec3 newPosition, float atTime) {
+    if (accumulatedTime > atTime && accumulatedTime < atTime + 0.5) { // 0.5s leeway
+        // for slight shaking in enemy
+        if (position.x != newPosition.x) {
+            if (position.x >= newPosition.x) {
+                position.x -= 0.1;
+            }
+            else {
+                position.x += 0.1;
+            }
+        }
+    }
+}
 void BulletEnemy::Update(float deltaTime) {
     accumulatedTime += deltaTime;
+    
+    // make active if not already active
     for (auto x : bulletTable) {
-//        std::cout << x.first  // string (key)
-//                  << ':'
-//        << x.second->isActive // string's value
-//                  << std::endl ;
         if (accumulatedTime > x.first && x.second->isActive == false) {
             x.second->isActive = true;
         }
         x.second->Update(deltaTime, position);
     };
+    
+    // TODO: make a moveTable so that can use for multiple enemies
+    Move(glm::vec3(0.5, 0, 0), 3.0);
+    Move(glm::vec3(2.5, 0, 0), 5.0);
+    
     for (int i = 0; i < bulletCount; i++) {
         // update with change in position optional
         patternList[i]->Update(deltaTime, position);
