@@ -14,7 +14,7 @@ BulletPattern::BulletPattern() {
     acceleration = glm::vec3(0);
     velocity = glm::vec3(0);
     speed = 0;
-    baseRadius = 0.5f;
+    baseRadius = 0.25f;
     radii = new float[1];
     radiiCount = 0;
     
@@ -25,9 +25,11 @@ BulletPattern::BulletPattern() {
 }
 
 void BulletPattern::DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, glm::vec3 position) {
-    float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
+//    float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
     float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
-    
+    float vertices[] = { -0.25, -0.25, 0.25, -0.25, 0.25, 0.25, -0.25, -0.25, 0.25, 0.25, -0.25, 0.25 };
+//    float texCoords[] = { 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0 };
+
     // draw
     glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(program->positionAttribute);
@@ -195,8 +197,8 @@ void BulletPattern::CheckCollision(Entity *other) {
                     
                     // if either is not active, then there won't be a collision
                     if (isActive == true && other->isActive == true) {
-                        int width = 0.5;
-                        int height = 0.5;
+                        int width = 0.25;
+                        int height = 0.25;
                         float xdist = fabs(bulletPosition.x - other->position.x) - ((width + other->width) / 2.0f);
                         float ydist = fabs(bulletPosition.y - other->position.y) - ((height + other->height) / 2.0f);
                         
@@ -229,8 +231,8 @@ void BulletPattern::CheckCollision(Entity *other) {
                 
                 // if either is not active, then there won't be a collision
                 if (isActive == true && other->isActive == true) {
-                    int width = 0.5;
-                    int height = 0.5;
+                    int width = 0.25;
+                    int height = 0.25;
                     float xdist = fabs(bulletPosition.x - other->position.x) - ((width + other->width) / 2.0f);
                     float ydist = fabs(bulletPosition.y - other->position.y) - ((height + other->height) / 2.0f);
                     

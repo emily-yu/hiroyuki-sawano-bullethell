@@ -156,7 +156,7 @@ void Level1::Initialize(Scene *sceneList) {
     state.spellsText->entityType = TEXT;
     state.spellsText->animIndices = NULL;
     state.spellsText->writeText = "Spells: 0";
-    state.spellsText->position = glm::vec3(-4.5, 2.75, 0);
+    state.spellsText->position = glm::vec3(-4.5, 3.00, 0);
     state.spellsText->acceleration = glm::vec3(0, 0, 0);
     
     state.scoreText = new Entity();
@@ -164,7 +164,7 @@ void Level1::Initialize(Scene *sceneList) {
     state.scoreText->entityType = TEXT;
     state.scoreText->animIndices = NULL;
     state.scoreText->writeText = "Score: 0";
-    state.scoreText->position = glm::vec3(-4.5, 2.25, 0);
+    state.scoreText->position = glm::vec3(-4.5, 2.75, 0);
     state.scoreText->acceleration = glm::vec3(0, 0, 0);
     
     state.playerPowerText = new Entity();
@@ -172,7 +172,7 @@ void Level1::Initialize(Scene *sceneList) {
     state.playerPowerText->entityType = TEXT;
     state.playerPowerText->animIndices = NULL;
     state.playerPowerText->writeText = "Power Level: 0";
-    state.playerPowerText->position = glm::vec3(-4.5, 1.75, 0);
+    state.playerPowerText->position = glm::vec3(-4.5, 2.5, 0);
     state.playerPowerText->acceleration = glm::vec3(0, 0, 0);
 }
 void Level1::Update(float deltaTime) {

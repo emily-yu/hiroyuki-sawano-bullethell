@@ -164,7 +164,7 @@ void Entity::Render(ShaderProgram *program) {
         return;
     }
     if (entityType == TEXT) {
-        DrawText(program, textureID, writeText, 0.5f, -0.25f, glm::vec3(position));
+        DrawText(program, textureID, writeText, 0.5f, -0.35f, glm::vec3(position));
         return;
     }
     float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
@@ -268,7 +268,8 @@ Entity* Entity::CheckCollisionEntity(Entity *other) {
 }
 void Entity::DrawText(ShaderProgram *program, GLuint fontTextureID, std::string text, float size, float spacing, glm::vec3 position) {
 
-    float width = 1.0f / 16.0f; float height = 1.0f / 16.0f;
+    float width = 1.0f / 16.0f;
+    float height = 1.0f / 16.0f;
     std::vector<float> vertices;
     std::vector<float> texCoords;
     
@@ -279,7 +280,8 @@ void Entity::DrawText(ShaderProgram *program, GLuint fontTextureID, std::string 
         float v = (float)(index / 16) / 16.0f;
         
         vertices.insert(vertices.end(), {
-            offset + (-0.5f * size), 0.5f * size, offset + (-0.5f * size), -0.5f * size, offset + (0.5f * size), 0.5f * size, offset + (0.5f * size), -0.5f * size, offset + (0.5f * size), 0.5f * size, offset + (-0.5f * size), -0.5f * size,
+//            offset + (-0.5f * size), 0.5f * size, offset + (-0.5f * size), -0.5f * size, offset + (0.5f * size), 0.5f * size, offset + (0.5f * size), -0.5f * size, offset + (0.5f * size), 0.5f * size, offset + (-0.5f * size), -0.5f * size,
+            offset + (-0.25f * size), 0.25f * size, offset + (-0.25f * size), -0.25f * size, offset + (0.25f * size), 0.25f * size, offset + (0.25f * size), -0.25f * size, offset + (0.25f * size), 0.25f * size, offset + (-0.25f * size), -0.25f * size,
         });
             
         texCoords.insert(texCoords.end(), { u, v,
@@ -325,7 +327,8 @@ void Entity::DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID
     u, v + height, u + width, v, u, v};
 
     // verticies being mapped to
-    float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
+//    float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
+    float vertices[] = { -0.25, -0.25, 0.25, -0.25, 0.25, 0.25, -0.25, -0.25, 0.25, 0.25, -0.25, 0.25 };
 
     // classic drawing for 2d
     glBindTexture(GL_TEXTURE_2D, textureID);
