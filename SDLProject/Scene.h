@@ -22,6 +22,8 @@
 //#include "Map.h"
 
 struct GameState {
+    Mix_Music *music;
+    
     Entity *player;
     bool isShooting = false;
     float remainingTime = 0.0f;

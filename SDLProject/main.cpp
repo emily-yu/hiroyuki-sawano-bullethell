@@ -84,12 +84,6 @@ void Initialize() {
     
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     
-    // Audio Loading
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096); // Start Audio
-    music = Mix_LoadMUS("dooblydoo.mp3"); // Load Audio
-    Mix_VolumeMusic(MIX_MAX_VOLUME / 16); // cut volume by 1/4
-    Mix_PlayMusic(music, -1); // Play Audio
-    
     viewMatrix = glm::mat4(1.0f);
     modelMatrix = glm::mat4(1.0f);
     backgroundPosition = glm::vec3(0, 0, 0);
@@ -147,6 +141,11 @@ void Initialize() {
     SwitchToScene(sceneList[0], sceneList[0]); // switch to first element in scenelist = level 1
     currentScene->state.lives = 3;
 //    SwitchToScene(level1); // switch to level 1
+    
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096); // Start Audio
+    music = Mix_LoadMUS("Opening - Be2Arr1.mp3"); // Load Audio  // Audio Loading
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 16); // cut volume by 1/4
+    Mix_PlayMusic(music, -1);
 }
 bool backgroundDrawn = false;
 void Render() {
@@ -243,6 +242,8 @@ void ProcessInput() {
     }
     if (keys[SDL_SCANCODE_RETURN]) {
         gameStarted = true;
+        currentScene->state.music = Mix_LoadMUS("Gameplay - Boukyaku Keikoku.mp3");
+        Mix_PlayMusic(currentScene->state.music, -1);
         Render();
     }
 }

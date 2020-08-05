@@ -8,7 +8,7 @@
 
 #include "BulletEnemy.h"
 BulletEnemy::BulletEnemy() {
-    jumpEffect = Mix_LoadWAV("bounce.wav");
+    jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
     modelMatrix = glm::mat4(1.0f);
     pivotMatrix = glm::mat4(1.0f);
     position = pivot;

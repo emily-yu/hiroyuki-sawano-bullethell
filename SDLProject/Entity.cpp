@@ -16,7 +16,7 @@ Entity::Entity() {
     speed = 0;
     
     modelMatrix = glm::mat4(1.0f);
-    jumpEffect = Mix_LoadWAV("bounce.wav");
+    jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
 }
 bool Entity::CheckCollision(Entity *other) {
     if (isActive == false || other->isActive == false) return false; // if either is not active, then there won't be a collision

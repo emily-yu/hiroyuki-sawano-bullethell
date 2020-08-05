@@ -84,6 +84,11 @@ void ConstructEnemy() {
     enemies[1]->isActive = true;
 }
 void Level1::Initialize(Scene *sceneList) {
+    
+    state.music = Mix_LoadMUS("Gameplay - Boukyaku Keikoku.mp3");
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 16); // cut volume by 1/4
+    Mix_PlayMusic(state.music, -1); // Play Audio
+    
     // game stats
     state.accumulatedTime = 0.0f;
     state.nextScene = -1; // main.cpp will not switch to nextscene yet, <= 0

@@ -24,6 +24,9 @@
 		94BA177924A4773800681E5E /* orange.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BA177824A4773800681E5E /* orange.png */; };
 		94BA177B24A4774A00681E5E /* george_0.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BA177A24A4774A00681E5E /* george_0.png */; };
 		94BA177D24A477F900681E5E /* circle.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BA177C24A477F900681E5E /* circle.png */; };
+		94E99CD524DA311F004AFD9C /* Opening - Be2Arr1.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94E99CD424DA311F004AFD9C /* Opening - Be2Arr1.mp3 */; };
+		94E99CD724DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94E99CD624DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 */; };
+		94E99CD924DA3133004AFD9C /* bullet_shoot.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94E99CD824DA3133004AFD9C /* bullet_shoot.wav */; };
 		94F68FE524CF728E009E9753 /* girl.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94F68FE424CF728E009E9753 /* girl.png */; };
 		DBDF1B532323DE3F007CECB1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBDF1B522323DE3F007CECB1 /* main.cpp */; };
 		DBDF1B5E2323DE8D007CECB1 /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBDF1B5D2323DE8D007CECB1 /* ShaderProgram.cpp */; };
@@ -42,6 +45,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				94E99CD924DA3133004AFD9C /* bullet_shoot.wav in CopyFiles */,
+				94E99CD724DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 in CopyFiles */,
+				94E99CD524DA311F004AFD9C /* Opening - Be2Arr1.mp3 in CopyFiles */,
 				94F68FE524CF728E009E9753 /* girl.png in CopyFiles */,
 				94B5F8E424B919DF00788D0B /* purpletempbackground1.png in CopyFiles */,
 				94239FF324B1353A009685F3 /* tileset.png in CopyFiles */,
@@ -86,6 +92,9 @@
 		94BA177824A4773800681E5E /* orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = orange.png; path = SDLProject/orange.png; sourceTree = "<group>"; };
 		94BA177A24A4774A00681E5E /* george_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = george_0.png; path = SDLProject/george_0.png; sourceTree = "<group>"; };
 		94BA177C24A477F900681E5E /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circle.png; path = SDLProject/circle.png; sourceTree = "<group>"; };
+		94E99CD424DA311F004AFD9C /* Opening - Be2Arr1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Opening - Be2Arr1.mp3"; path = "assets/music/Opening - Be2Arr1.mp3"; sourceTree = "<group>"; };
+		94E99CD624DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Gameplay - Boukyaku Keikoku.mp3"; path = "assets/music/Gameplay - Boukyaku Keikoku.mp3"; sourceTree = "<group>"; };
+		94E99CD824DA3133004AFD9C /* bullet_shoot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bullet_shoot.wav; path = assets/music/bullet_shoot.wav; sourceTree = "<group>"; };
 		94F68FE424CF728E009E9753 /* girl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = girl.png; path = assets/girl.png; sourceTree = "<group>"; };
 		DBDF1B4F2323DE3F007CECB1 /* SDLProject */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SDLProject; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDF1B522323DE3F007CECB1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -133,6 +142,9 @@
 		DBDF1B462323DE3F007CECB1 = {
 			isa = PBXGroup;
 			children = (
+				94E99CD824DA3133004AFD9C /* bullet_shoot.wav */,
+				94E99CD624DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 */,
+				94E99CD424DA311F004AFD9C /* Opening - Be2Arr1.mp3 */,
 				94F68FE424CF728E009E9753 /* girl.png */,
 				94B5F8E324B919DF00788D0B /* purpletempbackground1.png */,
 				94239FF224B1353A009685F3 /* tileset.png */,
