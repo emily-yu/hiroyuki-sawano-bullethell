@@ -158,7 +158,7 @@ void BulletPattern::Update(float deltaTime, glm::vec3 positionChange) {
     waveTime += deltaTime;
     if (waveTime >= 1.0) { // after 0.25 seconds...
         waveTime = 0.0f; // reset timer counter
-        Mix_PlayChannel(-1, jumpEffect, 0); // bounce effect
+//        Mix_PlayChannel(-1, jumpEffect, 0); // bounce effect
         
         // new wave addition
         radiiCount += 1;

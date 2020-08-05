@@ -13,21 +13,19 @@
 
 #define LEVEL1_WIDTH 14
 #define LEVEL1_HEIGHT 8
-#define LEVEL1_ENEMY_COUNT 1
+//#define LEVEL1_ENEMY_COUNT 1
+#define LEVEL1_ENEMY_COUNT 2
 
-BulletPattern *patternList_LEVEL1[2];
+BulletPattern *patternList_LEVEL1[4];
 std::map<float, BulletPattern*> bulletTable;
-float bulletCount_LEVEL1 = 2;
+float bulletCount_LEVEL1 = 4;
 BulletEnemy *enemy_LEVEL1;
+BulletEnemy *enemies[2];
+
 BulletPattern *player_LEVEL1;
 BulletPattern *playerBullet_LEVEL1;
 
-void Level1::Initialize(Scene *sceneList) {
-    
-    // game stats
-    state.accumulatedTime = 0.0f;
-    state.nextScene = -1; // main.cpp will not switch to nextscene yet, <= 0
-    
+void ConstructEnemy() {
     // construct patterns for level
     GLuint circleBulletTexture = Util::LoadTexture("circle.png");
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
@@ -38,37 +36,61 @@ void Level1::Initialize(Scene *sceneList) {
         patternList_LEVEL1[i]->velocity = glm::vec3(1, 0, 0);
         patternList_LEVEL1[i]->acceleration = glm::vec3(0, -9.81f, 0);
     }
-    patternList_LEVEL1[0]->xPivot = -2;
-    patternList_LEVEL1[0]->yPivot = 0;
+    // enemy 1's bullets
     patternList_LEVEL1[0]->waveCount = 20;
-    patternList_LEVEL1[0]->patternType = SingularSpiral;
     patternList_LEVEL1[0]->patternType = Vertical;
-
-    patternList_LEVEL1[1]->xPivot = -3;
-    patternList_LEVEL1[1]->yPivot = 3;
     patternList_LEVEL1[1]->waveCount = 20;
     patternList_LEVEL1[1]->patternType = CirclePulse;
-//    patternList_LEVEL1[1]->patternType = Vertical;
+    
+    // enemy 2's bullets
+    patternList_LEVEL1[2]->waveCount = 20;
+    patternList_LEVEL1[2]->patternType = Vertical;
+    patternList_LEVEL1[3]->waveCount = 20;
+    patternList_LEVEL1[3]->patternType = CirclePulse;
 
     // construct enemies with bulletpatterns
     GLuint enemyTexture = Util::LoadTexture("girl.png");
-    enemy_LEVEL1 = new BulletEnemy();
-    enemy_LEVEL1->remainingHealth = 0;
-    enemy_LEVEL1->pivot = glm::vec3(-2, 0, 0);
-    enemy_LEVEL1->enemyTexture = enemyTexture;
-    enemy_LEVEL1->position = glm::vec3(-2, 0, 0);
-    enemy_LEVEL1->bulletTable = {
-        // { deltaTime, BulletPattern to be displayed }
-        { 0.2, patternList_LEVEL1[0] },
+    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) {
+        enemies[i] = new BulletEnemy();
+        enemies[i]->enemyTexture = enemyTexture;
+    }
+    
+    // enemy 1
+    enemies[0]->remainingHealth = 40.0f;
+    enemies[0]->position = glm::vec3(-2, 0, 0);
+    enemies[0]->bulletTable = {
+        { 0.2, patternList_LEVEL1[0] }, // { deltaTime, BulletPattern to be displayed }
         { 10.4, patternList_LEVEL1[1] }
     };
+    enemies[0]->movementLocations[0] = glm::vec3(0.5, 0, 0); // process enemy movements
+    enemies[0]->movementTiming[0] = 3.0;
+    enemies[0]->movementLocations[1] = glm::vec3(2.5, -1, 0);
+    enemies[0]->movementTiming[1] = 5.0;
+    enemies[0]->movementCount = 2;
+    enemies[0]->isActive = true;
+    
+    // enemy 2
+    enemies[1]->remainingHealth = 40.0f;
+    enemies[1]->position = glm::vec3(-3, 0, 0);
+    enemies[1]->bulletTable = {
+        { 0.2, patternList_LEVEL1[2] }, // { deltaTime, BulletPattern to be displayed }
+        { 10.4, patternList_LEVEL1[3] }
+    };
+    enemies[1]->movementLocations[0] = glm::vec3(1.5, 0, 0); // process enemy movements
+    enemies[1]->movementTiming[0] = 1.0;
+    enemies[1]->movementLocations[1] = glm::vec3(3.5, -1, 0);
+    enemies[1]->movementTiming[1] = 5.0;
+    enemies[1]->movementCount = 2;
+    enemies[1]->isActive = true;
+}
+void Level1::Initialize(Scene *sceneList) {
+    // game stats
+    state.accumulatedTime = 0.0f;
+    state.nextScene = -1; // main.cpp will not switch to nextscene yet, <= 0
+    state.powerLevel = 4.0f;
 
-    // process enemy movements
-    enemy_LEVEL1->movementLocations[0] = glm::vec3(0.5, 0, 0);
-    enemy_LEVEL1->movementTiming[0] = 3.0;
-    enemy_LEVEL1->movementLocations[1] = glm::vec3(2.5, -1, 0);
-    enemy_LEVEL1->movementTiming[1] = 5.0;
-    enemy_LEVEL1->movementCount = 2;
+    GLuint circleBulletTexture = Util::LoadTexture("circle.png");
+    ConstructEnemy();
 
     // player ui
     player_LEVEL1 = new BulletPattern();
@@ -157,11 +179,37 @@ void Level1::Update(float deltaTime) {
 //    state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
     state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT);
 
-//    for (int i = 0; i <= LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
-        for (auto x : enemy_LEVEL1->bulletTable) {
+    // check if aligned with any enemies, subtract from them health
+    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
+        if (fabs(state.player->position.x - enemies[i]->position.x) <= 0.5) { // hitbox of 0.25 more on each side
+            if (state.player->position.y < enemies[i]->position.y) { // in front of player, can be hit
+                if (enemies[i]->remainingHealth <= 0.0f) { // enemy is killed
+                    std::cout << "TODO: spawn next set of boonies booney" << std::endl;
+                    std::cout << "TODO: fix malloc errors when enemy is trying to be deleted" << std::endl;
+                    if (enemies[i]->isActive) {
+                        for (auto x : enemies[i]->bulletTable) {
+                            x.second->isActive = false;
+                            
+//                            // clear all bulletpatterns radii inside it
+//                            delete[] x.second->radii;
+//                            x.second->radiiCount = 0;
+                        };
+                    }
+                    enemies[i]->isActive = false;
+                }
+                else {
+                    enemies[i]->remainingHealth -= deltaTime * state.powerLevel;
+                    std::cout << enemies[i]->remainingHealth << std::endl;
+                }
+            }
+        }
+    }
+    
+    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
+        for (auto x : enemies[i]->bulletTable) {
             x.second->CheckCollision(state.player);
         };
-//    }
+    }
     
     if (state.player->position.x >= 12) { // if player moves far enough past x = 12...
         state.nextScene = 1; // set nextScene to be >= 0, aka main.cpp catches that need to switch to nextScene
@@ -228,9 +276,13 @@ void Level1::Update(float deltaTime) {
     playerBullet_LEVEL1->Update(deltaTime, state.player->position);
     
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
-        patternList_LEVEL1[i]->Update(deltaTime, enemy_LEVEL1->position);
+        for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
+            patternList_LEVEL1[i]->Update(deltaTime, enemies[i]->position);
+        }
     }
-    enemy_LEVEL1->Update(deltaTime);
+    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) {
+        enemies[i]->Update(deltaTime);
+    }
 }
 void Level1::Render(ShaderProgram *program) {
     
@@ -245,10 +297,13 @@ void Level1::Render(ShaderProgram *program) {
     state.playerPowerText->Render(program);
     
     // render bullet bases
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < bulletCount_LEVEL1; i++) {
         patternList_LEVEL1[i]->Render(program);
     }
-    enemy_LEVEL1->Render(program);
+    
+    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) {
+        enemies[i]->Render(program);
+    }
 
     state.player->Render(program);
     player_LEVEL1->Render(program);

@@ -22,13 +22,11 @@
 //#include "Map.h"
 
 struct GameState {
-//    Map *map;
     Entity *player;
     bool isShooting = false;
     float remainingTime = 0.0f;
     
     Entity *enemies;
-    int lives;
     int nextScene;
     glm::mat4 backgroundMat;
     glm::vec3 backgroundPos;
@@ -36,11 +34,17 @@ struct GameState {
     
     // text accompanied with icons
     Entity *livesText;
+    int lives;
+
     Entity *spellsText;
+    int availSpells; // earned when killing enemies
     
     // straight text
     Entity *scoreText;
+    float totalScore;
+    
     Entity *playerPowerText;
+    float powerLevel;
 };
 class Scene {
 public:
