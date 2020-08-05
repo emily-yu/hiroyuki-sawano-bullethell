@@ -89,6 +89,9 @@ void Entity::CheckCollisionsX(Entity *objects, int objectCount) {
 //platforms are the possible collisions
 //void Entity::Update(float deltaTime, Entity* player, Map *map) {
 //void Entity::Update(float deltaTime, Entity* player, Entity *objects, int objectCount, Map *map) {
+//void Entity::UpdateText(float newPower) {
+//
+//}
 void Entity::Update(float deltaTime, Entity* player, Entity *objects, int objectCount) {
     if (isActive == false) return; // if not active, not rendered -> no updates made to rendering
 
@@ -102,7 +105,6 @@ void Entity::Update(float deltaTime, Entity* player, Entity *objects, int object
 //    if (entityType == ENEMY) {
 //        AI(player); // set movement for ai
 //    }
-
     if (animIndices != NULL) {
         // animation block
         if (glm::length(movement) != 0) { // only animate if there is player movement to process

@@ -203,6 +203,12 @@ void ProcessInput() {
                             }
                         }
                         break;
+                    case SDLK_v: // to shoot a spell
+                        if (currentScene->state.remainingTime == 0.0f) { // prevent from shooting more than once every 3 seconds
+                            currentScene->state.isShooting = true;
+                            currentScene->state.remainingTime = 3.0f; // one shoot lasts for 3 seconds
+                        }
+                        break;
                 }
                 break; // SDL_KEYDOWN
         }
@@ -233,11 +239,6 @@ void ProcessInput() {
             currentScene->state.player->velocity.y = 2.0f;
             currentScene->state.player->velocity.x = 0.0f;
             currentScene->state.player->animIndices = currentScene->state.player->animUp;
-        }
-        else if (keys[SDL_SCANCODE_V]) { // for casting a spell
-            // TODO: check if powerlevel is enough
-            currentScene->state.isShooting = true;
-            currentScene->state.remainingTime = 3.0f; // one shoot lasts for 3 seconds
         }
     }
     if (keys[SDL_SCANCODE_RETURN]) {
