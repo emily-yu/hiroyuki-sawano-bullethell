@@ -15,6 +15,8 @@
 #define LEVEL1_HEIGHT 8
 //#define LEVEL1_ENEMY_COUNT 1
 #define LEVEL1_ENEMY_COUNT 2
+#define LEVEL1_MAX_POWERLEVEL 4
+#define LEVEL1_MIN_POWERLEVEL 1
 
 BulletPattern *patternList_LEVEL1[4];
 std::map<float, BulletPattern*> bulletTable;
@@ -56,7 +58,7 @@ void ConstructEnemy() {
     }
     
     // enemy 1
-    enemies[0]->remainingHealth = 20.0f;
+    enemies[0]->remainingHealth = 5.0f;
     enemies[0]->position = glm::vec3(-2, 0, 0);
     enemies[0]->bulletTable = {
         { 0.2, patternList_LEVEL1[0] }, // { deltaTime, BulletPattern to be displayed }
@@ -70,7 +72,7 @@ void ConstructEnemy() {
     enemies[0]->isActive = true;
     
     // enemy 2
-    enemies[1]->remainingHealth = 20.0f;
+    enemies[1]->remainingHealth = 5.0f;
     enemies[1]->position = glm::vec3(-3, 0, 0);
     enemies[1]->bulletTable = {
         { 0.2, patternList_LEVEL1[2] }, // { deltaTime, BulletPattern to be displayed }
@@ -92,7 +94,7 @@ void Level1::Initialize(Scene *sceneList) {
     // game stats
     state.accumulatedTime = 0.0f;
     state.nextScene = -1; // main.cpp will not switch to nextscene yet, <= 0
-    state.powerLevel = 4.0f;
+    state.powerLevel = 1.0f;
 
     GLuint circleBulletTexture = Util::LoadTexture("circle.png");
     ConstructEnemy();
@@ -168,7 +170,7 @@ void Level1::Initialize(Scene *sceneList) {
     state.scoreText->textureID = fontTextureID;
     state.scoreText->entityType = TEXT;
     state.scoreText->animIndices = NULL;
-    state.scoreText->writeText = "Score: 0";
+    state.scoreText->writeText = "Score: " + std::to_string(state.totalScore);
     state.scoreText->position = glm::vec3(-4.5, 2.75, 0);
     state.scoreText->acceleration = glm::vec3(0, 0, 0);
     
@@ -176,7 +178,7 @@ void Level1::Initialize(Scene *sceneList) {
     state.playerPowerText->textureID = fontTextureID;
     state.playerPowerText->entityType = TEXT;
     state.playerPowerText->animIndices = NULL;
-    state.playerPowerText->writeText = "Power: " + std::to_string(state.powerLevel) + " / 4.0";;
+    state.playerPowerText->writeText = "Power: " + std::to_string(state.powerLevel) + " / " + std::to_string(LEVEL1_MAX_POWERLEVEL);
     state.playerPowerText->position = glm::vec3(-4.5, 2.5, 0);
     state.playerPowerText->acceleration = glm::vec3(0, 0, 0);
 }
@@ -190,8 +192,11 @@ void Level1::Update(float deltaTime) {
             if (state.player->position.y < enemies[i]->position.y) { // in front of player, can be hit
                 if (enemies[i]->remainingHealth <= 0.0f) { // enemy is killed
                     // add power level
-                    state.powerLevel += 1.0f;
-                    
+                    if (state.powerLevel < LEVEL1_MAX_POWERLEVEL && enemies[i]->isActive == true) {
+                        state.powerLevel += 1.0f;
+                        state.playerPowerText->writeText = "Power: " + std::to_string(state.powerLevel) + " / " + std::to_string(LEVEL1_MAX_POWERLEVEL);
+                    }
+
                     std::cout << "TODO: spawn next set of boonies booney" << std::endl;
                     std::cout << "TODO: fix malloc errors when enemy is trying to be deleted" << std::endl;
                     if (enemies[i]->isActive) {
@@ -208,6 +213,11 @@ void Level1::Update(float deltaTime) {
                 else {
                     enemies[i]->remainingHealth -= deltaTime * state.powerLevel;
                     std::cout << enemies[i]->remainingHealth << std::endl;
+                    
+                    // add bonus points for hitting
+                    state.totalScore += 2.0f;
+                    state.scoreText->writeText = "Score: " + std::to_string(state.totalScore);
+                    state.scoreText->Update(deltaTime, state.player, NULL, 0);
                 }
             }
         }
@@ -268,9 +278,9 @@ void Level1::Update(float deltaTime) {
         state.isShooting = false;
         
         // subtract from power level + update text
-        if (state.powerLevel > 0.0f) {
+        if (state.powerLevel > LEVEL1_MIN_POWERLEVEL) {
             state.powerLevel -= 1.0f;
-            state.playerPowerText->writeText = "Power: " + std::to_string(state.powerLevel) + " / 4.0";
+            state.playerPowerText->writeText = "Power: " + std::to_string(state.powerLevel) + " / " + std::to_string(LEVEL1_MAX_POWERLEVEL);
         }
     }
     else if (state.remainingTime > 0.0f) { // currently using shooting time
@@ -287,6 +297,10 @@ void Level1::Update(float deltaTime) {
     }
     playerBullet_LEVEL1->Update(deltaTime, state.player->position);
     
+    // update score - time
+    state.totalScore += deltaTime;
+    state.scoreText->writeText = "Score: " + std::to_string(state.totalScore);
+
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
         for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
             patternList_LEVEL1[i]->Update(deltaTime, enemies[i]->position);
