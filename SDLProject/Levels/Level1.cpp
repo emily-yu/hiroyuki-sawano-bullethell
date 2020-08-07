@@ -154,7 +154,7 @@ void Level1::Initialize(Scene *sceneList) {
     state.livesText->textureID = fontTextureID;
     state.livesText->entityType = TEXT;
     state.livesText->animIndices = NULL;
-    state.livesText->writeText = "Lives: 3";
+    state.livesText->writeText = "Lives: " + std::to_string(state.lives);
     state.livesText->position = glm::vec3(-4.5, 3.25, 0);
     state.livesText->acceleration = glm::vec3(0, 0, 0);
     
@@ -223,10 +223,13 @@ void Level1::Update(float deltaTime) {
         }
     }
     
+    bool isKilled = false;
     for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
-        for (auto x : enemies[i]->bulletTable) {
-            x.second->CheckCollision(state.player);
-        };
+        if (isKilled == false) { // if not already killed
+            for (auto x : enemies[i]->bulletTable) { // check if player has been killed
+                x.second->CheckCollision(state.player);
+            };
+        }
     }
     
     if (state.player->position.x >= 12) { // if player moves far enough past x = 12...
@@ -236,6 +239,8 @@ void Level1::Update(float deltaTime) {
     if (state.player->lastCollision == BULLET) {
         std::cout << state.lives << std::endl;
         state.lives -= 1;
+        state.livesText->writeText = "Lives: " + std::to_string(state.lives);
+
         state.player->lastCollision = NONE; // subtract from lives, then reset tracker
         state.nextScene = 0;
     }

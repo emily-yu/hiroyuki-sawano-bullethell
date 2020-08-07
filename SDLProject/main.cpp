@@ -138,8 +138,8 @@ void Initialize() {
     sceneList[0] = new Level1();
     sceneList[1] = new Level2();
     sceneList[2] = new Level3();
+    sceneList[0]->state.lives = 3;
     SwitchToScene(sceneList[0], sceneList[0]); // switch to first element in scenelist = level 1
-    currentScene->state.lives = 3;
 //    SwitchToScene(level1); // switch to level 1
     
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096); // Start Audio
@@ -310,7 +310,14 @@ int main(int argc, char* argv[]) {
         Update();
         
         if (currentScene->state.nextScene >= 0) { // if next scene is changed to something else
-            SwitchToScene(sceneList[currentScene->state.nextScene], sceneList[currentScene->state.nextScene - 1]); // switch to nextscene
+            if (currentScene->state.lives <= 0) { // disable anything else
+                gameStarted = false;
+                
+                // display game over text
+            }
+            else {
+                SwitchToScene(sceneList[currentScene->state.nextScene], sceneList[currentScene->state.nextScene - 1]); // switch to nextscene
+            }
         }
         Render();
     }
