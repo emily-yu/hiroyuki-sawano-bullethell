@@ -272,9 +272,28 @@ void Update() {
         }
 
         accumulator = deltaTime;
-        
+                
+        // for scrollover on sides of x screen
         viewMatrix = glm::mat4(1.0f);
-
+        // base view area
+        if (currentScene->state.player->position.x < 1.0 && currentScene->state.player->position.x > -1.0) { // base position
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(0, 0, 0));
+        }
+        // scrolling area
+        else if (currentScene->state.player->position.x > 1.0 && currentScene->state.player->position.x < 4.0) {
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 0, 0));
+        }
+        else if (currentScene->state.player->position.x < -1.0 && currentScene->state.player->position.x > -4.0) { // if x-coord is past 4, don't scroll further left
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 0, 0));
+        }
+        // scrolling overflow restrictions
+        else if (currentScene->state.player->position.x < -4.0) { // far left restriction
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(4, 0, 0));
+        }
+        else if (currentScene->state.player->position.x > 4.0) { // far right restriction
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-4, 0, 0));
+        }
+        
         currentScene->state.backgroundPos.y -= 0.25;
         currentScene->state.backgroundMat = glm::mat4(1.0f); // base matrix value
         currentScene->state.backgroundMat = glm::translate(currentScene->state.backgroundMat, currentScene->state.backgroundPos); // translate by new position
