@@ -85,9 +85,9 @@ void Util::DrawText(ShaderProgram *program, GLuint fontTexture, std::string text
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
 void Util::DrawBackground(ShaderProgram *program, GLuint backgroundImage, glm::mat4 backgroundMatrix, glm::vec3 backgroundPosition) {
-    float vertices[] = { -5.5, -6.5, 5.5, -6.5, 5.5, 6.5, -5.5, -6.5, 5.5, 6.5, -5.5, 6.5 };
+    float vertices[] = { -9.5, -10.5, 9.5, -10.5, 9.5, 10.5, -9.5, -10.5, 9.5, 10.5, -9.5, 10.5 };
     float texCoords[] = { 0.0, 5.0, 5.0, 5.0, 5.0, 0.0, 0.0, 5.0, 5.0, 0.0, 0.0, 0.0 };
-    
+
     // draw
     glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(program->positionAttribute);
