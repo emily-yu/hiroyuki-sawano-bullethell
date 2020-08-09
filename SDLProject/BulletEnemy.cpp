@@ -7,13 +7,19 @@
 //
 
 #include "BulletEnemy.h"
-BulletEnemy::BulletEnemy() {
+BulletEnemy::BulletEnemy(int movementCount, int bulletCount) {
     jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
     modelMatrix = glm::mat4(1.0f);
     pivotMatrix = glm::mat4(1.0f);
     position = pivot;
+    
+    movementLocations = new glm::vec3[movementCount];
+    movementTiming = new float[movementCount];
 }
-
+BulletEnemy::~BulletEnemy() {
+    delete [] movementLocations;
+    delete [] movementTiming;
+}
 float* BulletEnemy::changeSize(float *old, size_t old_size, size_t new_size) {
    // Create a new larger array.
    float *new_array = new float[new_size];
@@ -86,6 +92,7 @@ void BulletEnemy::Render(ShaderProgram *program) {
 void BulletEnemy::Move(glm::vec3 newPosition, float atTime) {
     // movement times cannot have less than 0.25s between them
     if (accumulatedTime > atTime && accumulatedTime < atTime + 0.25) {
+//        std::cout << "moved at " << atTime << std::endl;
         // for slight shaking in enemy
         if (position.x != newPosition.x) {
             if (position.x >= newPosition.x) {
@@ -118,6 +125,7 @@ void BulletEnemy::Update(float deltaTime) {
     
     for (int i = 0; i < movementCount; i++) {
         Move(movementLocations[i], movementTiming[i]); // select the correct movement to execute
+//        std::cout << movementTiming[i] << std::endl;
     }
     
     for (int i = 0; i < bulletCount; i++) {

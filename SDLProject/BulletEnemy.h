@@ -49,8 +49,8 @@ public:
     glm::vec3 velocity;
     float speed;
 
-    glm::vec3 movementLocations[2];
-    float movementTiming[2];
+    glm::vec3* movementLocations;
+    float* movementTiming;
     int movementCount;
     
     float* changeSize(float *old, size_t old_size, size_t new_size);
@@ -61,5 +61,6 @@ public:
     void Update(float deltaTime);
     void Move(glm::vec3 newPosition, float atTime);
     
-    BulletEnemy();
+    BulletEnemy(int movementCount, int bulletCount);
+    ~BulletEnemy();
 };

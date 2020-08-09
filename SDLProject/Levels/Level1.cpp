@@ -52,8 +52,9 @@ void ConstructEnemy() {
 
     // construct enemies with bulletpatterns
     GLuint enemyTexture = Util::LoadTexture("girl.png");
+    enemies[0] = new BulletEnemy(2, 2); // movementCount, bulletCount
+    enemies[1] = new BulletEnemy(5, 2);
     for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) {
-        enemies[i] = new BulletEnemy();
         enemies[i]->enemyTexture = enemyTexture;
     }
     
@@ -80,9 +81,13 @@ void ConstructEnemy() {
     };
     enemies[1]->movementLocations[0] = glm::vec3(1.5, 0, 0); // process enemy movements
     enemies[1]->movementTiming[0] = 1.0;
-    enemies[1]->movementLocations[1] = glm::vec3(3.5, -1, 0);
-    enemies[1]->movementTiming[1] = 5.0;
-    enemies[1]->movementCount = 2;
+    enemies[1]->movementLocations[1] = glm::vec3(2.5, 1, 0);
+    enemies[1]->movementTiming[1] = 2.0;
+    enemies[1]->movementLocations[2] = glm::vec3(3.0, 1, 0);
+    enemies[1]->movementTiming[2] = 2.5;
+    enemies[1]->movementLocations[3] = glm::vec3(1.5, 0, 0); // process enemy movements
+    enemies[1]->movementTiming[3] = 3.0;
+    enemies[1]->movementCount = 4;
     enemies[1]->isActive = true;
 }
 void Level1::Initialize(Scene *sceneList) {
