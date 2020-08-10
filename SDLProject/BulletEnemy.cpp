@@ -7,16 +7,19 @@
 //
 
 #include "BulletEnemy.h"
+// TODO: correct into more standard/clean class code... https://www.cs.fsu.edu/~myers/cop3330/examples/phonebook/directory.cpp
 BulletEnemy::BulletEnemy(int movementCount, int bulletCount) {
     jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
     modelMatrix = glm::mat4(1.0f);
     pivotMatrix = glm::mat4(1.0f);
     position = pivot;
     
+    patternList = new BulletPattern[bulletCount];
     movementLocations = new glm::vec3[movementCount];
     movementTiming = new float[movementCount];
 }
 BulletEnemy::~BulletEnemy() {
+    delete [] patternList;
     delete [] movementLocations;
     delete [] movementTiming;
 }
@@ -27,8 +30,8 @@ float* BulletEnemy::changeSize(float *old, size_t old_size, size_t new_size) {
    memcpy(new_array, old, old_size*sizeof(float));
    delete[] old;
    // Just populate the array for demonstration.
-   for(size_t i = old_size; i < new_size; ++i)
-       new_array[i] = (i+1) * 10.0;
+//   for(size_t i = old_size; i < new_size; ++i)
+//       new_array[i] = (i+1) * 10.0;
    return(new_array);
 }
 
@@ -86,7 +89,7 @@ void BulletEnemy::Render(ShaderProgram *program) {
     
     program->SetModelMatrix(modelMatrix);
     for (int i = 0; i < bulletCount; i++) {
-        patternList[i]->Render(program);
+        patternList[i].Render(program);
     }
 }
 void BulletEnemy::Move(glm::vec3 newPosition, float atTime) {
@@ -125,12 +128,11 @@ void BulletEnemy::Update(float deltaTime) {
     
     for (int i = 0; i < movementCount; i++) {
         Move(movementLocations[i], movementTiming[i]); // select the correct movement to execute
-//        std::cout << movementTiming[i] << std::endl;
     }
     
     for (int i = 0; i < bulletCount; i++) {
         // update with change in position optional
-        patternList[i]->Update(deltaTime, position);
+        patternList[i].Update(deltaTime, position);
     }
     modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);

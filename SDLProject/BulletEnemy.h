@@ -38,7 +38,7 @@ public:
 
     // bullet pattern pointer
     int bulletCount = 0;
-    BulletPattern *patternList[2];
+    BulletPattern *patternList;
     std::map<float, BulletPattern*> bulletTable;
 
     float accumulatedTime = 0;
