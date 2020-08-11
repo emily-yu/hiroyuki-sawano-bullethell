@@ -120,9 +120,18 @@ void BulletEnemy::Update(float deltaTime) {
     
     // make active if not already active
     for (auto x : bulletTable) {
-        if (accumulatedTime > x.first && x.second->isActive == false) {
-            x.second->isActive = true;
+        if (accumulatedTime > x.second->startTime && accumulatedTime < x.second->endTime ) { // if in correct range & not active
+//            x.second->isActive == false) {
+            x.second->isActive = true; // shoot bullets
         }
+        else if (x.second->isActive && (accumulatedTime < x.second->startTime || accumulatedTime > x.second->endTime)) { // if out of correct range & active
+            x.second->isActive = false; // stop shooting bullets
+            
+            // delete all bullets on screen
+            delete [] x.second->radii;
+            x.second->radiiCount = 0;
+        }
+        // else: if not active
         x.second->Update(deltaTime, position);
     };
     

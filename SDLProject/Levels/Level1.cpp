@@ -41,14 +41,22 @@ void ConstructEnemy() {
     // enemy 1's bullets
     patternList_LEVEL1[0]->waveCount = 20;
     patternList_LEVEL1[0]->patternType = Vertical;
+    patternList_LEVEL1[0]->startTime = 0.2;
+    patternList_LEVEL1[0]->endTime = 3.2;
     patternList_LEVEL1[1]->waveCount = 20;
     patternList_LEVEL1[1]->patternType = CirclePulse;
+    patternList_LEVEL1[1]->startTime = 5.2;
+    patternList_LEVEL1[1]->endTime = 10.2;
     
     // enemy 2's bullets
     patternList_LEVEL1[2]->waveCount = 20;
     patternList_LEVEL1[2]->patternType = Vertical;
+    patternList_LEVEL1[2]->startTime = 0.2;
+    patternList_LEVEL1[2]->endTime = 1.2;
     patternList_LEVEL1[3]->waveCount = 20;
     patternList_LEVEL1[3]->patternType = CirclePulse;
+    patternList_LEVEL1[3]->startTime = 8.2;
+    patternList_LEVEL1[3]->endTime = 13.2;
 
     // construct enemies with bulletpatterns
     GLuint enemyTexture = Util::LoadTexture("girl.png");
