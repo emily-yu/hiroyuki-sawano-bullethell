@@ -46,7 +46,7 @@ void ConstructEnemy() {
     patternList_LEVEL1[1]->waveCount = 20;
     patternList_LEVEL1[1]->patternType = CirclePulse;
     patternList_LEVEL1[1]->startTime = 5.2;
-    patternList_LEVEL1[1]->endTime = 10.2;
+    patternList_LEVEL1[1]->endTime = 6.2;
     
     // enemy 2's bullets
     patternList_LEVEL1[2]->waveCount = 20;
@@ -56,7 +56,7 @@ void ConstructEnemy() {
     patternList_LEVEL1[3]->waveCount = 20;
     patternList_LEVEL1[3]->patternType = CirclePulse;
     patternList_LEVEL1[3]->startTime = 8.2;
-    patternList_LEVEL1[3]->endTime = 13.2;
+    patternList_LEVEL1[3]->endTime = 9.2;
 
     // construct enemies with bulletpatterns
     GLuint enemyTexture = Util::LoadTexture("girl.png");
@@ -203,15 +203,15 @@ void Level1::Update(float deltaTime) {
     for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
         if (fabs(state.player->position.x - enemies[i]->position.x) <= 0.5) { // hitbox of 0.25 more on each side
             if (state.player->position.y < enemies[i]->position.y) { // in front of player, can be hit
-                if (enemies[i]->remainingHealth <= 0.0f) { // enemy is killed
+                if (enemies[i]->remainingHealth == 0.0f && enemies[i]->isActive) { // enemy is killed and active
                     // add power level
-                    if (state.powerLevel < LEVEL1_MAX_POWERLEVEL && enemies[i]->isActive == true) {
+//                    if (state.powerLevel < LEVEL1_MAX_POWERLEVEL) {
+                    if (state.powerLevel < 4) { // TODO: this part doesn't work for some reason??????
                         state.powerLevel += 1.0f;
                         state.playerPowerText->writeText = "Power: " + std::to_string(state.powerLevel) + " / " + std::to_string(LEVEL1_MAX_POWERLEVEL);
+                        state.playerPowerText->Update(deltaTime, state.player, NULL, 0);
                     }
 
-                    std::cout << "TODO: spawn next set of boonies booney" << std::endl;
-                    std::cout << "TODO: fix malloc errors when enemy is trying to be deleted" << std::endl;
                     if (enemies[i]->isActive) {
                         for (auto x : enemies[i]->bulletTable) {
                             x.second->isActive = false;
@@ -223,7 +223,7 @@ void Level1::Update(float deltaTime) {
                     }
                     enemies[i]->isActive = false;
                 }
-                else {
+                else if (enemies[i]->isActive) { // only bonus if enemy is alive
                     enemies[i]->remainingHealth -= deltaTime * state.powerLevel;
                     std::cout << enemies[i]->remainingHealth << std::endl;
                     

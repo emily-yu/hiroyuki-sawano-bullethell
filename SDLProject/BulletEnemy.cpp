@@ -83,6 +83,8 @@ void BulletEnemy::DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint text
 }
 
 void BulletEnemy::Render(ShaderProgram *program) {
+    if (isActive == false) return;
+    
     // draw single sprite
     program->SetModelMatrix(pivotMatrix);
     DrawSpriteFromTextureAtlas(program, enemyTexture, position);
@@ -130,6 +132,16 @@ void BulletEnemy::Update(float deltaTime) {
             // delete all bullets on screen
             delete [] x.second->radii;
             x.second->radiiCount = 0;
+        }
+        else if (remainingHealth <= 0.0f) { // if dead
+            isActive = false;
+            x.second->isActive = false; // stop shooting bullets
+            
+            // delete any bullets that are on the screen
+            if (x.second->radiiCount > 0) {
+                delete [] x.second->radii;
+                x.second->radiiCount = 0;
+            }
         }
         // else: if not active
         x.second->Update(deltaTime, position);

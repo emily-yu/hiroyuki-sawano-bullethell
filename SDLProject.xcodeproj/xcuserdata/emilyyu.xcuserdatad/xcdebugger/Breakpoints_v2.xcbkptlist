@@ -7,48 +7,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3AAF3D88-0463-4F53-964E-788A945858E5"
-            shouldBeEnabled = "No"
+            uuid = "8A1D3A25-E486-4B38-9640-A74C27FFD2CE"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SDLProject/BulletEnemy.cpp"
+            filePath = "SDLProject/Levels/Level1.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "BulletEnemy::Update(deltaTime)"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "Level1::Update(deltaTime)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "261C634D-78B5-4D05-A25E-535097F2E813"
+            uuid = "C140818F-A928-4F26-94FB-C6BC8AF3F565"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SDLProject/BulletEnemy.cpp"
+            filePath = "SDLProject/Levels/Level1.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "BulletEnemy::Update(deltaTime)"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
+            landmarkName = "Level1::Update(deltaTime)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "88DB5BBB-2CE8-4DAC-AEF0-EE8021456045"
+            uuid = "99CA77E4-B7A3-4346-9B13-70C05E1CD703"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SDLProject/BulletEnemy.cpp"
+            filePath = "SDLProject/Levels/Level1.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
-            landmarkName = "BulletEnemy::Update(deltaTime)"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "Level1::Update(deltaTime)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8F54AA1E-A9A3-41F2-AFA2-2BECE9DAB7E3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SDLProject/Levels/Level1.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "Level1::Update(deltaTime)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
