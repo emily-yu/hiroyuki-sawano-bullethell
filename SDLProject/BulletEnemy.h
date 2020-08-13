@@ -27,6 +27,9 @@ class BulletEnemy {
 public:
     EntityType entityType = ENEMY;
     bool isActive = false;
+    float isActiveStart;
+    float isActiveEnd;
+    
     float remainingHealth;
     glm::vec3 pivot;
     GLuint enemyTexture;

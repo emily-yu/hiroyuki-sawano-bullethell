@@ -78,7 +78,9 @@ void ConstructEnemy() {
     enemies[0]->movementLocations[1] = glm::vec3(2.5, -1, 0);
     enemies[0]->movementTiming[1] = 5.0;
     enemies[0]->movementCount = 2;
-    enemies[0]->isActive = true;
+    enemies[0]->isActiveStart = 2.0;
+    enemies[0]->isActiveEnd = 5.0;
+//    enemies[0]->isActive = true;
     
     // enemy 2
     enemies[1]->remainingHealth = 5.0f;
@@ -96,7 +98,9 @@ void ConstructEnemy() {
     enemies[1]->movementLocations[3] = glm::vec3(1.5, 0, 0); // process enemy movements
     enemies[1]->movementTiming[3] = 3.0;
     enemies[1]->movementCount = 4;
-    enemies[1]->isActive = true;
+    enemies[1]->isActiveStart = 1.0;
+    enemies[1]->isActiveEnd = 3.0;
+//    enemies[1]->isActive = true;
 }
 void Level1::Initialize(Scene *sceneList) {
     

@@ -119,11 +119,18 @@ void BulletEnemy::Move(glm::vec3 newPosition, float atTime) {
 }
 void BulletEnemy::Update(float deltaTime) {
     accumulatedTime += deltaTime;
-    
-    // make active if not already active
+
+    // SPRITE activation
+    if (accumulatedTime > isActiveStart && accumulatedTime < isActiveEnd && !isActive) { // if in correct range & SPRITE is not active
+        isActive = true;
+    }
+    else if (accumulatedTime > isActiveEnd && isActive) { // need to remove if still active
+        isActive = false;
+    }
+        
+    // make BULLETS active if not already active
     for (auto x : bulletTable) {
         if (accumulatedTime > x.second->startTime && accumulatedTime < x.second->endTime ) { // if in correct range & not active
-//            x.second->isActive == false) {
             x.second->isActive = true; // shoot bullets
         }
         else if (x.second->isActive && (accumulatedTime < x.second->startTime || accumulatedTime > x.second->endTime)) { // if out of correct range & active
