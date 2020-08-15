@@ -34,7 +34,7 @@ public:
     glm::vec3 pivot;
     GLuint enemyTexture;
     
-    Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
+//    Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
     
     glm::mat4 modelMatrix;
     glm::mat4 pivotMatrix;

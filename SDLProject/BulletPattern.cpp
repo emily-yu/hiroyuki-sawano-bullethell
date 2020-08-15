@@ -19,7 +19,7 @@ BulletPattern::BulletPattern() {
     radiiCount = 0;
     
     waveTime = 0.0f;
-    jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
+//    jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
 
     modelMatrix = glm::mat4(1.0f);
 }

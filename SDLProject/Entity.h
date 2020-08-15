@@ -75,7 +75,7 @@ public:
     
     bool jump = false;
     float jumpPower = 0;
-    Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
+//    Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
     
     float speed;
     GLuint textureID;

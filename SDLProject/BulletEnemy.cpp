@@ -9,7 +9,7 @@
 #include "BulletEnemy.h"
 // TODO: correct into more standard/clean class code... https://www.cs.fsu.edu/~myers/cop3330/examples/phonebook/directory.cpp
 BulletEnemy::BulletEnemy(int movementCount, int bulletCount) {
-    jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
+//    jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
     modelMatrix = glm::mat4(1.0f);
     pivotMatrix = glm::mat4(1.0f);
     position = pivot;

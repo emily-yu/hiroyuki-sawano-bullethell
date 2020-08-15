@@ -25,7 +25,7 @@
 Scene *currentScene;
 //Level1 *level1;
 Scene *sceneList[3]; // array containing all the scenes
-Entity *gameWinText;
+//Entity *gameWinText;
 Entity *gameLoseText;
 Entity *gameStartText;
 Entity *gameStartText2;
@@ -102,13 +102,13 @@ void Initialize() {
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    gameWinText = new Entity();
+//    gameWinText = new Entity();
     GLuint fontTextureID = Util::LoadTexture("sprite_texture2.png");
-    gameWinText->textureID = fontTextureID;
-    gameWinText->entityType = TEXT;
-    gameWinText->animIndices = NULL;
-    gameWinText->writeText = "Mission Successful";
-    gameWinText->position = glm::vec3(12, -4, 0);
+//    gameWinText->textureID = fontTextureID;
+//    gameWinText->entityType = TEXT;
+//    gameWinText->animIndices = NULL;
+//    gameWinText->writeText = "Mission Successful";
+//    gameWinText->position = glm::vec3(12, -4, 0);
     
     gameLoseText = new Entity();
     gameLoseText->textureID = fontTextureID;
@@ -144,7 +144,7 @@ void Initialize() {
     
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096); // Start Audio
     music = Mix_LoadMUS("Opening - Be2Arr1.mp3"); // Load Audio  // Audio Loading
-    Mix_VolumeMusic(MIX_MAX_VOLUME / 16); // cut volume by 1/4
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 4); // cut volume by 1/4
     Mix_PlayMusic(music, -1);
 }
 bool backgroundDrawn = false;
@@ -162,8 +162,8 @@ void Render() {
     // update viewMatrix with translation for sliding
     program.SetViewMatrix(viewMatrix);
     
-    if (isWin) {
-        gameWinText->Render(&program);
+    if (currentScene->state.isWin) {
+//        gameWinText->Render(&program);
     }
     else if (isOver) {
         gameLoseText->position = currentScene->state.player->position;

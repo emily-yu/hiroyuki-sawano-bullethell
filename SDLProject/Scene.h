@@ -23,6 +23,7 @@
 
 struct GameState {
     Mix_Music *music;
+    bool isWin = false;
     
     Entity *player;
     bool isShooting = false;

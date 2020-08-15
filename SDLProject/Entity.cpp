@@ -16,7 +16,7 @@ Entity::Entity() {
     speed = 0;
     
     modelMatrix = glm::mat4(1.0f);
-    jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
+//    jumpEffect = Mix_LoadWAV("bullet_shoot.wav");
 }
 bool Entity::CheckCollision(Entity *other) {
     if (isActive == false || other->isActive == false) return false; // if either is not active, then there won't be a collision
@@ -126,9 +126,9 @@ void Entity::Update(float deltaTime, Entity* player, Entity *objects, int object
         jump = false; // process jump and reset
         velocity.y += jumpPower; // add velocity to y direction and move up
 
-        if (entityType == PLAYER) {
-            Mix_PlayChannel(-1, jumpEffect, 0); // bounce effect
-        }
+//        if (entityType == PLAYER) {
+//            Mix_PlayChannel(-1, jumpEffect, 0); // bounce effect
+//        }
     }
     // physics logic
     velocity.x = movement.x * speed; // instant velocity when start moving

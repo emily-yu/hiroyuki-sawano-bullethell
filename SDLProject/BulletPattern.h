@@ -35,7 +35,7 @@ public:
     bool isActive = false;
     
     GLuint bulletTexture;
-    Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
+//    Mix_Chunk *jumpEffect; // pointer for audio chunk (sound effect)
     glm::mat4 modelMatrix;
     BulletPatternType patternType;
     

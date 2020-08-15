@@ -18,14 +18,16 @@
 #define LEVEL1_MAX_POWERLEVEL 4
 #define LEVEL1_MIN_POWERLEVEL 1
 
-BulletPattern *patternList_LEVEL1[4];
+BulletPattern *patternList_LEVEL1[7];
 std::map<float, BulletPattern*> bulletTable;
-float bulletCount_LEVEL1 = 4;
+float bulletCount_LEVEL1 = 7;
 BulletEnemy *enemy_LEVEL1;
 BulletEnemy *enemies[2];
 
 BulletPattern *player_LEVEL1;
 BulletPattern *playerBullet_LEVEL1;
+
+Entity *gameWinText;
 
 void ConstructEnemy() {
     // construct patterns for level
@@ -40,13 +42,15 @@ void ConstructEnemy() {
     }
     // enemy 1's bullets
     patternList_LEVEL1[0]->waveCount = 20;
-    patternList_LEVEL1[0]->patternType = Vertical;
+    patternList_LEVEL1[0]->patternType = SingularSpiral;
     patternList_LEVEL1[0]->startTime = 0.2;
-    patternList_LEVEL1[0]->endTime = 3.2;
+//    patternList_LEVEL1[0]->endTime = 6.2;
+    patternList_LEVEL1[0]->endTime = 1.2;
+    
     patternList_LEVEL1[1]->waveCount = 20;
     patternList_LEVEL1[1]->patternType = CirclePulse;
-    patternList_LEVEL1[1]->startTime = 5.2;
-    patternList_LEVEL1[1]->endTime = 6.2;
+    patternList_LEVEL1[1]->startTime = 7.2;
+    patternList_LEVEL1[1]->endTime = 14.2;
     
     // enemy 2's bullets
     patternList_LEVEL1[2]->waveCount = 20;
@@ -57,29 +61,55 @@ void ConstructEnemy() {
     patternList_LEVEL1[3]->patternType = CirclePulse;
     patternList_LEVEL1[3]->startTime = 8.2;
     patternList_LEVEL1[3]->endTime = 9.2;
+    
+    // random flow er patterns for time with enemy 2
+    patternList_LEVEL1[4]->waveCount = 20;
+    patternList_LEVEL1[4]->patternType = CirclePulse;
+    patternList_LEVEL1[4]->startTime = 16.2;
+    patternList_LEVEL1[4]->endTime = 20.2;
+    
+    patternList_LEVEL1[5]->waveCount = 20;
+    patternList_LEVEL1[5]->patternType = CirclePulse;
+    patternList_LEVEL1[5]->startTime = 18.2;
+    patternList_LEVEL1[5]->endTime = 22.2;
+    
+    patternList_LEVEL1[6]->waveCount = 20;
+    patternList_LEVEL1[6]->patternType = CirclePulse;
+    patternList_LEVEL1[6]->startTime = 24.2;
+    patternList_LEVEL1[6]->endTime = 28.2;
 
     // construct enemies with bulletpatterns
     GLuint enemyTexture = Util::LoadTexture("girl.png");
-    enemies[0] = new BulletEnemy(2, 2); // movementCount, bulletCount
-    enemies[1] = new BulletEnemy(5, 2);
+    enemies[0] = new BulletEnemy(5, 2); // movementCount, bulletCount
+    enemies[1] = new BulletEnemy(8, 5);
     for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) {
         enemies[i]->enemyTexture = enemyTexture;
     }
     
     // enemy 1
     enemies[0]->remainingHealth = 5.0f;
-    enemies[0]->position = glm::vec3(-2, 0, 0);
+    enemies[0]->position = glm::vec3(1.5, 2, 0);
     enemies[0]->bulletTable = {
         { 0.2, patternList_LEVEL1[0] }, // { deltaTime, BulletPattern to be displayed }
         { 10.4, patternList_LEVEL1[1] }
     };
-    enemies[0]->movementLocations[0] = glm::vec3(0.5, 0, 0); // process enemy movements
-    enemies[0]->movementTiming[0] = 3.0;
-    enemies[0]->movementLocations[1] = glm::vec3(2.5, -1, 0);
-    enemies[0]->movementTiming[1] = 5.0;
-    enemies[0]->movementCount = 2;
-    enemies[0]->isActiveStart = 2.0;
-    enemies[0]->isActiveEnd = 5.0;
+    // stationary for the first 15 seconds with spiral
+    // move side to side for the next 15 seconds with sprial
+    enemies[0]->movementLocations[0] = glm::vec3(1.5, 2, 0); // process enemy movements
+    enemies[0]->movementTiming[0] = 15.0;
+    enemies[0]->movementLocations[1] = glm::vec3(-1.5, 2, 0);
+    enemies[0]->movementTiming[1] = 18.0;
+    enemies[0]->movementLocations[2] = glm::vec3(1.5, 2, 0);
+    enemies[0]->movementTiming[2] = 21.0;
+    enemies[0]->movementLocations[3] = glm::vec3(-1.5, 2, 0);
+    enemies[0]->movementTiming[3] = 24.0;
+    enemies[0]->movementLocations[4] = glm::vec3(1.5, 2, 0);
+    enemies[0]->movementTiming[4] = 27.0;
+    // circular: 7.2 to 14.2 - stationary and pulses of singular from random places
+
+    enemies[0]->movementCount = 5;
+    enemies[0]->isActiveStart = 0.0;
+    enemies[0]->isActiveEnd = 20.2;
 //    enemies[0]->isActive = true;
     
     // enemy 2
@@ -87,25 +117,39 @@ void ConstructEnemy() {
     enemies[1]->position = glm::vec3(-3, 0, 0);
     enemies[1]->bulletTable = {
         { 0.2, patternList_LEVEL1[2] }, // { deltaTime, BulletPattern to be displayed }
-        { 10.4, patternList_LEVEL1[3] }
+        { 10.4, patternList_LEVEL1[3] },
+        { 18.2, patternList_LEVEL1[4] },
+        { 22.2, patternList_LEVEL1[5] },
+        { 24.2, patternList_LEVEL1[6] }
     };
-    enemies[1]->movementLocations[0] = glm::vec3(1.5, 0, 0); // process enemy movements
-    enemies[1]->movementTiming[0] = 1.0;
-    enemies[1]->movementLocations[1] = glm::vec3(2.5, 1, 0);
-    enemies[1]->movementTiming[1] = 2.0;
-    enemies[1]->movementLocations[2] = glm::vec3(3.0, 1, 0);
-    enemies[1]->movementTiming[2] = 2.5;
-    enemies[1]->movementLocations[3] = glm::vec3(1.5, 0, 0); // process enemy movements
-    enemies[1]->movementTiming[3] = 3.0;
-    enemies[1]->movementCount = 4;
-    enemies[1]->isActiveStart = 1.0;
-    enemies[1]->isActiveEnd = 3.0;
+    enemies[1]->movementLocations[0] = glm::vec3(1.5, 0.5, 0); // process enemy movements
+    enemies[1]->movementTiming[0] = 11.0;
+    enemies[1]->movementLocations[1] = glm::vec3(3.5, 1, 0);
+    enemies[1]->movementTiming[1] = 12.0;
+    enemies[1]->movementLocations[2] = glm::vec3(4.5, 1, 0);
+    enemies[1]->movementTiming[2] = 14.0;
+    enemies[1]->movementLocations[3] = glm::vec3(6.5, 0.5, 0); // process enemy movements
+    enemies[1]->movementTiming[3] = 15.0;
+    
+    // for flowers
+    enemies[1]->movementLocations[4] = glm::vec3(6.5, 0.5, 0); // process enemy movements
+    enemies[1]->movementTiming[4] = 16.0;
+    enemies[1]->movementLocations[5] = glm::vec3(4.5, -0.5, 0); // process enemy movements
+    enemies[1]->movementTiming[5] = 18.0;
+    enemies[1]->movementLocations[6] = glm::vec3(-0.5, -0.5, 0); // process enemy movements
+    enemies[1]->movementTiming[6] = 22.0;
+    enemies[1]->movementLocations[7] = glm::vec3(-2.5, 0.5, 0); // process enemy movements
+    enemies[1]->movementTiming[7] = 24.0;
+    
+    enemies[1]->movementCount = 8;
+    enemies[1]->isActiveStart = 11.0;
+    enemies[1]->isActiveEnd = 37.0;
 //    enemies[1]->isActive = true;
 }
 void Level1::Initialize(Scene *sceneList) {
     
     state.music = Mix_LoadMUS("Gameplay - Boukyaku Keikoku.mp3");
-    Mix_VolumeMusic(MIX_MAX_VOLUME / 16); // cut volume by 1/4
+    Mix_VolumeMusic(MIX_MAX_VOLUME); // cut volume by 1/4
     Mix_PlayMusic(state.music, -1); // Play Audio
     
     // game stats
@@ -198,6 +242,15 @@ void Level1::Initialize(Scene *sceneList) {
     state.playerPowerText->writeText = "Power: " + std::to_string(state.powerLevel) + " / " + std::to_string(LEVEL1_MAX_POWERLEVEL);
     state.playerPowerText->position = glm::vec3(-4.5, 2.5, 0);
     state.playerPowerText->acceleration = glm::vec3(0, 0, 0);
+    
+    gameWinText = new Entity();
+    gameWinText->textureID = fontTextureID;
+    gameWinText->entityType = TEXT;
+    gameWinText->animIndices = NULL;
+    gameWinText->writeText = "You Win, screen will reset in 30 seconds.";
+    gameWinText->position = glm::vec3(2, 0, 0);
+    gameWinText->acceleration = glm::vec3(0, 0, 0);
+    gameWinText->isActive = false;
 }
 void Level1::Update(float deltaTime) {
 //    state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
@@ -249,8 +302,15 @@ void Level1::Update(float deltaTime) {
         }
     }
     
-    if (state.player->position.x >= 12) { // if player moves far enough past x = 12...
-        state.nextScene = 1; // set nextScene to be >= 0, aka main.cpp catches that need to switch to nextScene
+//    if (state.player->position.x >= 12) { // if player moves far enough past x = 12...
+//        state.nextScene = 1; // set nextScene to be >= 0, aka main.cpp catches that need to switch to nextScene
+//    }
+    // 157 is 2 min, 195 is 2:30 min
+    if (state.accumulatedTime >= 157 && state.accumulatedTime <= 195) { // 2 minutes passed
+        gameWinText->isActive = true;
+    }
+    else if (state.accumulatedTime >= 200) {
+        state.nextScene = 0;
     }
     
     if (state.player->lastCollision == BULLET) {
@@ -349,6 +409,7 @@ void Level1::Render(ShaderProgram *program) {
     state.spellsText->Render(program);
     state.scoreText->Render(program);
     state.playerPowerText->Render(program);
+    gameWinText->Render(program);
     
     // render bullet bases
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
