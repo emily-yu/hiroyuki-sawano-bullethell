@@ -122,7 +122,7 @@ void Initialize() {
     gameStartText->textureID = fontTextureID;
     gameStartText->entityType = TEXT;
     gameStartText->animIndices = NULL;
-    gameStartText->writeText = "BulletHell Practice";
+    gameStartText->writeText = "Hiroyuki Sawano Bullet Hell";
     gameStartText->position = glm::vec3(-2, 0, 0);
     gameStartText->acceleration = glm::vec3(0, 0, 0);
     
