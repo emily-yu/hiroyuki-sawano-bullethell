@@ -17,13 +17,13 @@
 #define LEVEL1_MAX_POWERLEVEL 4
 #define LEVEL1_MIN_POWERLEVEL 1
 
-BulletPattern *patternList_LEVEL1[11];
+BulletPattern *patternList_LEVEL1[12];
 std::map<float, BulletPattern*> bulletTable;
-float bulletCount_LEVEL1 = 11;
+float bulletCount_LEVEL1 = 12;
 BulletEnemy *enemy_LEVEL1;
 
-BulletEnemy *enemies[6];
-#define LEVEL1_ENEMY_COUNT 6
+BulletEnemy *enemies[7];
+#define LEVEL1_ENEMY_COUNT 7
 
 BulletPattern *player_LEVEL1;
 BulletPattern *playerBullet_LEVEL1;
@@ -103,6 +103,11 @@ void ConstructEnemy() {
     patternList_LEVEL1[10]->startTime = 65;
     patternList_LEVEL1[10]->endTime = 100;
     
+    patternList_LEVEL1[11]->waveCount = 10;
+    patternList_LEVEL1[11]->patternType = CirclePulse;
+    patternList_LEVEL1[11]->startTime = 100;
+    patternList_LEVEL1[11]->endTime = 156;
+    
     // construct enemies with bulletpatterns
     GLuint enemyTexture = Util::LoadTexture("girl.png");
     enemies[0] = new BulletEnemy(5, 2); // movementCount, bulletCount
@@ -111,6 +116,7 @@ void ConstructEnemy() {
     enemies[3] = new BulletEnemy(5, 1);
     enemies[4] = new BulletEnemy(5, 1);
     enemies[5] = new BulletEnemy(5, 1);
+    enemies[6] = new BulletEnemy(5, 1);
     for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) {
         enemies[i]->enemyTexture = enemyTexture;
     }
@@ -254,6 +260,24 @@ void ConstructEnemy() {
     enemies[5]->movementCount = 5;
     enemies[5]->isActiveStart = 65.0;
     enemies[5]->isActiveEnd = 100.2;
+    
+    // enemy 6
+    enemies[6]->remainingHealth = 5.0f;
+    enemies[6]->position = glm::vec3(-6.5, 2, 0);
+    enemies[6]->bulletTable = {{ 0.0, patternList_LEVEL1[11] }};
+    enemies[6]->movementLocations[0] = glm::vec3(1.5, -1, 0); // process enemy movements
+    enemies[6]->movementTiming[0] = 65.0;
+    enemies[6]->movementLocations[1] = glm::vec3(1.5, -1, 0);
+    enemies[6]->movementTiming[1] = 68.0;
+    enemies[6]->movementLocations[2] = glm::vec3(1.5, -1, 0);
+    enemies[6]->movementTiming[2] = 71.0;
+    enemies[6]->movementLocations[3] = glm::vec3(1.5, -1, 0);
+    enemies[6]->movementTiming[3] = 74.0;
+    enemies[6]->movementLocations[4] = glm::vec3(1.5, -1, 0);
+    enemies[6]->movementTiming[4] = 77.0;
+    enemies[6]->movementCount = 5;
+    enemies[6]->isActiveStart = 65.0;
+    enemies[6]->isActiveEnd = 156.2;
 }
 void Level1::Initialize(Scene *sceneList) {
     LEVEL1_Music = Mix_LoadWAV("bullet_shoot.wav");
