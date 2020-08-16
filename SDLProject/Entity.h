@@ -108,23 +108,11 @@ public:
     bool CheckCollision(Entity *other);
     void CheckCollisionsX(Entity *objects, int objectCount);
     void CheckCollisionsY(Entity *objects, int objectCount);
-//    void Update(float deltaTime, Entity* player, Map *map);
-//    void Update(float deltaTime, Entity* player, Entity *objects, int objectCount, Map *map);
     void Update(float deltaTime, Entity* player, Entity *objects, int objectCount);
 
     void Render(ShaderProgram *program);
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, int index);
     void DrawText(ShaderProgram *program, GLuint fontTextureID, std::string text, float size, float spacing, glm::vec3 position);
-
-    // ai specific methods
-    void AI(Entity* player);
-    void AIWalker();
-    void AIWaitAndGo(Entity* player, GLuint newTexture);
-    void AIJumper();
-    
-    // map methods
-//    void CheckCollisionsX(Map *map);
-//    void CheckCollisionsY(Map *map);
     
     Entity* CheckCollisionEntity(Entity *other);
 };
