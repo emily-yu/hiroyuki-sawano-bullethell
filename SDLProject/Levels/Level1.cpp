@@ -45,14 +45,15 @@ void ConstructEnemy() {
     // enemy 1's bullets
     patternList_LEVEL1[0]->waveCount = 20;
     patternList_LEVEL1[0]->patternType = SingularSpiral;
-    patternList_LEVEL1[0]->startTime = 0.2;
+    patternList_LEVEL1[0]->startTime = 0.5;
 //    patternList_LEVEL1[0]->endTime = 6.2;
-    patternList_LEVEL1[0]->endTime = 1.2;
+    patternList_LEVEL1[0]->endTime = 15.2;
     
     patternList_LEVEL1[1]->waveCount = 20;
     patternList_LEVEL1[1]->patternType = CirclePulse;
-    patternList_LEVEL1[1]->startTime = 7.2;
-    patternList_LEVEL1[1]->endTime = 14.2;
+    patternList_LEVEL1[1]->patternType = CirclePulse;
+    patternList_LEVEL1[1]->startTime = 30.2;
+    patternList_LEVEL1[1]->endTime = 45.2;
     
     // enemy 2's bullets
     patternList_LEVEL1[2]->waveCount = 20;
@@ -78,7 +79,7 @@ void ConstructEnemy() {
     patternList_LEVEL1[6]->waveCount = 20;
     patternList_LEVEL1[6]->patternType = CirclePulse;
     patternList_LEVEL1[6]->startTime = 24.2;
-    patternList_LEVEL1[6]->endTime = 28.2;
+    patternList_LEVEL1[6]->endTime = 32.2;
 
     // construct enemies with bulletpatterns
     GLuint enemyTexture = Util::LoadTexture("girl.png");
@@ -100,18 +101,18 @@ void ConstructEnemy() {
     enemies[0]->movementLocations[0] = glm::vec3(1.5, 2, 0); // process enemy movements
     enemies[0]->movementTiming[0] = 15.0;
     enemies[0]->movementLocations[1] = glm::vec3(-1.5, 2, 0);
-    enemies[0]->movementTiming[1] = 18.0;
+    enemies[0]->movementTiming[1] = 23.0;
     enemies[0]->movementLocations[2] = glm::vec3(1.5, 2, 0);
-    enemies[0]->movementTiming[2] = 21.0;
+    enemies[0]->movementTiming[2] = 25.0;
     enemies[0]->movementLocations[3] = glm::vec3(-1.5, 2, 0);
-    enemies[0]->movementTiming[3] = 24.0;
+    enemies[0]->movementTiming[3] = 27.0;
     enemies[0]->movementLocations[4] = glm::vec3(1.5, 2, 0);
-    enemies[0]->movementTiming[4] = 27.0;
+    enemies[0]->movementTiming[4] = 30.0;
     // circular: 7.2 to 14.2 - stationary and pulses of singular from random places
 
     enemies[0]->movementCount = 5;
     enemies[0]->isActiveStart = 0.0;
-    enemies[0]->isActiveEnd = 20.2;
+    enemies[0]->isActiveEnd = 45.2;
 //    enemies[0]->isActive = true;
     
     // enemy 2
@@ -137,15 +138,15 @@ void ConstructEnemy() {
     enemies[1]->movementLocations[4] = glm::vec3(6.5, 0.5, 0); // process enemy movements
     enemies[1]->movementTiming[4] = 16.0;
     enemies[1]->movementLocations[5] = glm::vec3(4.5, -0.5, 0); // process enemy movements
-    enemies[1]->movementTiming[5] = 18.0;
+    enemies[1]->movementTiming[5] = 20.0;
     enemies[1]->movementLocations[6] = glm::vec3(-0.5, -0.5, 0); // process enemy movements
-    enemies[1]->movementTiming[6] = 22.0;
+    enemies[1]->movementTiming[6] = 24.0;
     enemies[1]->movementLocations[7] = glm::vec3(-2.5, 0.5, 0); // process enemy movements
-    enemies[1]->movementTiming[7] = 24.0;
+    enemies[1]->movementTiming[7] = 28.0;
     
     enemies[1]->movementCount = 8;
     enemies[1]->isActiveStart = 11.0;
-    enemies[1]->isActiveEnd = 37.0;
+    enemies[1]->isActiveEnd = 45.0;
 //    enemies[1]->isActive = true;
 }
 void Level1::Initialize(Scene *sceneList) {

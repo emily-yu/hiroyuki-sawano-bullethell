@@ -97,7 +97,7 @@ void BulletEnemy::Render(ShaderProgram *program) {
 void BulletEnemy::Move(glm::vec3 newPosition, float atTime) {
     // movement times cannot have less than 0.25s between them
     if (accumulatedTime > atTime && accumulatedTime < atTime + 0.25) {
-//        std::cout << "moved at " << atTime << std::endl;
+        std::cout << "moved at " << atTime << std::endl;
         // for slight shaking in enemy
         if (position.x != newPosition.x) {
             if (position.x >= newPosition.x) {
