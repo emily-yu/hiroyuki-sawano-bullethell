@@ -33,7 +33,7 @@ Mix_Chunk *LEVEL1_Music; // pointer for main audio
 
 void ConstructEnemy() {
     // construct patterns for level
-    GLuint circleBulletTexture = Util::LoadTexture("circle.png");
+    GLuint circleBulletTexture = Util::LoadTexture("hex.png");
     for (int i = 0; i < bulletCount_LEVEL1; i++) {
         patternList_LEVEL1[i] = new BulletPattern();
         patternList_LEVEL1[i]->bulletTexture = circleBulletTexture; // test bullet image
@@ -163,8 +163,9 @@ void Level1::Initialize(Scene *sceneList) {
     ConstructEnemy();
 
     // player ui
+    GLuint circleBulletTexture2 = Util::LoadTexture("circle.png");
     player_LEVEL1 = new BulletPattern();
-    player_LEVEL1->bulletTexture = circleBulletTexture;
+    player_LEVEL1->bulletTexture = circleBulletTexture2;
     player_LEVEL1->speed = 0.5f;
     player_LEVEL1->movement = glm::vec3(1, 0, 0);
     player_LEVEL1->velocity = glm::vec3(1, 0, 0);
@@ -175,7 +176,7 @@ void Level1::Initialize(Scene *sceneList) {
     player_LEVEL1->patternType = Vertical;
     player_LEVEL1->isActive = true;
     playerBullet_LEVEL1 = new BulletPattern(); // additional shooting
-    playerBullet_LEVEL1->bulletTexture = circleBulletTexture;
+    playerBullet_LEVEL1->bulletTexture = circleBulletTexture2;
     playerBullet_LEVEL1->speed = 0.5f;
     playerBullet_LEVEL1->movement = glm::vec3(1, 0, 0);
     playerBullet_LEVEL1->velocity = glm::vec3(1, 0, 0);
@@ -192,12 +193,16 @@ void Level1::Initialize(Scene *sceneList) {
     state.player->acceleration = glm::vec3(0, 0.0f, 0);
     state.player->velocity = glm::vec3(0, 0.0f, 0);
     state.player->speed = 2.5f;
-    state.player->textureID = Util::LoadTexture("george_0.png");
-    state.player->animRight = new int[4] {3, 7, 11, 15};
-    state.player->animLeft = new int[4] {1, 5, 9, 13};
-    state.player->animUp = new int[4] {2, 6, 10, 14};
-    state.player->animDown = new int[4] {0, 4, 8, 12};
-    state.player->animIndices = state.player->animRight;
+    
+    // reimu credit
+//    https://tenor.com/view/touhou-anime-girl-dancing-smiling-gif-15035422
+    state.player->textureID = Util::LoadTexture("reimu-sprite.png");
+//    state.player->animRight = new int[4] {3, 7, 11, 15};
+//    state.player->animLeft = new int[4] {1, 5, 9, 13};
+//    state.player->animUp = new int[4] {2, 6, 10, 14};
+//    state.player->animDown = new int[4] {0, 4, 8, 12};
+//    state.player->animIndices = state.player->animRight;
+    state.player->animIndices = NULL;
     state.player->animFrames = 4;
     state.player->animIndex = 0;
     state.player->animTime = 0;
@@ -307,6 +312,19 @@ void Level1::Update(float deltaTime) {
 //    if (state.player->position.x >= 12) { // if player moves far enough past x = 12...
 //        state.nextScene = 1; // set nextScene to be >= 0, aka main.cpp catches that need to switch to nextScene
 //    }
+    
+    // for debugging
+    std::cout << state.accumulatedTime << std::endl;
+    if (state.accumulatedTime <= 15.0) {
+        std::cout << "still spiral" << std::endl;
+    }
+    else if (state.accumulatedTime > 15.0 && state.accumulatedTime <= 30.0) {
+        std::cout << "moving spiral" << std::endl;
+    }
+    else if (state.accumulatedTime > 30.0 && state.accumulatedTime <= 40.0) {
+        std::cout << "still circle" << std::endl;
+    }
+    
     // 157 is 2 min, 195 is 2:30 min
     if (state.accumulatedTime >= 157 && state.accumulatedTime <= 195) { // 2 minutes passed
         gameWinText->isActive = true;

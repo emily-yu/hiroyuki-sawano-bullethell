@@ -25,6 +25,9 @@
 		94BA177B24A4774A00681E5E /* george_0.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BA177A24A4774A00681E5E /* george_0.png */; };
 		94BA177D24A477F900681E5E /* circle.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BA177C24A477F900681E5E /* circle.png */; };
 		94D76CF924E8FE2D00A999C9 /* explode.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94D76CF824E8FE2D00A999C9 /* explode.wav */; };
+		94D76CFB24E9036200A999C9 /* hex.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94D76CFA24E9036200A999C9 /* hex.png */; };
+		94D76CFD24E904D500A999C9 /* reimu.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94D76CFC24E904D500A999C9 /* reimu.png */; };
+		94D76CFF24E9052700A999C9 /* reimu-sprite.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94D76CFE24E9052600A999C9 /* reimu-sprite.png */; };
 		94E99CD524DA311F004AFD9C /* Opening - Be2Arr1.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94E99CD424DA311F004AFD9C /* Opening - Be2Arr1.mp3 */; };
 		94E99CD724DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94E99CD624DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 */; };
 		94E99CD924DA3133004AFD9C /* bullet_shoot.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94E99CD824DA3133004AFD9C /* bullet_shoot.wav */; };
@@ -46,6 +49,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				94D76CFF24E9052700A999C9 /* reimu-sprite.png in CopyFiles */,
+				94D76CFD24E904D500A999C9 /* reimu.png in CopyFiles */,
+				94D76CFB24E9036200A999C9 /* hex.png in CopyFiles */,
 				94D76CF924E8FE2D00A999C9 /* explode.wav in CopyFiles */,
 				94E99CD924DA3133004AFD9C /* bullet_shoot.wav in CopyFiles */,
 				94E99CD724DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 in CopyFiles */,
@@ -95,6 +101,9 @@
 		94BA177A24A4774A00681E5E /* george_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = george_0.png; path = SDLProject/george_0.png; sourceTree = "<group>"; };
 		94BA177C24A477F900681E5E /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circle.png; path = SDLProject/circle.png; sourceTree = "<group>"; };
 		94D76CF824E8FE2D00A999C9 /* explode.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = explode.wav; path = assets/music/explode.wav; sourceTree = "<group>"; };
+		94D76CFA24E9036200A999C9 /* hex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hex.png; path = individual/hex.png; sourceTree = "<group>"; };
+		94D76CFC24E904D500A999C9 /* reimu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reimu.png; path = individual/reimu.png; sourceTree = "<group>"; };
+		94D76CFE24E9052600A999C9 /* reimu-sprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reimu-sprite.png"; path = "individual/reimu-sprite.png"; sourceTree = "<group>"; };
 		94E99CD424DA311F004AFD9C /* Opening - Be2Arr1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Opening - Be2Arr1.mp3"; path = "assets/music/Opening - Be2Arr1.mp3"; sourceTree = "<group>"; };
 		94E99CD624DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Gameplay - Boukyaku Keikoku.mp3"; path = "assets/music/Gameplay - Boukyaku Keikoku.mp3"; sourceTree = "<group>"; };
 		94E99CD824DA3133004AFD9C /* bullet_shoot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bullet_shoot.wav; path = assets/music/bullet_shoot.wav; sourceTree = "<group>"; };
@@ -145,6 +154,9 @@
 		DBDF1B462323DE3F007CECB1 = {
 			isa = PBXGroup;
 			children = (
+				94D76CFE24E9052600A999C9 /* reimu-sprite.png */,
+				94D76CFC24E904D500A999C9 /* reimu.png */,
+				94D76CFA24E9036200A999C9 /* hex.png */,
 				94D76CF824E8FE2D00A999C9 /* explode.wav */,
 				94E99CD824DA3133004AFD9C /* bullet_shoot.wav */,
 				94E99CD624DA3129004AFD9C /* Gameplay - Boukyaku Keikoku.mp3 */,

@@ -119,6 +119,7 @@ void BulletEnemy::Move(glm::vec3 newPosition, float atTime) {
 }
 void BulletEnemy::Update(float deltaTime) {
     accumulatedTime += deltaTime;
+    std::cout << "enemy accumulated time " << accumulatedTime << std::endl;
 
     // SPRITE activation
     if (accumulatedTime > isActiveStart && accumulatedTime < isActiveEnd && !isActive) { // if in correct range & SPRITE is not active

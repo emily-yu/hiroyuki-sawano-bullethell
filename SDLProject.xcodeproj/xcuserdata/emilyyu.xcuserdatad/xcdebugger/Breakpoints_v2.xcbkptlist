@@ -14,8 +14,8 @@
             filePath = "SDLProject/Levels/Level1.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "312"
-            endingLineNumber = "312"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
             landmarkName = "Level1::Update(deltaTime)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "SDLProject/Levels/Level1.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "Level1::Update(deltaTime)"
             landmarkType = "7">
          </BreakpointContent>
