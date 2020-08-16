@@ -29,6 +29,8 @@ BulletPattern *playerBullet_LEVEL1;
 
 Entity *gameWinText;
 
+Mix_Chunk *LEVEL1_Music; // pointer for main audio
+
 void ConstructEnemy() {
     // construct patterns for level
     GLuint circleBulletTexture = Util::LoadTexture("circle.png");
@@ -147,7 +149,7 @@ void ConstructEnemy() {
 //    enemies[1]->isActive = true;
 }
 void Level1::Initialize(Scene *sceneList) {
-    
+    LEVEL1_Music = Mix_LoadWAV("bullet_shoot.wav");
     state.music = Mix_LoadMUS("Gameplay - Boukyaku Keikoku.mp3");
     Mix_VolumeMusic(MIX_MAX_VOLUME); // cut volume by 1/4
     Mix_PlayMusic(state.music, -1); // Play Audio
@@ -292,7 +294,7 @@ void Level1::Update(float deltaTime) {
             }
         }
     }
-    
+
     bool isKilled = false;
     for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) { // update all positions of enemies
         if (isKilled == false) { // if not already killed
@@ -358,7 +360,8 @@ void Level1::Update(float deltaTime) {
     if (state.isShooting) { // start shooting
         playerBullet_LEVEL1->isActive = true;
         state.isShooting = false;
-        
+        Mix_PlayChannel(-1, LEVEL1_Music, 0); // play effect
+
         // subtract from power level + update text
         if (state.powerLevel > LEVEL1_MIN_POWERLEVEL) {
             state.powerLevel -= 1.0f;
