@@ -14,15 +14,16 @@
 #define LEVEL1_WIDTH 14
 #define LEVEL1_HEIGHT 8
 //#define LEVEL1_ENEMY_COUNT 1
-#define LEVEL1_ENEMY_COUNT 2
 #define LEVEL1_MAX_POWERLEVEL 4
 #define LEVEL1_MIN_POWERLEVEL 1
 
-BulletPattern *patternList_LEVEL1[7];
+BulletPattern *patternList_LEVEL1[11];
 std::map<float, BulletPattern*> bulletTable;
-float bulletCount_LEVEL1 = 7;
+float bulletCount_LEVEL1 = 11;
 BulletEnemy *enemy_LEVEL1;
-BulletEnemy *enemies[2];
+
+BulletEnemy *enemies[6];
+#define LEVEL1_ENEMY_COUNT 6
 
 BulletPattern *player_LEVEL1;
 BulletPattern *playerBullet_LEVEL1;
@@ -46,11 +47,10 @@ void ConstructEnemy() {
     patternList_LEVEL1[0]->waveCount = 20;
     patternList_LEVEL1[0]->patternType = SingularSpiral;
     patternList_LEVEL1[0]->startTime = 0.5;
-//    patternList_LEVEL1[0]->endTime = 6.2;
-    patternList_LEVEL1[0]->endTime = 15.2;
+    patternList_LEVEL1[0]->endTime = 2.2;
+//    patternList_LEVEL1[0]->endTime = 15.2;
     
     patternList_LEVEL1[1]->waveCount = 20;
-    patternList_LEVEL1[1]->patternType = CirclePulse;
     patternList_LEVEL1[1]->patternType = CirclePulse;
     patternList_LEVEL1[1]->startTime = 30.2;
     patternList_LEVEL1[1]->endTime = 45.2;
@@ -60,8 +60,9 @@ void ConstructEnemy() {
     patternList_LEVEL1[2]->patternType = Vertical;
     patternList_LEVEL1[2]->startTime = 0.2;
     patternList_LEVEL1[2]->endTime = 1.2;
+    
     patternList_LEVEL1[3]->waveCount = 20;
-    patternList_LEVEL1[3]->patternType = CirclePulse;
+    patternList_LEVEL1[3]->patternType = SingularSpiral;
     patternList_LEVEL1[3]->startTime = 8.2;
     patternList_LEVEL1[3]->endTime = 9.2;
     
@@ -80,11 +81,36 @@ void ConstructEnemy() {
     patternList_LEVEL1[6]->patternType = CirclePulse;
     patternList_LEVEL1[6]->startTime = 24.2;
     patternList_LEVEL1[6]->endTime = 32.2;
-
+    
+    // in line bois
+    patternList_LEVEL1[7]->waveCount = 40;
+    patternList_LEVEL1[7]->patternType = SingularSpiral;
+    patternList_LEVEL1[7]->startTime = 53;
+    patternList_LEVEL1[7]->endTime = 100;
+    
+    patternList_LEVEL1[8]->waveCount = 10;
+    patternList_LEVEL1[8]->patternType = CirclePulse;
+    patternList_LEVEL1[8]->startTime = 55;
+    patternList_LEVEL1[8]->endTime = 100;
+    
+    patternList_LEVEL1[9]->waveCount = 40;
+    patternList_LEVEL1[9]->patternType = SingularSpiral;
+    patternList_LEVEL1[9]->startTime = 60;
+    patternList_LEVEL1[9]->endTime = 100;
+    
+    patternList_LEVEL1[10]->waveCount = 10;
+    patternList_LEVEL1[10]->patternType = CirclePulse;
+    patternList_LEVEL1[10]->startTime = 65;
+    patternList_LEVEL1[10]->endTime = 100;
+    
     // construct enemies with bulletpatterns
     GLuint enemyTexture = Util::LoadTexture("girl.png");
     enemies[0] = new BulletEnemy(5, 2); // movementCount, bulletCount
     enemies[1] = new BulletEnemy(8, 5);
+    enemies[2] = new BulletEnemy(5, 1);
+    enemies[3] = new BulletEnemy(5, 1);
+    enemies[4] = new BulletEnemy(5, 1);
+    enemies[5] = new BulletEnemy(5, 1);
     for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) {
         enemies[i]->enemyTexture = enemyTexture;
     }
@@ -148,6 +174,86 @@ void ConstructEnemy() {
     enemies[1]->isActiveStart = 11.0;
     enemies[1]->isActiveEnd = 45.0;
 //    enemies[1]->isActive = true;
+    
+    // enemy 3
+    enemies[2]->remainingHealth = 5.0f;
+    enemies[2]->position = glm::vec3(-6.5, 2, 0);
+    enemies[2]->bulletTable = {
+        { 0.0, patternList_LEVEL1[7] }
+    };
+    // stationary for the first 15 seconds with spiral
+    // move side to side for the next 15 seconds with sprial
+    enemies[2]->movementLocations[0] = glm::vec3(1.5, -1, 0); // process enemy movements
+    enemies[2]->movementTiming[0] = 50.0;
+    enemies[2]->movementLocations[1] = glm::vec3(1.5, -1, 0);
+    enemies[2]->movementTiming[1] = 53.0;
+    enemies[2]->movementLocations[2] = glm::vec3(1.5, -1, 0);
+    enemies[2]->movementTiming[2] = 55.0;
+    enemies[2]->movementLocations[3] = glm::vec3(1.5, -1, 0);
+    enemies[2]->movementTiming[3] = 57.0;
+    enemies[2]->movementLocations[4] = glm::vec3(1.5, -1, 0);
+    enemies[2]->movementTiming[4] = 60.0;
+    // circular: 7.2 to 14.2 - stationary and pulses of singular from random places
+
+    enemies[2]->movementCount = 5;
+    enemies[2]->isActiveStart = 50.0;
+    enemies[2]->isActiveEnd = 100.2;
+    
+    // enemy 4
+    enemies[3]->remainingHealth = 5.0f;
+    enemies[3]->position = glm::vec3(-6.5, 2, 0);
+    enemies[3]->bulletTable = {
+        { 0.0, patternList_LEVEL1[8] }
+    };
+    enemies[3]->movementLocations[0] = glm::vec3(1.5, -1, 0); // process enemy movements
+    enemies[3]->movementTiming[0] = 55.0;
+    enemies[3]->movementLocations[1] = glm::vec3(1.5, -1, 0);
+    enemies[3]->movementTiming[1] = 58.0;
+    enemies[3]->movementLocations[2] = glm::vec3(1.5, -1, 0);
+    enemies[3]->movementTiming[2] = 61.0;
+    enemies[3]->movementLocations[3] = glm::vec3(1.5, -1, 0);
+    enemies[3]->movementTiming[3] = 64.0;
+    enemies[3]->movementLocations[4] = glm::vec3(1.5, -1, 0);
+    enemies[3]->movementTiming[4] = 67.0;
+    enemies[3]->movementCount = 5;
+    enemies[3]->isActiveStart = 55.0;
+    enemies[3]->isActiveEnd = 100.2;
+    
+    // enemy 5
+    enemies[4]->remainingHealth = 5.0f;
+    enemies[4]->position = glm::vec3(-6.5, 2, 0);
+    enemies[4]->bulletTable = {{ 0.0, patternList_LEVEL1[9] }};
+    enemies[4]->movementLocations[0] = glm::vec3(1.5, -1, 0); // process enemy movements
+    enemies[4]->movementTiming[0] = 60.0;
+    enemies[4]->movementLocations[1] = glm::vec3(1.5, -1, 0);
+    enemies[4]->movementTiming[1] = 63.0;
+    enemies[4]->movementLocations[2] = glm::vec3(1.5, -1, 0);
+    enemies[4]->movementTiming[2] = 66.0;
+    enemies[4]->movementLocations[3] = glm::vec3(1.5, -1, 0);
+    enemies[4]->movementTiming[3] = 69.0;
+    enemies[4]->movementLocations[4] = glm::vec3(1.5, -1, 0);
+    enemies[4]->movementTiming[4] = 72.0;
+    enemies[4]->movementCount = 5;
+    enemies[4]->isActiveStart = 60.0;
+    enemies[4]->isActiveEnd = 100.2;
+    
+    // enemy 6
+    enemies[5]->remainingHealth = 5.0f;
+    enemies[5]->position = glm::vec3(-6.5, 2, 0);
+    enemies[5]->bulletTable = {{ 0.0, patternList_LEVEL1[10] }};
+    enemies[5]->movementLocations[0] = glm::vec3(1.5, -1, 0); // process enemy movements
+    enemies[5]->movementTiming[0] = 65.0;
+    enemies[5]->movementLocations[1] = glm::vec3(1.5, -1, 0);
+    enemies[5]->movementTiming[1] = 68.0;
+    enemies[5]->movementLocations[2] = glm::vec3(1.5, -1, 0);
+    enemies[5]->movementTiming[2] = 71.0;
+    enemies[5]->movementLocations[3] = glm::vec3(1.5, -1, 0);
+    enemies[5]->movementTiming[3] = 74.0;
+    enemies[5]->movementLocations[4] = glm::vec3(1.5, -1, 0);
+    enemies[5]->movementTiming[4] = 77.0;
+    enemies[5]->movementCount = 5;
+    enemies[5]->isActiveStart = 65.0;
+    enemies[5]->isActiveEnd = 100.2;
 }
 void Level1::Initialize(Scene *sceneList) {
     LEVEL1_Music = Mix_LoadWAV("bullet_shoot.wav");
