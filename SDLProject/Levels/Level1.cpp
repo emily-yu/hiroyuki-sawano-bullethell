@@ -47,8 +47,8 @@ void ConstructEnemy() {
     patternList_LEVEL1[0]->waveCount = 20;
     patternList_LEVEL1[0]->patternType = SingularSpiral;
     patternList_LEVEL1[0]->startTime = 0.5;
-    patternList_LEVEL1[0]->endTime = 2.2;
-//    patternList_LEVEL1[0]->endTime = 15.2;
+//    patternList_LEVEL1[0]->endTime = 2.2;
+    patternList_LEVEL1[0]->endTime = 15.2;
     
     patternList_LEVEL1[1]->waveCount = 20;
     patternList_LEVEL1[1]->patternType = CirclePulse;
